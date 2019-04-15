@@ -48,7 +48,7 @@ const rotas = (
     </Router>
 );
 
-ReactDOM.render(rotas, document.getElementById('root')); // Acrescentar rotas aqui!
+ReactDOM.render(rotas, document.getElementById('root')); // Acrescentar "rotas" aqui!
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
