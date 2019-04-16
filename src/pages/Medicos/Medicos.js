@@ -13,7 +13,8 @@ export default class ListarCadastrarMedico extends Component {
             idClinica: "",
             listaCrm: [],
             especialidade: "",
-            listaEspecialidade: []
+            listaEspecialidade: [],
+            listaMedicos: []
         }
     }
 
@@ -81,7 +82,16 @@ export default class ListarCadastrarMedico extends Component {
     render() {
         return (
             <div>
-                {/* Falta HTML.... */}
+                <tbody>
+                    {this.state.listaMedicos.map(element => {
+                        return (
+                            <tr key={element.id}>
+                                <td>{element.id}</td>
+                                <td>{element.nome}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </div>
         )
     }

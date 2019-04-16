@@ -12,7 +12,12 @@ export default class ListarCadastrarEspecialidade extends Component {
     }
 
     buscarEspecialidades() {
-        Axios.get('http://localhost:5000/api/especialidades')
+        Axios.get('http://localhost:5000/api/especialidades', {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
+                "Content-Type": "application/json"
+            }
+        })
             // http://192.168.56.1:5000/api/especialidades - IP do pc do Senai  
             // http://191.180.47.145:5000/api/especialidades - IP do pc de Casa         
             .then(res => {
@@ -50,7 +55,16 @@ export default class ListarCadastrarEspecialidade extends Component {
     render() {
         return (
             <div>
-                {/* Falta HTML.... */}
+                <tbody>
+                    {this.state.listaEspecialidades.map(element => {
+                        return (
+                            <tr key={element.id}>
+                                <td>{element.id}</td>
+                                <td>{element.nome}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </div>
         )
     }

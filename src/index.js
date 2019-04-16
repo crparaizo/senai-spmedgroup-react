@@ -7,11 +7,11 @@ import ListarCadastrarClinica from './pages/Clinicas/Clinicas';
 import Login from './pages/Login/Login';
 import NaoEncontrada from './pages/NaoEncontrada/NaoEncontrada';
 
-// import ListarCadastrarEspecialidade from './pages/Clinicas/Especialidades';
-// import ListarCadastrarUsuario from './pages/Clinicas/Usuarios';
-// import ListarCadastrarMedico from './pages/Clinicas/Medicos';
-// import ListarCadastrarProntuario from './pages/Clinicas/Prontuarios';
-// import ListarCadastrarConsulta from './pages/Consultas/Consultas';
+import ListarCadastrarEspecialidade from './pages/Especialidades/Especialidades';
+// import ListarCadastrarUsuario from './pages/Usuarios/Usuarios';
+// import ListarCadastrarMedico from './pages/Medicos/Medicos';
+// import ListarCadastrarProntuario from './pages/Prontuarios/Prontuarios';
+import ListarCadastrarConsulta from './pages/Consultas/Consultas';
 
 import { usuarioAutenticado } from './services/auth';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
@@ -37,11 +37,11 @@ const rotas = (
                 <Route exact path="/" component={App} />
                 <Route path="/clinicas" component={ListarCadastrarClinica} />
                 <Route path="/login" component={Login} />
-                {/* <Route path="/especialidades" component={Especialidades} />
-                <Route path="/usuarios" component={Usuarios} />
-                <Route path="/medicos" component={Medicos} />
-                <Route path="/prontuarios" component={Prontuarios} />
-                <Route path="/consultas" component={Consultas} /> */}
+                <Route path="/especialidades" component={ListarCadastrarEspecialidade} />
+                {/* <Route path="/usuarios" component={ListarCadastrarUsuario} />
+                <Route path="/medicos" component={ListarCadastrarMedico} />
+                <Route path="/prontuarios" component={ListarCadastrarProntuario} /> */}
+                <Route path="/consultas" component={ListarCadastrarConsulta} />
                 <Route component={NaoEncontrada} /> {/* Esse é o default do Switch, nenhuma outra Route será lida dps disso */}
             </Switch>
         </div>

@@ -69,7 +69,16 @@ export default class ListarCadastrarUsuario extends Component {
     render() {
         return (
             <div>
-                {/* Falta HTML.... */}
+                <tbody>
+                    {this.state.listaUsuarios.map(element => {
+                        return (
+                            <tr key={element.id}>
+                                <td>{element.id}</td>
+                                <td>{element.nome}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </div>
         )
     }

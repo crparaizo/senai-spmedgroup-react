@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from 'axios';
+import apiService from "../../services/apiService";
 
 export default class ListarCadastrarConsulta extends Component {
     constructor() {
@@ -15,18 +16,13 @@ export default class ListarCadastrarConsulta extends Component {
         }
     }
 
-    buscarEspecialidades() {
-        Axios.get('http://localhost:5000/api/consultas')
-            // http://192.168.56.1:5000/api/consultas - IP do pc do Senai  
-            // http://191.180.47.145:5000/api/consultas - IP do pc de Casa         
-            .then(res => {
-                const consultas = res.data;
-                this.setState({ listaConsultas: consultas })
-            })
-    }
-
     componentDidMount() {
-        this.buscarConsultas();
+        apiService
+            .call("consultas")
+            .getAll()
+            .then(data => {
+                this.setState({ listaConsultas: data.data });
+            });
     }
 
     atualizaEstadoidProntuario(event) {
@@ -70,7 +66,19 @@ export default class ListarCadastrarConsulta extends Component {
     render() {
         return (
             <div>
-                {/* Falta HTML.... */}
+                <tbody>
+                    {this.state.listaConsultas.map(element => {
+                        return (
+                            <tr key={element.id}>
+                                <td>{element.id}</td>
+                                <td>{element.idProntuario}</td>
+                                <td>{element.idMedico}</td>
+                                <td>{element.dataHoraConsulta}</td>
+                                <td>{element.idSitucao}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </div>
         )
     }

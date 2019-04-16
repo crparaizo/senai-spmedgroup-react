@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
+import { parseJwt } from '../../services/auth';
+// import { Link } from 'react-router-dom'; //Pra que usar isso?
 import '../../assets/css/login.css';
 
 export default class Login extends Component {
@@ -9,6 +11,7 @@ export default class Login extends Component {
             //Login
             email: '',
             senha: '',
+            erroMensagem: ''
             //Cadastro
             // nomeCadastro: '',
             // emailCadastro: '',
@@ -62,23 +65,56 @@ export default class Login extends Component {
         this.setState({ senha: event.target.value });
     }
 
-
     efetuaLogin(event) {
         event.preventDefault();
 
         // alert(this.state.email + " - " + this.state.senha);
 
-        Axios.post('http://localhost:5000/api/login', {
+        let jwtDecode = require('jwt-decode'); // Importando framework
+
+        let decodificado = jwtDecode(localStorage.getItem("usuario-spmedgroup")); // Decodificando token
+        console.log("decodificado");
+        console.log(decodificado);
+
+        Axios.post("http://localhost:5000/api/login", {
             email: this.state.email,
             senha: this.state.senha
         })
             .then(data => {
-                localStorage.setItem("usuario-spmedgroup", data.data.token);
-                this.props.history.push('/azul'); //Página que irá redirecionar -> consultas
-                console.log(data);
+                if (data.status === 200) {
+                    console.log(data);
+                    localStorage.setItem("usuario-spmedgroup", data.data.token);
+                    //Verifica o tipo de usuário e redireciona para a página default
+                    console.log(parseJwt().Role);
+                    if (decodificado.tipoUsuario == "Administrador") {
+                        // if (parseJwt().Role == "ADMINISTRADOR") {
+                        this.props.history.push("/adm/adm"); //Mudar rota  //Página que irá redirecionar -> consultas
+                    } else if (decodificado.tipoUsuario == "Medico") {
+                        this.props.history.push("/medico"); //Mudar rota
+                    } else {
+                        this.props.history.push("/paciente"); //Mudar rota
+                    }
+                }
             })
+
+            // .then(data => {
+            //     if (data.status === 200) {
+            //         console.log(data);
+            //         localStorage.setItem("usuario-spmedgroup", data.data.token);
+            //         //Verifica o tipo de usuário e redireciona para a página default
+            //         console.log(parseJwt().Role);
+            //         if (parseJwt().Role == "Administrador") {
+            //             this.props.history.push("/adm/adm"); //Mudar rota  //Página que irá redirecionar -> consultas
+            //         } else if (parseJwt().Role == "Medico") {
+            //             this.props.history.push("/medico"); //Mudar rota
+            //         } else {
+            //             this.props.history.push("/paciente"); //Mudar rota
+            //         }
+            //     }
+            // })
+
             .catch(erro => {
-                console.log(erro);
+                this.setState({ erroMensagem: 'E-mail ou senha inválido' });
             })
     }
 
@@ -103,15 +139,15 @@ export default class Login extends Component {
                                     {/* onSubmit={this.cadastrarUsuario.bind(this)} */}
 
                                     <div>
-                                        <input type="text" placeholder="Insira seu nome..."  /> 
-                                     {/* value={this.state.nomeCadastro} onChange={this.atualizaEstadoNomeCadastro.bind(this)} */}
+                                        <input type="text" placeholder="Insira seu nome..." />
+                                        {/* value={this.state.nomeCadastro} onChange={this.atualizaEstadoNomeCadastro.bind(this)} */}
                                         <div>
-                                            <input type="text" placeholder="Insira seu email..."  />
-                                                {/* value={this.state.emailCadastro} onChange={this.atualizaEstadoEmailCadastro.bind(this)}  */}
+                                            <input type="text" placeholder="Insira seu email..." />
+                                            {/* value={this.state.emailCadastro} onChange={this.atualizaEstadoEmailCadastro.bind(this)}  */}
                                         </div>
                                         <div>
-                                            <input type="text" placeholder="Insira sua senha..."  />
-                                                {/* value={this.state.senhaCadastro} onChange={this.atualizaEstadoSenhaCadastro.bind(th is)} */}
+                                            <input type="text" placeholder="Insira sua senha..." />
+                                            {/* value={this.state.senhaCadastro} onChange={this.atualizaEstadoSenhaCadastro.bind(th is)} */}
                                         </div>
                                         <div>
                                             <br />
@@ -130,6 +166,7 @@ export default class Login extends Component {
 
                                 <div className="com_cadastro">
                                     <h2>Já tem cadastro?</h2>
+                                    <p className="text__login" style={{ color: 'red', textAlign: 'center' }}>{this.state.erroMensagem}</p>
                                     <div>
                                         <input value={this.state.email} onChange={this.atualizaEstadoEmail.bind(this)} type="text" placeholder="Insira seu nome..." />
                                     </div>

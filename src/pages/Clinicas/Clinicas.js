@@ -16,7 +16,12 @@ export default class ListarCadastrarClinica extends Component {
     }
 
     buscarClinicas() {
-        Axios.get('http://localhost:5000/api/clinicas')
+        Axios.get('http://localhost:5000/api/clinicas', {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
+                "Content-Type": "application/json"
+            }
+        })
             // http://192.168.56.1:5000/api/clinicas - IP do pc do Senai  
             // http://191.180.47.145:5000/api/clinicas - IP do pc de Casa        
             .then(res => {
@@ -74,7 +79,20 @@ export default class ListarCadastrarClinica extends Component {
     render() {
         return (
             <div>
-                {/* Falta HTML.... */}
+                <tbody>
+                    {this.state.listaClinicas.map(element => {
+                        return (
+                            <tr key={element.id}>
+                                <td>{element.id}</td>
+                                <td>{element.nomeFantasia}</td>
+                                <td>{element.horarioFuncionamento}</td>
+                                <td>{element.cnpj}</td>
+                                <td>{element.razaoSocial}</td>
+                                <td>{element.endereco}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </div>
         )
     }
