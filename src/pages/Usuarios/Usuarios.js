@@ -15,14 +15,20 @@ export default class ListarCadastrarUsuario extends Component {
         }
     }
 
-    buscarUsuarios() {
-        Axios.get('http://localhost:5000/api/usuarios')
-            // http://192.168.56.1:5000/api/usuarios - IP do pc do Senai  
-            // http://191.180.47.145:5000/api/usuarios - IP do pc de Casa      
-            .then(res => {
-                const usuarios = res.data;
-                this.setState({ listaUsuarios: usuarios }) //Necessita Disso?
-            })
+    componentDidMount() {
+        apiService
+            .call("tiposusuarios")
+            .getAll()
+            .then(data => {
+                this.setState({ tipoUsuario: data.data });
+            });
+
+        apiService
+            .call("usuarios")
+            .getAll()
+            .then(data => {
+                this.setState({ listaUsuarios: data.data });
+            });
     }
 
     componentDidMount() {
@@ -61,9 +67,6 @@ export default class ListarCadastrarUsuario extends Component {
                 "Content-Type": "application/json"
             }
         })
-            .then(res => {
-                this.buscarUsuarios()
-            })
     }
 
     render() {

@@ -8,24 +8,44 @@ export default class ListarCadastrarMedico extends Component {
         this.state = {
             idUsuario: "",
             crm: "",
-            idEspecialidade: "",
-            clinica: "",
-            idClinica: "",
             listaCrm: [],
-            especialidade: "",
+            idEspecialidade: "",
             listaEspecialidade: [],
-            listaMedicos: []
+            idClinica: "",
+            listaClinicas: [],
+            listaMedicos: [],
+            listaConsultas: []
         }
     }
 
-    buscarMedicos() {
-        Axios.get('http://localhost:5000/api/medicos')
-            // http://192.168.56.1:5000/api/medicos - IP do pc do Senai  
-            // http://191.180.47.145:5000/api/medicos - IP do pc de Casa         
-            .then(res => {
-                const medicos = res.data;
-                this.setState({ listaCrm: medicos })
-            })
+    componentDidMount() {
+        apiService
+            .call("consultas")
+            .getAll()
+            .then(data => {
+                this.setState({ listaConsultas: data.data });
+            });
+
+        apiService
+            .call("especialidades")
+            .getAll()
+            .then(data => {
+                this.setState({ listaEspecialidade: data.data });
+            });
+
+        apiService
+            .call("clinicas")
+            .getAll()
+            .then(data => {
+                this.setState({ listaClinicas: data.data });
+            });
+
+        apiService
+            .call("medicos")
+            .getAll()
+            .then(data => {
+                this.setState({ listaMedicos: data.data });
+            });
     }
 
     componentDidMount() {
@@ -74,9 +94,6 @@ export default class ListarCadastrarMedico extends Component {
                 "Content-Type": "application/json"
             }
         })
-            .then(res => {
-                this.buscarMedicos()
-            })
     }
 
     render() {

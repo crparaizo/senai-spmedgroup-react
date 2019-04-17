@@ -13,13 +13,13 @@ export default class ListarCadastrarEspecialidade extends Component {
 
     buscarEspecialidades() {
         Axios.get('http://localhost:5000/api/especialidades', {
+            // http://192.168.56.1:5000/api/especialidades - IP do pc do Senai  
+            // http://191.180.47.145:5000/api/especialidades - IP do pc de Casa 
             headers: {
                 Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
                 "Content-Type": "application/json"
             }
         })
-            // http://192.168.56.1:5000/api/especialidades - IP do pc do Senai  
-            // http://191.180.47.145:5000/api/especialidades - IP do pc de Casa         
             .then(res => {
                 const especialidades = res.data;
                 this.setState({ listaEspecialidades: especialidades })

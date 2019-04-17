@@ -7,23 +7,62 @@ export default class ListarCadastrarProntuario extends Component {
 
         this.state = {
             idUsuario: "",
+            listaUsuarios: [],
             rg: "",
             cpf: "",
             dataNascimento: "",
             telefone: "",
             endereco: "",
-            listaProntuarios: []
+            listaProntuarios: [],
+            listaMedicos: [],
+            listaEspecialidades: [],
+            listaConsultas: [],
+            listaClinicas: []
         }
     }
 
-    buscarProntuarios() {
-        Axios.get('http://localhost:5000/api/prontuarios')
-            // http://192.168.56.1:5000/api/prontuarios - IP do pc do Senai  
-            // http://191.180.47.145:5000/api/prontuarios - IP do pc de Casa     
-            .then(res => {
-                const prontuarios = res.data;
-                this.setState({ listaProntuarios: prontuarios }) //Necessita Disso?
-            })
+    componentDidMount() {
+        apiService
+            .call("consultas")
+            .getAll()
+            .then(data => {
+                this.setState({ listaConsultas: data.data });
+            });
+
+        apiService
+            .call("especialidades")
+            .getAll()
+            .then(data => {
+                this.setState({ listaEspecialidade: data.data });
+            });
+
+        apiService
+            .call("clinicas")
+            .getAll()
+            .then(data => {
+                this.setState({ listaClinicas: data.data });
+            });
+
+        apiService
+            .call("medicos")
+            .getAll()
+            .then(data => {
+                this.setState({ listaMedicos: data.data });
+            });
+
+        apiService
+            .call("prontuarios")
+            .getAll()
+            .then(data => {
+                this.setState({ listaProntuarios: data.data });
+            });
+
+        apiService
+            .call("usuarios")
+            .getAll()
+            .then(data => {
+                this.setState({ listaPUsuarios: data.data });
+            });
     }
 
     componentDidMount() {
@@ -72,9 +111,6 @@ export default class ListarCadastrarProntuario extends Component {
                 "Content-Type": "application/json"
             }
         })
-            .then(res => {
-                this.buscarProntuarios()
-            })
     }
 
     render() {

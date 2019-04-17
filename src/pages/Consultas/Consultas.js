@@ -57,10 +57,11 @@ export default class ListarCadastrarConsulta extends Component {
                 Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
                 "Content-Type": "application/json"
             }
-        })
-            .then(res => {
-                this.buscarConsultas()
-            })
+
+        });
+        
+        console.log(consulta);
+
     }
 
     render() {

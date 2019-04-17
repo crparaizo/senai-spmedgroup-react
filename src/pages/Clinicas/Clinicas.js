@@ -17,13 +17,13 @@ export default class ListarCadastrarClinica extends Component {
 
     buscarClinicas() {
         Axios.get('http://localhost:5000/api/clinicas', {
+            // http://192.168.56.1:5000/api/especialidades - IP do pc do Senai  
+            // http://191.180.47.145:5000/api/especialidades - IP do pc de Casa 
             headers: {
                 Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
                 "Content-Type": "application/json"
             }
         })
-            // http://192.168.56.1:5000/api/clinicas - IP do pc do Senai  
-            // http://191.180.47.145:5000/api/clinicas - IP do pc de Casa        
             .then(res => {
                 const clinicas = res.data;
                 this.setState({ listaClinicas: clinicas })
