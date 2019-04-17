@@ -10,7 +10,7 @@ export default class ListarCadastrarConsulta extends Component {
             idProntuario: "",
             idMedico: "",
             dataHoraConsulta: "",
-            idSitucao: "",
+            idSituacao: "",
             descricao: "",
             listaConsultas: []
         }
@@ -35,7 +35,7 @@ export default class ListarCadastrarConsulta extends Component {
         this.setState({ dataHoraConsulta: event.target.value });
     }
     atualizaEstadoidSituacao(event) {
-        this.setState({ idSitucao: event.target.value });
+        this.setState({ idSituacao: event.target.value });
     }
     atualizaEstadoDescricao(event) {
         this.setState({ descricao: event.target.value });
@@ -48,7 +48,7 @@ export default class ListarCadastrarConsulta extends Component {
             idProntuario: this.state.idProntuario,
             idMedico: this.state.idMedico,
             dataHoraConsulta: this.state.dataHoraConsulta,
-            idSitucao: this.state.idSitucao,
+            idSitucao: this.state.idSituacao,
             descricao: this.state.descricao
         };
 
@@ -59,7 +59,7 @@ export default class ListarCadastrarConsulta extends Component {
             }
 
         });
-        
+
         console.log(consulta);
 
     }
@@ -67,19 +67,32 @@ export default class ListarCadastrarConsulta extends Component {
     render() {
         return (
             <div>
-                <tbody>
-                    {this.state.listaConsultas.map(element => {
-                        return (
-                            <tr key={element.id}>
-                                <td>{element.id}</td>
-                                <td>{element.idProntuario}</td>
-                                <td>{element.idMedico}</td>
-                                <td>{element.dataHoraConsulta}</td>
-                                <td>{element.idSitucao}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID - Consulta</th>
+                            <th>ID - Prontuário</th>
+                            <th>ID - Médico</th>
+                            <th>Data Consulta</th>
+                            <th>ID- Situação</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.listaConsultas.map(element => {
+                            return (
+                                <tr key={element.id}>
+                                    <td>{element.id}</td>
+                                    <td>{element.idProntuario}</td>
+                                    <td>{element.idMedico}</td>
+                                    <td>{element.dataHoraConsulta}</td>
+                                    <td>{element.idSituacao}</td>
+                                    <td>{element.descricao  ? element.descricao : 'Vazia'}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
         )
     }

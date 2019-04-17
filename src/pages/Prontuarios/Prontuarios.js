@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from 'axios';
+import apiService from "../../services/apiService";
 
 export default class ListarCadastrarProntuario extends Component {
     constructor() {
@@ -65,10 +66,6 @@ export default class ListarCadastrarProntuario extends Component {
             });
     }
 
-    componentDidMount() {
-        this.buscarProntuarios();
-    }
-
     atualizaEstadoIdUsuario(event) {
         this.setState({ idUsuario: event.target.value });
     }
@@ -116,16 +113,34 @@ export default class ListarCadastrarProntuario extends Component {
     render() {
         return (
             <div>
-                <tbody>
-                    {this.state.listaProntuarios.map(element => {
-                        return (
-                            <tr key={element.id}>
-                                <td>{element.id}</td>
-                                <td>{element.nome}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID - Prontuário</th>
+                            <th>ID - Usuário</th>
+                            <th>RG</th>
+                            <th>CPF</th>
+                            <th>Data Nascimento</th>
+                            <th>Telefone</th>
+                            <th>Endereço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.listaProntuarios.map(element => {
+                            return (
+                                <tr key={element.id}>
+                                    <td>{element.id}</td>
+                                    <td>{element.idUsuario}</td>
+                                    <td>{element.rg}</td>
+                                    <td>{element.cpf}</td>
+                                    <td>{element.dataNascimento}</td>
+                                    <td>{element.telefone}</td>
+                                    <td>{element.endereco}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
         )
     }

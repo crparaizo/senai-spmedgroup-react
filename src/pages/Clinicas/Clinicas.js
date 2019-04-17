@@ -79,20 +79,32 @@ export default class ListarCadastrarClinica extends Component {
     render() {
         return (
             <div>
-                <tbody>
-                    {this.state.listaClinicas.map(element => {
-                        return (
-                            <tr key={element.id}>
-                                <td>{element.id}</td>
-                                <td>{element.nomeFantasia}</td>
-                                <td>{element.horarioFuncionamento}</td>
-                                <td>{element.cnpj}</td>
-                                <td>{element.razaoSocial}</td>
-                                <td>{element.endereco}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID - Clínica</th>
+                            <th>Nome</th>
+                            <th>Horário</th>
+                            <th>CNPJ</th>
+                            <th>Razão Social</th>
+                            <th>Endereço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.listaClinicas.map(element => {
+                            return (
+                                <tr key={element.id}>
+                                    <td>{element.id}</td>
+                                    <td>{element.nomeFantasia}</td>
+                                    <td>{element.horarioFuncionamento}</td>
+                                    <td>{element.cnpj}</td>
+                                    <td>{element.razaoSocial}</td>
+                                    <td>{element.endereco}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
         )
     }

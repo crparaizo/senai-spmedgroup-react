@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from 'axios';
+import apiService from "../../services/apiService";
 
 export default class ListarCadastrarMedico extends Component {
     constructor() {
@@ -8,13 +9,13 @@ export default class ListarCadastrarMedico extends Component {
         this.state = {
             idUsuario: "",
             crm: "",
-            listaCrm: [],
+            listaCrm: [], //Caixa de seleção -> Fazer um filter?
+            listaMedicos: [], //Puxar informações da tabela Médicos para mostrar (com "inner join") 
             idEspecialidade: "",
             listaEspecialidade: [],
             idClinica: "",
             listaClinicas: [],
-            listaMedicos: [],
-            listaConsultas: []
+            listaConsultas: [] //Listar todas as consultas de determinada pessoa
         }
     }
 
@@ -46,10 +47,6 @@ export default class ListarCadastrarMedico extends Component {
             .then(data => {
                 this.setState({ listaMedicos: data.data });
             });
-    }
-
-    componentDidMount() {
-        this.buscarMedicos();
     }
 
     atualizaEstadoNome(event) {
@@ -99,16 +96,30 @@ export default class ListarCadastrarMedico extends Component {
     render() {
         return (
             <div>
-                <tbody>
-                    {this.state.listaMedicos.map(element => {
-                        return (
-                            <tr key={element.id}>
-                                <td>{element.id}</td>
-                                <td>{element.nome}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID - Médico</th>
+                            <th>ID - Usuário</th>
+                            <th>CRM</th>
+                            <th>ID - Especialidade</th>
+                            <th>ID- Clínica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.listaMedicos.map(element => {
+                            return (
+                                <tr key={element.id}>
+                                    <td>{element.id}</td>
+                                    <td>{element.idUsuario}</td>
+                                    <td>{element.crm}</td>
+                                    <td>{element.idEspecialidade}</td>
+                                    <td>{element.idClinica}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
         )
     }

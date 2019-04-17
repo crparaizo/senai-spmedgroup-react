@@ -70,11 +70,7 @@ export default class Login extends Component {
 
         // alert(this.state.email + " - " + this.state.senha);
 
-        let jwtDecode = require('jwt-decode'); // Importando framework
 
-        let decodificado = jwtDecode(localStorage.getItem("usuario-spmedgroup")); // Decodificando token
-        console.log("decodificado");
-        console.log(decodificado);
 
         Axios.post("http://localhost:5000/api/login", {
             email: this.state.email,
@@ -83,13 +79,18 @@ export default class Login extends Component {
             .then(data => {
                 if (data.status === 200) {
                     console.log(data);
-                    localStorage.setItem("usuario-spmedgroup", data.data.token);
+                    localStorage.setItem("usuario-spmedgroup", data.data.token); //Gravar o token
+
+                    let jwtDecode = require('jwt-decode'); // Importando framework
+
+                    let decodificado = jwtDecode(localStorage.getItem("usuario-spmedgroup")); // Decodificando token
+                    console.log("decodificado");
+                    console.log(decodificado);
+
                     //Verifica o tipo de usuário e redireciona para a página default
-                    console.log(parseJwt().Role);
                     if (decodificado.tipoUsuario == "Administrador") {
-                        // if (parseJwt().Role == "ADMINISTRADOR") {
                         this.props.history.push("/adm/adm"); //Mudar rota  //Página que irá redirecionar -> consultas
-                    } else if (decodificado.tipoUsuario == "Medico") {
+                    } else if (decodificado.tipoUsuario == "Médico") {
                         this.props.history.push("/medico"); //Mudar rota
                     } else {
                         this.props.history.push("/paciente"); //Mudar rota

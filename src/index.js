@@ -3,17 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './pages/Home/App'; //Mudar a rota
 
-import ListarCadastrarClinica from './pages/Clinicas/Clinicas';
 import Login from './pages/Login/Login';
 import NaoEncontrada from './pages/NaoEncontrada/NaoEncontrada';
-
+import ListarCadastrarClinica from './pages/Clinicas/Clinicas';
 import ListarCadastrarEspecialidade from './pages/Especialidades/Especialidades';
-// import ListarCadastrarUsuario from './pages/Usuarios/Usuarios';
-// import ListarCadastrarMedico from './pages/Medicos/Medicos';
-// import ListarCadastrarProntuario from './pages/Prontuarios/Prontuarios';
+import ListarCadastrarUsuario from './pages/Usuarios/Usuarios';
+import ListarCadastrarMedico from './pages/Medicos/Medicos';
+import ListarCadastrarProntuario from './pages/Prontuarios/Prontuarios';
 import ListarCadastrarConsulta from './pages/Consultas/Consultas';
 
-import { usuarioAutenticado } from './services/auth';
+import { usuarioAutenticado, parseJwt } from './services/auth';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
@@ -29,18 +28,48 @@ const Permissao = ({ component: Component }) => (
     />
 );
 
+const PermissaoAdm = ({ component: Component }) => (
+    //convertendo que se está acessando (component do Switch)           
+    <Route
+        render={props => usuarioAutenticado() && parseJwt().Role === "Administrador" ? //Operador ternário
+            (<Component {...props} />) :
+            (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+        }
+    />
+);
+
+const PermissaoMed = ({ component: Component }) => (
+    //convertendo que se está acessando (component do Switch)           
+    <Route
+        render={props => usuarioAutenticado() ? //Operador ternário
+            (<Component {...props} />) :
+            (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+        }
+    />
+);
+
+const PermissaoPac = ({ component: Component }) => (
+    //convertendo que se está acessando (component do Switch)           
+    <Route
+        render={props => usuarioAutenticado() ? //Operador ternário
+            (<Component {...props} />) :
+            (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+        }
+    />
+);
+
 const rotas = (
     <Router>
         <div>
             <Switch>
                 {/*Permissao*/}
                 <Route exact path="/" component={App} />
-                <Route path="/clinicas" component={ListarCadastrarClinica} />
                 <Route path="/login" component={Login} />
+                <Route path="/clinicas" component={ListarCadastrarClinica} />
                 <Route path="/especialidades" component={ListarCadastrarEspecialidade} />
-                {/* <Route path="/usuarios" component={ListarCadastrarUsuario} />
+                <Route path="/usuarios" component={ListarCadastrarUsuario} />
                 <Route path="/medicos" component={ListarCadastrarMedico} />
-                <Route path="/prontuarios" component={ListarCadastrarProntuario} /> */}
+                <Route path="/prontuarios" component={ListarCadastrarProntuario} />
                 <Route path="/consultas" component={ListarCadastrarConsulta} />
                 <Route component={NaoEncontrada} /> {/* Esse é o default do Switch, nenhuma outra Route será lida dps disso */}
             </Switch>
