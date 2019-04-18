@@ -15,8 +15,7 @@ export default class ListarCadastrarEspecialidade extends Component {
 
             idBuscaEspecialidade: "", //Busca especialidade por ID
             listaResultadoId: [],
-            listaFiltradaId: [],
-
+            listaFiltradaId: []
         }
     }
 
@@ -51,8 +50,9 @@ export default class ListarCadastrarEspecialidade extends Component {
 
     //Nome -> Busca
 
-    buscarPorNomeEspecialidade(event) {
-        event.preventDefault();
+    buscarPorNomeEspecialidade() {
+        //event
+        //event.preventDefault();
 
         let nome = this.state.nomeBuscaEspecialidade;
         let _listaFiltrada = [];
@@ -60,15 +60,18 @@ export default class ListarCadastrarEspecialidade extends Component {
         if (nome == "" || nome == null) {
             _listaFiltrada = this.state.listaResultadoNome;
         } else { // Lambda: primeiro "nome" -> nome da coluna da lista que eu fiz, segundo "nome" -> let que eu criei
-            _listaFiltrada = this.state.listaResultadoNome.filter(x => x.nome.includes(nome).ignoreCase);
+            _listaFiltrada = this.state.listaResultadoNome.filter(x => x.nome.toLowerCase().includes(nome.toLowerCase()));
+            //x => x.nome.toLowerCase() == nome.toLowerCase() //Filtra a palavra inteira em lower case
+            //x => x.nome.toLowerCase().includes(nome.toLowerCase()) //Filtra por letras que tem igual na lista
         }
 
-        console.log(_listaFiltrada);
+        // console.log(_listaFiltrada);
         this.setState({ listaFiltradaNome: _listaFiltrada });
     }
 
     atualizaEstadoNomeEspecialidade(event) {
         this.setState({ nomeBuscaEspecialidade: event.target.value });
+        this.buscarPorNomeEspecialidade() //Serve para filtrar no mesmo momento que vai
     }
 
     //Id -> Busca
@@ -82,10 +85,10 @@ export default class ListarCadastrarEspecialidade extends Component {
         if (id == "" || id == null) {
             _listaFiltrada = this.state.listaResultadoId;
         } else {
-            _listaFiltrada = this.state.listaResultadoId.filter(x => x.idBuscaEspecialidade == id);
+            _listaFiltrada = this.state.listaResultadoId.filter(x => x.id == id);
         }
 
-        console.log(_listaFiltrada);
+        // console.log(_listaFiltrada);
         this.setState({ listaFiltradaId: _listaFiltrada });
     }
 
@@ -94,23 +97,28 @@ export default class ListarCadastrarEspecialidade extends Component {
     }
 
 
+    //Sessão cadastro
 
     cadastrarEspecialidade(event) {
         event.preventDefault();
 
-        let especialidade = {
-            nome: this.state.nome
-        };
-
-        Axios.post('http://localhost:5000/api/especialidades', especialidade, {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
-                "Content-Type": "application/json"
+        if (this.state.listaEspecialidades.map(x => x.nome).indexOf(this.state.nome) === -1) { //Condição para array de objeto (para array de elementos é diferente e mais simples)
+            let especialidade = {
+                nome: this.state.nome
             }
-        })
-            .then(res => {
+
+            Axios.post('http://localhost:5000/api/especialidades', especialidade, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
+                    "Content-Type": "application/json"
+                }
+            }).then(res => {
                 this.buscarEspecialidades()
             })
+        } else {
+            this.setState({ erroMensagem: 'Especialidade já cadastrada' })
+        }
+
     }
 
     render() {
@@ -196,6 +204,14 @@ export default class ListarCadastrarEspecialidade extends Component {
                         </tbody>
                     </table>
                 </section>
+
+                <form onSubmit={this.cadastrarEspecialidade.bind(this)} noValidate>
+                    <input type="text" value={this.state.nome} onChange={this.atualizaEstadoNome.bind(this)} placeholder="nome da especialidade" required />
+                    <button type="submit"> Cadastrar </button>
+                </form>
+
+                <p className="text__login" style={{ color: 'red', textAlign: 'center' }}>{this.state.erroMensagem}</p>
+
             </div>
         )
     }
