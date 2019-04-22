@@ -15,6 +15,7 @@ export default class ListarCadastrarClinica extends Component {
         }
     }
 
+    //Listar consultas
     buscarClinicas() {
         Axios.get('http://localhost:5000/api/clinicas', {
             // http://192.168.56.1:5000/api/especialidades - IP do pc do Senai  
@@ -105,6 +106,15 @@ export default class ListarCadastrarClinica extends Component {
                         })}
                     </tbody>
                 </table>
+
+                <form onSubmit={this.cadastrarClinica.bind(this)} noValidate>
+                    <input type="text" value={this.state.nomeFantasia} onChange={this.atualizaEstadoNome.bind(this)} placeholder="nome da clínica" required />
+                    <input type="text" value={this.state.horarioFuncionamento} onChange={this.atualizaEstadoHorario.bind(this)} placeholder="horário de funcionamento" required />
+                    <input type="text" value={this.state.cnpj} onChange={this.atualizaEstadoCnpj.bind(this)} placeholder="cnpj" required />
+                    <input type="text" value={this.state.razaoSocial} onChange={this.atualizaEstadoRazao.bind(this)} placeholder="razão social" required />
+                    <input type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="endereço" required />
+                    <button type="submit"> Cadastrar </button>
+                </form>
             </div>
         )
     }

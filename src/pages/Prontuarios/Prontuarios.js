@@ -108,6 +108,9 @@ export default class ListarCadastrarProntuario extends Component {
                 "Content-Type": "application/json"
             }
         })
+            .then(res => {
+                this.call("prontuarios")
+            })
     }
 
     render() {
@@ -141,6 +144,16 @@ export default class ListarCadastrarProntuario extends Component {
                         })}
                     </tbody>
                 </table>
+
+                <form onSubmit={this.cadastrarProntuario.bind(this)} noValidate>
+                    <input type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoIdUsuario.bind(this)} placeholder="ID - usuário" required />
+                    <input type="text" value={this.state.rg} onChange={this.atualizaEstadoRg.bind(this)} placeholder="rg" required />
+                    <input type="text" value={this.state.cpf} onChange={this.atualizaEstadoCpf.bind(this)} placeholder="cpf" required />
+                    <input type="date" value={this.state.dataNascimento} onChange={this.atualizaEstadoDataNascimento.bind(this)} placeholder="Data de nascimento" required />
+                    <input type="text" value={this.state.telefone} onChange={this.atualizaEstadoTelefone.bind(this)} placeholder="telefone" required />
+                    <input type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="endereço" required />
+                    <button type="submit"> Cadastrar </button>
+                </form>
             </div>
         )
     }

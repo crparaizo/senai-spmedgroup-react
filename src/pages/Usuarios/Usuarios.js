@@ -40,16 +40,12 @@ export default class ListarCadastrarUsuario extends Component {
             });
     }
 
-    atualizaEstadoidUsuario(event) {
-        this.setState({ idUsuario: event.target.value });
-    }
-
     atualizaEstadoNome(event) {
         this.setState({ nome: event.target.value });
     }
 
     atualizaEstadoEmail(event) {
-        this.setState({ emal: event.target.value });
+        this.setState({ email: event.target.value });
     }
 
     atualizaEstadoSenha(event) {
@@ -64,7 +60,6 @@ export default class ListarCadastrarUsuario extends Component {
         event.preventDefault();
 
         let usuario = {
-            idUsuario: this.state.idUsuario,
             nome: this.state.nome,
             email: this.state.email,
             senha: this.state.senha,
@@ -76,6 +71,9 @@ export default class ListarCadastrarUsuario extends Component {
                 Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
                 "Content-Type": "application/json"
             }
+        })
+        .then(res => {
+            this.call("usuarios")
         })
     }
 
@@ -106,6 +104,15 @@ export default class ListarCadastrarUsuario extends Component {
                         })}
                     </tbody>
                 </table>
+
+                <form onSubmit={this.cadastrarUsuario.bind(this)} noValidate>
+                    <input type="text" value={this.state.nome} onChange={this.atualizaEstadoNome.bind(this)} placeholder="Nome" required />
+                    <input type="text" value={this.state.email} onChange={this.atualizaEstadoEmail.bind(this)} placeholder="Email" required />
+                    <input type="text" value={this.state.senha} onChange={this.atualizaEstadoSenha.bind(this)} placeholder="Senha" required />
+                    <input type="text" value={this.state.idTipoUsuario} onChange={this.atualizaEstadoidTipoUsuario.bind(this)} placeholder="Id tipo usuário" required />
+                    <button type="submit"> Cadastrar </button>
+                </form>
+                
             </div>
         )
     }

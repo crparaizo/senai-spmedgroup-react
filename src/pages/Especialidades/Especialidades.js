@@ -8,17 +8,17 @@ export default class ListarCadastrarEspecialidade extends Component {
         this.state = {
             nome: "",
             listaEspecialidades: [],
-
+            listaEspecialidadesFiltrada: [],
             nomeBuscaEspecialidade: "", //Buscar especialidade por nome
-            listaResultadoNome: [],
-            listaFiltradaNome: [],
-
             idBuscaEspecialidade: "", //Busca especialidade por ID
-            listaResultadoId: [],
-            listaFiltradaId: []
         }
     }
 
+    componentDidMount() {
+        this.buscarEspecialidades();
+    }
+
+    //Listar especialidades
     buscarEspecialidades() {
         Axios.get('http://localhost:5000/api/especialidades', {
             // http://192.168.56.1:5000/api/especialidades - IP do pc do Senai  
@@ -31,42 +31,13 @@ export default class ListarCadastrarEspecialidade extends Component {
             .then(res => {
                 const especialidades = res.data;
                 this.setState({ listaEspecialidades: especialidades })
+                this.setState({ listaEspecialidadesFiltrada: especialidades })
 
-                this.setState({ listaResultadoNome: especialidades }) //Especialidade por Nome
-                this.setState({ listaFiltradaNome: especialidades })
-
-                this.setState({ listaResultadoId: especialidades }) //Especialidade por ID
-                this.setState({ listaFiltradaId: especialidades })
             })
-    }
-
-    componentDidMount() {
-        this.buscarEspecialidades();
     }
 
     atualizaEstadoNome(event) {
         this.setState({ nome: event.target.value });
-    }
-
-    //Nome -> Busca
-
-    buscarPorNomeEspecialidade() {
-        //event
-        //event.preventDefault();
-
-        let nome = this.state.nomeBuscaEspecialidade;
-        let _listaFiltrada = [];
-
-        if (nome == "" || nome == null) {
-            _listaFiltrada = this.state.listaResultadoNome;
-        } else { // Lambda: primeiro "nome" -> nome da coluna da lista que eu fiz, segundo "nome" -> let que eu criei
-            _listaFiltrada = this.state.listaResultadoNome.filter(x => x.nome.toLowerCase().includes(nome.toLowerCase()));
-            //x => x.nome.toLowerCase() == nome.toLowerCase() //Filtra a palavra inteira em lower case
-            //x => x.nome.toLowerCase().includes(nome.toLowerCase()) //Filtra por letras que tem igual na lista
-        }
-
-        // console.log(_listaFiltrada);
-        this.setState({ listaFiltradaNome: _listaFiltrada });
     }
 
     atualizaEstadoNomeEspecialidade(event) {
@@ -74,27 +45,47 @@ export default class ListarCadastrarEspecialidade extends Component {
         this.buscarPorNomeEspecialidade() //Serve para filtrar no mesmo momento que vai
     }
 
-    //Id -> Busca
 
-    buscarPorIdEspecialidade(event) {
-        event.preventDefault();
+    //Nome -> Busca
+    buscarPorNomeEspecialidade() {
+        let nome = this.state.nomeBuscaEspecialidade;
 
-        let id = this.state.idBuscaEspecialidade;
         let _listaFiltrada = [];
 
-        if (id == "" || id == null) {
-            _listaFiltrada = this.state.listaResultadoId;
-        } else {
-            _listaFiltrada = this.state.listaResultadoId.filter(x => x.id == id);
-        }
+         // Lambda: primeiro "nome" -> nome da coluna da lista que eu fiz, segundo "nome" -> let que eu criei
+            _listaFiltrada = this.state.listaEspecialidades.filter(x => x.nome.toLowerCase().includes(nome.toLowerCase()));
+            //x => x.nome.toLowerCase() == nome.toLowerCase() //Filtra a palavra inteira em lower case
+            //x => x.nome.toLowerCase().includes(nome.toLowerCase()) //Filtra por letras que tem igual na lista
+        
 
         // console.log(_listaFiltrada);
-        this.setState({ listaFiltradaId: _listaFiltrada });
+        this.setState({ listaEspecialidadesFiltrada: _listaFiltrada });
     }
 
     atualizaEstadoIdEspecialidade(event) {
         this.setState({ idBuscaEspecialidade: event.target.value });
     }
+
+    //Id -> Busca
+    buscarPorIdEspecialidade(event) {
+        event.preventDefault();
+
+        this.setState({ listaEspecialidadesFiltrada: this.listaEspecialidades });
+
+        let id = this.state.idBuscaEspecialidade;
+        let _listaFiltrada = [];
+
+        if (id == "" || id == null) {
+            _listaFiltrada = this.state.listaEspecialidades;
+        } else {
+            _listaFiltrada = this.state.listaEspecialidadesFiltrada.filter(x => x.id == id);
+        }
+
+        // console.log(_listaFiltrada);
+        this.setState({ listaEspecialidadesFiltrada: _listaFiltrada });
+    }
+
+    
 
 
     //Sessão cadastro
@@ -143,7 +134,7 @@ export default class ListarCadastrarEspecialidade extends Component {
                             <th>ID</th>
                             <th>Nome</th>
                         </tr>
-                        {this.state.listaFiltradaNome.map(function (listado) {
+                        {this.state.listaEspecialidadesFiltrada.map(function (listado) {
                             return (
                                 <tr key={listado.id}>
                                     <td>{listado.id}</td>
@@ -172,7 +163,7 @@ export default class ListarCadastrarEspecialidade extends Component {
                             <th>ID</th>
                             <th>Nome</th>
                         </tr>
-                        {this.state.listaFiltradaId.map(function (listado) {
+                        {this.state.listaEspecialidadesFiltrada.map(function (listado) {
                             return (
                                 <tr key={listado.id}>
                                     <td>{listado.id}</td>

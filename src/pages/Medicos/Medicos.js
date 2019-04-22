@@ -49,7 +49,7 @@ export default class ListarCadastrarMedico extends Component {
             });
     }
 
-    atualizaEstadoNome(event) {
+    atualizaEstadoidUsuario(event) {
         this.setState({ idUsuario: event.target.value });
     }
     atualizaEstadoCrm(event) {
@@ -70,7 +70,7 @@ export default class ListarCadastrarMedico extends Component {
         this.setState({ idEspecialidade: event.target.value });
     }
 
-    atualizaEstadoNidClinica(event) {
+    atualizaEstadoidClinica(event) {
         this.setState({ idClinica: event.target.value });
     }
 
@@ -90,6 +90,11 @@ export default class ListarCadastrarMedico extends Component {
                 Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
                 "Content-Type": "application/json"
             }
+
+            
+        })
+        .then(res => {
+            this.call("medicos")
         })
     }
 
@@ -120,6 +125,14 @@ export default class ListarCadastrarMedico extends Component {
                         })}
                     </tbody>
                 </table>
+
+                <form onSubmit={this.cadastrarMedico.bind(this)} noValidate>
+                    <input type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoidUsuario.bind(this)} placeholder="ID -usuário" required />
+                    <input type="text" value={this.state.crm} onChange={this.atualizaEstadoCrm.bind(this)} placeholder="crm" required />
+                    <input type="text" value={this.state.idEspecialidade} onChange={this.atualizaEstadoidEspecialidade.bind(this)} placeholder="ID - especialidade" required />
+                    <input type="text" value={this.state.idClinica} onChange={this.atualizaEstadoidClinica.bind(this)} placeholder="Id - clinica" required />
+                    <button type="submit"> Cadastrar </button>
+                </form>
             </div>
         )
     }
