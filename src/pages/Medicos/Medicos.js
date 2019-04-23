@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Axios from 'axios';
 import apiService from "../../services/apiService";
 
+import ListaMedicos from '../../components/Listas/ListaMedicos';
+
 export default class ListarCadastrarMedico extends Component {
     constructor() {
         super();
@@ -91,17 +93,20 @@ export default class ListarCadastrarMedico extends Component {
                 "Content-Type": "application/json"
             }
 
-            
+
         })
-        .then(res => {
-            this.call("medicos")
-        })
+            .then(res => {
+                this.call("medicos")
+            })
     }
 
     render() {
         return (
             <div>
-                <table>
+                
+                <ListaMedicos lista={this.state.listaMedicos} />
+
+                {/* <table>
                     <thead>
                         <tr>
                             <th>ID - Médico</th>
@@ -124,7 +129,7 @@ export default class ListarCadastrarMedico extends Component {
                             );
                         })}
                     </tbody>
-                </table>
+                </table> */}
 
                 <form onSubmit={this.cadastrarMedico.bind(this)} noValidate>
                     <input type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoidUsuario.bind(this)} placeholder="ID -usuário" required />

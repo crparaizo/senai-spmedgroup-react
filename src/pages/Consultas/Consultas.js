@@ -21,6 +21,7 @@ export default class ListarCadastrarConsulta extends Component {
             .call("consultas")
             .getAll()
             .then(data => {
+                console.log(data.data);
                 this.setState({ listaConsultas: data.data });
             });
     }
@@ -59,9 +60,9 @@ export default class ListarCadastrarConsulta extends Component {
             }
 
         })
-        .then(res => {
-            this.call("consultas")
-        })
+            .then(res => {
+                this.call("consultas")
+            })
 
         console.log(consulta);
 
@@ -82,14 +83,15 @@ export default class ListarCadastrarConsulta extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.listaConsultas.map(element => {
+                        {this.state.listaConsultas.map(function (element) {
                             return (
                                 <tr key={element.id}>
+                                    {/* {console.log(element.id)} */}
                                     <td>{element.id}</td>
-                                    <td>{element.idProntuario}</td>
-                                    <td>{element.idMedico}</td>
+                                    <td>{element.idProntuarioNavigation.idUsuarioNavigation.nome}</td>
+                                    <td>{element.idMedicoNavigation.idUsuarioNavigation.nome}</td>
                                     <td>{element.dataHoraConsulta}</td>
-                                    <td>{element.idSituacao ? element.idSituacao : "1"}</td>
+                                    <td>{element.idSituacao ? element.idSituacao : 1}</td>
                                     <td>{element.descricao ? element.descricao : 'Vazia'}</td>
                                 </tr>
                             );
@@ -102,7 +104,7 @@ export default class ListarCadastrarConsulta extends Component {
                     <input type="text" value={this.state.idMedico} onChange={this.atualizaEstadoidMedico.bind(this)} placeholder="ID - médico" required />
                     <input type="date" value={this.state.dataHoraConsulta} onChange={this.atualizaEstadoData.bind(this)} placeholder="data da consulta" required />
                     <input type="text" value={this.state.idSituacao} onChange={this.atualizaEstadoidSituacao.bind(this)} placeholder="Id situação" required />
-                    <input type="text" value={this.state.descricao} onChange={this.atualizaEstadoDescricao.bind(this)} placeholder="descrição"  />
+                    <input type="text" value={this.state.descricao} onChange={this.atualizaEstadoDescricao.bind(this)} placeholder="descrição" />
                     <button type="submit"> Cadastrar </button>
                 </form>
 
