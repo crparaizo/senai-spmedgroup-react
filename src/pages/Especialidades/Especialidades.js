@@ -36,6 +36,12 @@ export default class ListarCadastrarEspecialidade extends Component {
             })
     }
 
+    atualizaEstado(event) {
+        this.setState({nome: event.target.value});
+        this.setState({ nomeBuscaEspecialidade: event.target.value });
+        this.buscarPorNomeEspecialidade() //Serve para filtrar no mesmo momento que vai
+    }
+
     atualizaEstadoNome(event) {
         this.setState({ nome: event.target.value });
     }
@@ -75,10 +81,10 @@ export default class ListarCadastrarEspecialidade extends Component {
         let id = this.state.idBuscaEspecialidade;
         let _listaFiltrada = [];
 
-        if (id == "" || id == null) {
+        if (id === "" || id == null) {
             _listaFiltrada = this.state.listaEspecialidades;
         } else {
-            _listaFiltrada = this.state.listaEspecialidadesFiltrada.filter(x => x.id == id);
+            _listaFiltrada = this.state.listaEspecialidadesFiltrada.filter(x => x.id === id);
         }
 
         // console.log(_listaFiltrada);

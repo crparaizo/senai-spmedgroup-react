@@ -1,0 +1,91 @@
+/* Lembrete: não há body no React */
+/* Ainda não foi implementada a responsividade*/
+*{
+    font-family: 'Raleway';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Alterar cores das letras */
+
+.topo__quebra{
+    background-color: rgb(191, 228, 253);
+    /* #81AFD7 */
+    width: 100%;
+    height: 0.8em;
+    margin: 2em 0;
+}
+
+.topo__h1{
+    font-size: 5vh;
+    text-align: center;
+    color: rgb(162, 218, 255);
+    text-shadow: -1px 0 pink, 0 1px pink, 1px 0 pink, 0 -1px pink;
+}
+
+.formularios{
+    display: flex;
+    justify-content: center;
+}
+
+.elemento-formulario{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 0 7.5em 0 7.5em;
+    justify-content: center;
+
+    background-color: rgba(191, 228, 253, 0.5);
+}
+
+.elemento-formulario--modificado-dois{
+    height: 15em;  
+    margin-top: 6em;
+}
+
+.elemento-formulario--modificado-um{
+    height: 27em;  
+}
+
+.elemento-formulario__h2{
+    margin-bottom: 15px;
+    color: rgba(210, 105, 30, 0.623);
+}
+
+.elemento-formulario__h3{
+    color: #778899;
+    text-decoration: underline;
+    text-decoration-color: rgba(210, 105, 30, 0.253);
+}
+
+.elemento-formulario__item{
+    width: 20em;
+    margin: 1em;
+    padding: 7.75px;
+    height: 2em;
+}
+
+.elemento-formulario__item--textearea{
+    resize: none;
+    width: 270px;
+    height: 8em;
+    font-size: 13px;
+    margin-bottom: 1.5em;
+}
+
+.elemento-formulario__item--button{
+    width: 6em;
+    height: 3em;
+    margin: 0 8em;
+
+    background-color: gray;
+    color:white ;
+    text-decoration: underline;
+    text-decoration-color: white;
+}
+
+/* .imagem-formulario__item{
+    width: 10em;
+    opacity: 0.6;
+    margin-top: 7em;
+} */

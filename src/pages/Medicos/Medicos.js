@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Axios from 'axios';
 import apiService from "../../services/apiService";
 
-import ListaMedicos from '../../components/Listas/ListaMedicos';
+import ListaMedicos from '../../components/Lista/ListaMedicos';
 
 export default class ListarCadastrarMedico extends Component {
     constructor() {
