@@ -3,6 +3,9 @@ Div maior do main será fix */
 
 /* Lembrete: não há body no React */
 /* Ainda não foi implementada a responsividade*/
+
+
+
 *{
     font-family: 'Raleway';
     margin: 0;
@@ -10,6 +13,7 @@ Div maior do main será fix */
     box-sizing: border-box;
 }
 
+/* @media screen and (max-width: 1360px)  */
 
 /* Alterar FONTE das letras */
 .consultas-header{
@@ -38,7 +42,8 @@ Div maior do main será fix */
 
 .consultas-header__item{
     float: right;
-    margin-right: 1em;
+    /* margin-right: 1em; */
+    margin-right: 3em;
     border: 5px solid rgb(191, 228, 253);
     width: 13em;
 }
@@ -106,7 +111,8 @@ Div maior do main será fix */
 }
 
 .listas__button{
-    margin: 3em 0 0 4.2em;
+    /* margin: 3em 0 0 4.2em; */
+    margin: 3em 0 0 7.2em;
     width: 6em;
     height: 3em;
     text-decoration: underline;
@@ -145,7 +151,8 @@ Div maior do main será fix */
     border: 1em solid #a2daff44;
     text-align: center;
     margin: 0 3em; 
-    overflow: hidden;   
+    overflow: scroll;
+    height: 27em;  
 }
 
 .tabela__real{    

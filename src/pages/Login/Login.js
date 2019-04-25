@@ -89,11 +89,11 @@ export default class Login extends Component {
 
                     //Verifica o tipo de usuário e redireciona para a página default
                     if (decodificado.tipoUsuario === "Administrador") {
-                        this.props.history.push("/adm/adm"); //Mudar rota  //Página que irá redirecionar -> consultas
+                        this.props.history.push("/consultas"); //Mudar rota  //Página que irá redirecionar -> consultas
                     } else if (decodificado.tipoUsuario === "Médico") {
-                        this.props.history.push("/medico"); //Mudar rota
+                        this.props.history.push("/consultas"); //Mudar rota
                     } else {
-                        this.props.history.push("/paciente"); //Mudar rota
+                        this.props.history.push("/consultas"); //Mudar rota
                     }
                 }
             })

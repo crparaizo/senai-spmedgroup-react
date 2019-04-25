@@ -18,6 +18,11 @@ export default class ListarCadastrarConsulta extends Component {
         }
     }
 
+    logout(){
+        localStorage.removeItem('usuario-spmedgroup');
+        window.location.reload();
+    }
+
     componentDidMount() {
         apiService
             .call("consultas")
@@ -97,7 +102,7 @@ export default class ListarCadastrarConsulta extends Component {
                         <h1 className="consultas-header__h1">Consultas</h1>
                         <div className="consultas-header__quebra consultas-header__quebra--modificado"></div>
                         <label htmlFor="">
-                            <input className="consultas-header__item" type="text" placeholder="Buscar por Especialidade..." />
+                            <input className="consultas-header__item" type="text" placeholder="Buscar por ..." />
                         </label>
                         <label htmlFor="">
                             <input className="consultas-header__item" type="text" placeholder="Buscar por Médico..." />
@@ -125,24 +130,24 @@ export default class ListarCadastrarConsulta extends Component {
                                 <ul>
                                     {/* <!-- Colocar URL's -->
                         <!-- Páginas de médico e paciente terão menos links --> */}
-                                    <li className="links__item"><a className="links__titulo" href="#">Prontuários</a></li>
+                                    <li className="links__item"><a className="links__titulo" href="/prontuarios">Prontuários</a></li>
                                     <div className="links__quebra"></div>
                                     <li className="links__item"><a className="links__titulo links__titulo--selecionado"
                                         href="#">Consultas</a></li>
                                     <div className="links__quebra"></div>
-                                    <li className="links__item"><a className="links__titulo" href="#">Clínicas</a></li>
+                                    <li className="links__item"><a className="links__titulo" href="/clinicas">Clínicas</a></li>
                                     <div className="links__quebra"></div>
-                                    <li className="links__item"><a className="links__titulo" href="#">Médicos</a></li>
+                                    <li className="links__item"><a className="links__titulo" href="/medicos">Médicos</a></li>
                                     <div className="links__quebra"></div>
-                                    <li className="links__item"><a className="links__titulo" href="#">Usuários</a></li>
+                                    <li className="links__item"><a className="links__titulo" href="/usuarios">Usuários</a></li>
                                     <div className="links__quebra"></div>
-                                    <li className="links__item"><a className="links__titulo" href="#">Especialidades</a></li>
+                                    <li className="links__item"><a className="links__titulo" href="/especialidades">Especialidades</a></li>
                                     <div className="links__quebra"></div>
                                 </ul>
                             </nav>
                         </div>
                         {/* <!-- Escolher um deles: --> */}
-                        <a className="menu__link" href="#">Sair</a>
+                        <a className="menu__link" href="/login">Sair</a>
                         {/* <!-- <button>Sair</button> --> */}
                     </div>
                 </aside>
@@ -175,17 +180,18 @@ export default class ListarCadastrarConsulta extends Component {
                                                 <td className="tabela-body_dado">{element.idProntuarioNavigation.idUsuarioNavigation.nome}</td>
                                                 <td className="tabela-body_dado">{element.idMedicoNavigation.idUsuarioNavigation.nome}</td>
                                                 <td className="tabela-body_dado">{element.dataHoraConsulta}</td>
-                                                <td className="tabela-body_dado">{element.idSituacao ? element.idSituacao : 1}</td>
+                                                <td className="tabela-body_dado">{element.idSituacaoNavigation.nome}</td>
+                                                {/* <td className="tabela-body_dado">{element.idSituacao ? element.idSituacao : 1}</td> */}
                                                 <td className="tabela-body_dado">{element.descricao ? element.descricao : 'Vazia'}</td>
+                                                <div className="botoes">
+                                                    <button className="botoes__item botoes__item--alterar">Alterar</button>
+                                                    <button className="botoes__item botoes__item--deletar">Deletar</button>
+                                                </div>
                                             </tr>
                                         );
                                     })}
                                 </tbody>
                             </table>
-                            <div className="botoes">
-                                <button className="botoes__item botoes__item--alterar">Alterar</button>
-                                <button className="botoes__item botoes__item--deletar">Deletar</button>
-                            </div>
                         </div>
                         <form onSubmit={this.cadastrarConsulta.bind(this)} noValidate>
                             <div id="Cadastrar" className="formulario tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
