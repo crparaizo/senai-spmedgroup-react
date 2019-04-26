@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from 'axios';
+import './Especialidades.css';
 
 export default class ListarCadastrarEspecialidade extends Component {
     constructor() {
@@ -15,8 +16,14 @@ export default class ListarCadastrarEspecialidade extends Component {
 
             idBuscaEspecialidade: "", //Busca especialidade por ID
             listaResultadoId: [],
-            listaFiltradaId: []
+            listaFiltradaId: [],
+            tabLista: true
         }
+    }
+
+    logout() {
+        localStorage.removeItem('usuario-spmedgroup');
+        window.location.reload();
     }
 
     buscarEspecialidades() {
@@ -96,6 +103,10 @@ export default class ListarCadastrarEspecialidade extends Component {
         this.setState({ idBuscaEspecialidade: event.target.value });
     }
 
+    alteraTabs(event) {
+        event.preventDefault();
+        this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
+    }
 
     //Sessão cadastro
 

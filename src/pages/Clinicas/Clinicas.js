@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from 'axios';
+import './Clinicas.css';
 
 export default class ListarCadastrarClinica extends Component {
     constructor() {
@@ -19,8 +20,15 @@ export default class ListarCadastrarClinica extends Component {
 
             idBuscaClinica: "", //Busca especialidade por ID
             listaResultadoId: [],
-            listaFiltradaId: []
+            listaFiltradaId: [],
+
+            tabLista: true
         }
+    }
+
+    logout() {
+        localStorage.removeItem('usuario-spmedgroup');
+        window.location.reload();
     }
 
     //Listar consultas
@@ -67,6 +75,11 @@ export default class ListarCadastrarClinica extends Component {
 
     atualizaEstadoEndereco(event) {
         this.setState({ endereco: event.target.value });
+    }
+
+    alteraTabs(event) {
+        event.preventDefault();
+        this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
     }
 
     //CNPJ -> Busca

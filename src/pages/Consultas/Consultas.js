@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Axios from 'axios';
 import apiService from "../../services/apiService";
-import './topo-Consultas.css';
+import './Consultas.css';
 
-{/* <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> */}
+{/* <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> */ }
 
 export default class ListarCadastrarConsulta extends Component {
     constructor() {
@@ -27,7 +27,7 @@ export default class ListarCadastrarConsulta extends Component {
 
     componentDidMount() {
         apiService
-            .call("topo-consultas")
+            .call("consultas")
             .getAll()
             .then(data => {
                 console.log(data.data);
@@ -77,7 +77,7 @@ export default class ListarCadastrarConsulta extends Component {
             descricao: this.state.descricao
         };
 
-        Axios.post('http://localhost:5000/api/topo-consultas', consulta, {
+        Axios.post('http://localhost:5000/api/consultas', consulta, {
             s: {
                 Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
                 "Content-Type": "application/json"
@@ -85,12 +85,11 @@ export default class ListarCadastrarConsulta extends Component {
 
         })
             .then(res => {
-                this.call("topo-consultas")
+                this.call("consultas")
             })
         window.location.reload();
 
         console.log(consulta);
-
     }
 
     render() {
@@ -100,7 +99,7 @@ export default class ListarCadastrarConsulta extends Component {
             <div>
                 <div className="topo-consultas">
                     <div className="topo-consultas__quebra"></div>
-                    <h1 className="topo-consultas__h1">topo-Consultas</h1>
+                    <h1 className="topo-consultas__h1">Consultas</h1>
                     <div className="topo-consultas__quebra topo-consultas__quebra--modificado"></div>
                     <label htmlFor="">
                         <input className="topo-consultas__item" type="text" placeholder="Buscar por ..." />
@@ -134,7 +133,7 @@ export default class ListarCadastrarConsulta extends Component {
                                         <li className="links-consulta__item"><a className="links-consulta__titulo" href="/prontuarios">Prontuários</a></li>
                                         <div className="links-consulta__quebra"></div>
                                         <li className="links-consulta__item"><a className="links-consulta__titulo links-consulta__titulo--selecionado"
-                                            href="#">topo-Consultas</a></li>
+                                            href="#">Consultas</a></li>
                                         <div className="links-consulta__quebra"></div>
                                         <li className="links-consulta__item"><a className="links-consulta__titulo" href="/clinicas">Clínicas</a></li>
                                         <div className="links-consulta__quebra"></div>
@@ -148,7 +147,7 @@ export default class ListarCadastrarConsulta extends Component {
                                 </nav>
                             </div>
                             {/* <!-- Escolher um deles: --> */}
-                            <a className="menu-consulta__link" href="/login">Sair</a>
+                            <a className="menu-consulta__link" onClick={this.logout.bind(this)} href="/">Sair</a>
                             {/* <!-- <button>Sair</button> --> */}
                         </div>
                     </aside>
@@ -174,7 +173,7 @@ export default class ListarCadastrarConsulta extends Component {
                                         </tr>
                                     </thead>
                                     <tbody className="tabela-consulta-body">
-                                        {this.state.listatopo - Consultas.map(function (element) {
+                                        {this.state.listaConsultas.map(function (element) {
                                             return (
                                                 <tr key={element.id}>
                                                     <td className="tabela-consulta-body_dado">{element.id}</td>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from 'axios';
 import apiService from "../../services/apiService";
+import './Medicos.css';
 
 import ListaMedicos from '../../components/Lista/ListaMedicos';
 
@@ -17,8 +18,14 @@ export default class ListarCadastrarMedico extends Component {
             listaEspecialidade: [],
             idClinica: "",
             listaClinicas: [],
-            listaConsultas: [] //Listar todas as consultas de determinada pessoa
+            listaConsultas: [], //Listar todas as consultas de determinada pessoa
+            tabLista: true
         }
+    }
+
+    logout() {
+        localStorage.removeItem('usuario-spmedgroup');
+        window.location.reload();
     }
 
     componentDidMount() {
@@ -54,6 +61,7 @@ export default class ListarCadastrarMedico extends Component {
     atualizaEstadoidUsuario(event) {
         this.setState({ idUsuario: event.target.value });
     }
+
     atualizaEstadoCrm(event) {
         this.setState({ crm: event.target.value });
 
@@ -68,6 +76,7 @@ export default class ListarCadastrarMedico extends Component {
         // });
 
     }
+
     atualizaEstadoidEspecialidade(event) { //??
         this.setState({ idEspecialidade: event.target.value });
     }
@@ -76,6 +85,10 @@ export default class ListarCadastrarMedico extends Component {
         this.setState({ idClinica: event.target.value });
     }
 
+    alteraTabs(event) {
+        event.preventDefault();
+        this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
+    }
 
     cadastrarMedico(event) {
         event.preventDefault();

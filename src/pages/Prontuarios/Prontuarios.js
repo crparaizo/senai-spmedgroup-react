@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from 'axios';
 import apiService from "../../services/apiService";
+import './Prontuarios.css';
 
 export default class ListarCadastrarProntuario extends Component {
     constructor() {
@@ -18,8 +19,14 @@ export default class ListarCadastrarProntuario extends Component {
             listaMedicos: [],
             listaEspecialidades: [],
             listaConsultas: [],
-            listaClinicas: []
+            listaClinicas: [],
+            tabLista: true
         }
+    }
+
+    logout() {
+        localStorage.removeItem('usuario-spmedgroup');
+        window.location.reload();
     }
 
     componentDidMount() {
@@ -88,6 +95,11 @@ export default class ListarCadastrarProntuario extends Component {
 
     atualizaEstadoEndereco(event) {
         this.setState({ endereco: event.target.value });
+    }
+
+    alteraTabs(event) {
+        event.preventDefault();
+        this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
     }
 
     cadastrarProntuario(event) {
