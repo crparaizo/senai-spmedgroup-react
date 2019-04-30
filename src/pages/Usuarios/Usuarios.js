@@ -182,7 +182,7 @@ export default class ListarCadastrarUsuario extends Component {
                                 </tbody>
                             </table>
                         </div>
-                        <div id="Cadastrar" className="formulario-usuario tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
+                        <div id="Cadastrar" className="formulario-usuario tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex")}}>
                             <form onSubmit={this.cadastrarUsuario.bind(this)} noValidate>
                                 <label htmlFor=""><input className="formulario-usuario__item" value={this.state.nome} onChange={this.atualizaEstadoNome.bind(this)} type="text" placeholder="Nome" required /></label>
                                 <label htmlFor=""><input className="formulario-usuario__item" value={this.state.email} onChange={this.atualizaEstadoEmail.bind(this)} type="email" placeholder="Email" required /></label>
