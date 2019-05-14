@@ -283,9 +283,9 @@ export default class ListarCadastrarProntuario extends Component {
                         </div>
                     </main>
 
+                </body>
             </div>
 
-
-                )
-            }
+        )
+    }
 }
