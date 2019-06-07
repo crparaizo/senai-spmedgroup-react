@@ -1,28 +1,21 @@
 import React, { Component } from "react";
-import Axios from 'axios';
 import './Clinicas.css';
+import apiService from "../../services/apiService";
 
 export default class ListarCadastrarClinica extends Component {
     constructor() {
         super();
 
         this.state = {
-            nomeFantasia: "", //Filtro do Filtro
-            horarioFuncionamento: "", //Filtro do Filtro
+            nomeFantasia: "",
+            horarioFuncionamento: "",
             cnpj: "",
-            razaoSocial: "", //Filtro do Filtro
-            endereco: "", //Filtro do Filtro
+            razaoSocial: "",
+            endereco: "",
             listaClinicas: [],
-
-            cnpjBuscaClinica: "", //Buscar especialidade por cnpj
-            listaResultadocnpj: [],
-            listaFiltradacnpj: [],
-
-            idBuscaClinica: "", //Busca especialidade por ID
-            listaResultadoId: [],
-            listaFiltradaId: [],
-
-            tabLista: true
+            listaClinicasFiltrada: [],
+            inputBusca: "",
+            tabLista: true,
         }
     }
 
@@ -33,23 +26,13 @@ export default class ListarCadastrarClinica extends Component {
 
     //Listar consultas
     buscarClinicas() {
-        Axios.get('http://localhost:5000/api/clinicas', {
-            // http://192.168.56.1:5000/api/especialidades - IP do pc do Senai  
-            // http://191.180.47.145:5000/api/especialidades - IP do pc de Casa 
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
-                "Content-Type": "application/json"
-            }
-        })
+
+        apiService
+            .call("clinicas")
+            .getAll()
             .then(res => {
                 const clinicas = res.data;
-                this.setState({ listaClinicas: clinicas })
-
-                this.setState({ listaResultadocnpj: clinicas })
-                this.setState({ listaFiltradacnpj: clinicas })
-
-                this.setState({ listaResultadoId: clinicas })
-                this.setState({ listaFiltradaId: clinicas })
+                this.setState({ listaClinicas: clinicas, listaClinicasFiltrada: clinicas })
             })
     }
 
@@ -82,54 +65,27 @@ export default class ListarCadastrarClinica extends Component {
         this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
     }
 
-    //CNPJ -> Busca
+    buscarClinicaItem() {
 
-    buscarPorcnpj() {
-        //event
-        //event.preventDefault();
+        let listaFiltrada = this.state.listaClinicas;
 
-        let cnpj = this.state.cnpjBuscaClinica;
-        let _listaFiltrada = [];
-
-        if (cnpj == "" || cnpj == null) {
-            _listaFiltrada = this.state.listaResultadocnpj;
-        } else { // Lambda: primeiro "nome" -> nome da coluna da lista que eu fiz, segundo "nome" -> let que eu criei
-            _listaFiltrada = this.state.listaResultadocnpj.filter(x => x.cnpj.toLowerCase().includes(cnpj.toLowerCase()));
-            //x => x.nome.toLowerCase() == nome.toLowerCase() //Filtra a palavra inteira em lower case
-            //x => x.nome.toLowerCase().includes(nome.toLowerCase()) //Filtra por letras que tem igual na lista
+        if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
+            listaFiltrada = listaFiltrada.filter(x =>
+                x.nomeFantasia.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.razaoSocial.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.endereco.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.horarioFuncionamento.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.cnpj.includes(this.state.inputBusca)
+            );
         }
 
-        // console.log(_listaFiltrada);
-        this.setState({ listaFiltradacnpj: _listaFiltrada });
+        this.setState({ listaClinicasFiltrada: listaFiltrada });
     }
 
-    atualizaEstadoDocnpj(event) {
-        this.setState({ cnpjBuscaClinica: event.target.value });
-        this.buscarPorcnpj() //Serve para filtrar no mesmo momento que vai
+    atualizaEstadoBusca(event) {
+        this.setState({ inputBusca: event.target.value });
+        this.buscarClinicaItem() //Serve para filtrar no mesmo momento que vai
     }
-
-    //Id -> Busca
-
-    buscarPorIdClinica(event) {
-        event.preventDefault();
-
-        let id = this.state.idBuscaClinica;
-        let _listaFiltrada = [];
-
-        if (id == "" || id == null) {
-            _listaFiltrada = this.state.listaResultadoId;
-        } else {
-            _listaFiltrada = this.state.listaResultadoId.filter(x => x.id == id);
-        }
-
-        // console.log(_listaFiltrada);
-        this.setState({ listaFiltradaId: _listaFiltrada });
-    }
-
-    atualizaEstadoIdClinica(event) {
-        this.setState({ idBuscaClinica: event.target.value });
-    }
-
 
     //Sessão cadastro
 
@@ -138,93 +94,40 @@ export default class ListarCadastrarClinica extends Component {
 
         if (this.state.listaClinicas.map(x => x.cnpj).indexOf(this.state.cnpj) === -1) {
 
-            let clinica = {
-                nomeFantasia: this.state.nomeFantasia,
-                horarioFuncionamento: this.state.horarioFuncionamento,
-                cnpj: this.state.cnpj,
-                razaoSocial: this.state.razaoSocial,
-                endereco: this.state.endereco
-            };
-
-            Axios.post('http://localhost:5000/api/clinicas', clinica, {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
-                    "Content-Type": "application/json"
-                }
-            })
+            apiService
+                .call("clinicas")
+                .create({
+                    nomeFantasia: this.state.nomeFantasia,
+                    horarioFuncionamento: this.state.horarioFuncionamento,
+                    cnpj: this.state.cnpj,
+                    razaoSocial: this.state.razaoSocial,
+                    endereco: this.state.endereco
+                })
                 .then(res => {
                     this.buscarClinicas()
                 })
         } else {
-            this.setState({ erroMensagem: 'CNPJ já cadastrada' })
+            this.setState({ erroMensagem: alert('CNPJ já cadastrado, tente outro diferente!') })
         }
     }
 
     render() {
         return (
             <div>
-                {/* Habilitar inputs e fazer função para liberar e desabilitar o outro */}
 
-                <form onSubmit={this.buscarPorcnpj.bind(this)}>
+                <form onSubmit={this.buscarClinicaItem.bind(this)}>
                     <label>
                         <input
-                        disabled
-                            placeholder="Insira o cnpj de uma clínica"
+                            placeholder="Busque!"
                             type="text"
-                            value={this.state.cnpjBuscaClinica}
-                            onChange={this.atualizaEstadoDocnpj.bind(this)}
+                            value={this.state.inputBusca}
+                            onChange={this.atualizaEstadoBusca.bind(this)}
                         />
                     </label>
                     <label for="">
                         <input class="btn-new" value="Filtrar" type="submit" id="submitBtn" name="submit" />
                     </label>
                 </form>
-                <section className="busca_nome_busca">
-                    <table>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                        </tr>
-                        {this.state.listaClinicas.map(function (listado) {
-                            return (
-                                <tr key={listado.id}>
-                                    <td>{listado.id}</td>
-                                    <td>{listado.nome}</td>
-                                </tr>
-                            );
-                        })}
-                    </table>
-                </section>
-                <form onSubmit={this.buscarPorIdClinica.bind(this)}>
-                    <label>
-                        <input
-                        disabled
-                            placeholder="Insira o id de uma clínica"
-                            type="text"
-                            value={this.state.idBuscaClinica}
-                            onChange={this.atualizaEstadoIdClinica.bind(this)}
-                        />
-                    </label>
-                    <label for="">
-                        <input class="btn-new" value="Filtrar" type="submit" id="submitBtn" name="submit" />
-                    </label>
-                </form>
-                <section className="id_busca_id">
-                    <table>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                        </tr>
-                        {this.state.listaClinicas.map(function (listado) {
-                            return (
-                                <tr key={listado.id}>
-                                    <td>{listado.id}</td>
-                                    <td>{listado.nome}</td>
-                                </tr>
-                            );
-                        })}
-                    </table>
-                </section>
 
                 <section className="lista_completa">
                     <table>
@@ -239,7 +142,7 @@ export default class ListarCadastrarClinica extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.listaClinicas.map(element => {
+                            {this.state.listaClinicasFiltrada.map(element => {
                                 return (
                                     <tr key={element.id}>
                                         <td>{element.id}</td>

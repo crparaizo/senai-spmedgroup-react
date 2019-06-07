@@ -15,7 +15,9 @@ export default class ListarCadastrarUsuario extends Component {
             tipoUsuario: [],
             listaUsuarios: [],
             listaProntuarios: [],
-            tabLista: true
+            listaUsuarioFiltrada: [],
+            tabLista: true,
+            inputBusca: "",
         }
     }
 
@@ -36,7 +38,7 @@ export default class ListarCadastrarUsuario extends Component {
             .call("usuarios")
             .getAll()
             .then(data => {
-                this.setState({ listaUsuarios: data.data });
+                this.setState({ listaUsuarios: data.data, listaUsuarioFiltrada: data.data });
             });
 
         apiService
@@ -66,6 +68,20 @@ export default class ListarCadastrarUsuario extends Component {
     alteraTabs(event) {
         event.preventDefault();
         this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
+    }
+
+    buscarUsuarioItem() {
+
+        let listaFiltrada = this.state.listaEspecialidades;
+
+
+        if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
+            listaFiltrada = listaFiltrada.filter(x =>
+                x.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+            );
+        }
+
+        this.setState({ listaEspecialidadesFiltrada: listaFiltrada });
     }
 
     cadastrarUsuario(event) {
@@ -182,7 +198,7 @@ export default class ListarCadastrarUsuario extends Component {
                                 </tbody>
                             </table>
                         </div>
-                        <div id="Cadastrar" className="formulario-usuario tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex")}}>
+                        <div id="Cadastrar" className="formulario-usuario tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
                             <form onSubmit={this.cadastrarUsuario.bind(this)} noValidate>
                                 <label htmlFor=""><input className="formulario-usuario__item" value={this.state.nome} onChange={this.atualizaEstadoNome.bind(this)} type="text" placeholder="Nome" required /></label>
                                 <label htmlFor=""><input className="formulario-usuario__item" value={this.state.email} onChange={this.atualizaEstadoEmail.bind(this)} type="email" placeholder="Email" required /></label>

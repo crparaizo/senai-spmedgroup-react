@@ -19,7 +19,9 @@ export default class ListarCadastrarMedico extends Component {
             idClinica: "",
             listaClinicas: [],
             listaConsultas: [], //Listar todas as consultas de determinada pessoa
-            tabLista: true
+            listaMedicoFiltrada:[],
+            tabLista: true,
+            inputBusca: "",
         }
     }
 
@@ -88,6 +90,20 @@ export default class ListarCadastrarMedico extends Component {
     alteraTabs(event) {
         event.preventDefault();
         this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
+    }
+
+    buscarProntuarioItem() {
+
+        let listaFiltrada = this.state.listaEspecialidades;
+
+
+        if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
+            listaFiltrada = listaFiltrada.filter(x =>
+                x.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+            );
+        }
+
+        this.setState({ listaEspecialidadesFiltrada: listaFiltrada });
     }
 
     cadastrarMedico(event) {

@@ -20,7 +20,9 @@ export default class ListarCadastrarProntuario extends Component {
             listaEspecialidades: [],
             listaConsultas: [],
             listaClinicas: [],
-            tabLista: true
+            listaProntuarioFiltrada:[],
+            tabLista: true,
+            inputBusca: "",
         }
     }
 
@@ -100,6 +102,20 @@ export default class ListarCadastrarProntuario extends Component {
     alteraTabs(event) {
         event.preventDefault();
         this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
+    }
+
+    buscarProntuarioItem() {
+
+        let listaFiltrada = this.state.listaEspecialidades;
+
+
+        if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
+            listaFiltrada = listaFiltrada.filter(x =>
+                x.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+            );
+        }
+
+        this.setState({ listaEspecialidadesFiltrada: listaFiltrada });
     }
 
     cadastrarProntuario(event) {
@@ -197,7 +213,7 @@ export default class ListarCadastrarProntuario extends Component {
                     <aside>
                         <div class="menu-prontuario">
                             <h3 class="menu-prontuario__titulo">Administrador</h3>
-                            <img class="menu-prontuario__imagem" src="../img/icon-login.png" alt="" />
+                            <img class="menu-prontuario__imagem" src={require('../../assets/img/icon-login.png')} alt="" />
                             {/* <!-- IMAGEM --> */}
                             <div class="links-prontuario">
                                 <nav>

@@ -25,7 +25,7 @@ export default class ListarCadastrarConsulta extends Component {
         window.location.reload();
     }
 
-    componentDidMount() {
+    listarConsultas() {
         apiService
             .call("consultas")
             .getAll()
@@ -33,6 +33,10 @@ export default class ListarCadastrarConsulta extends Component {
                 console.log(data.data);
                 this.setState({ listaConsultas: data.data });
             });
+    }
+
+    componentDidMount() {
+        this.listarConsultas();
     }
 
     // openPage(namePage) {
@@ -77,17 +81,17 @@ export default class ListarCadastrarConsulta extends Component {
             descricao: this.state.descricao
         };
 
-        Axios.post('http://localhost:5000/api/consultas', consulta, {
-            s: {
+        Axios.post('http://192.168.3.151:5000/api/consultas', consulta, {
+            headers: {
                 Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
                 "Content-Type": "application/json"
             }
-
         })
             .then(res => {
-                this.call("consultas")
+                alert("Consulta cadastrada");
+                this.listarConsultas();
             })
-        window.location.reload();
+        //window.location.reload();
 
         console.log(consulta);
     }
