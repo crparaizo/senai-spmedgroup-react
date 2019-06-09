@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from 'axios';
 import apiService from "../../services/apiService";
-import './topo-Consultas.css';
+import './Consultas.css';
 
 {/* <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> */}
 
@@ -174,7 +174,7 @@ export default class ListarCadastrarConsulta extends Component {
                                         </tr>
                                     </thead>
                                     <tbody className="tabela-consulta-body">
-                                        {this.state.listatopo - Consultas.map(function (element) {
+                                        {this.state.listaConsultas.map(function (element) {
                                             return (
                                                 <tr key={element.id}>
                                                     <td className="tabela-consulta-body_dado">{element.id}</td>
