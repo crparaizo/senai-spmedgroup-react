@@ -201,6 +201,7 @@ export default class ListarCadastrarProntuario extends Component {
                                 <option value="">ID</option>
                             </select>
                             {/* <!-- FILTRO DO FILTRO --> */}
+                            <a  href="/localizacoes">LOCALIZAÇÕES DOS PACIENTES</a>
                             <label for="">
                                 <input class="topo-prontuario__item" type="text" placeholder="Buscar por Nome..." />
                             </label>

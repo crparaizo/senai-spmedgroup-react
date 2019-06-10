@@ -10,6 +10,7 @@ import ListarCadastrarUsuario from './pages/Usuarios/Usuarios';
 import ListarCadastrarMedico from './pages/Medicos/Medicos';
 import ListarCadastrarProntuario from './pages/Prontuarios/Prontuarios';
 import ListarCadastrarConsulta from './pages/Consultas/Consultas';
+import LocalizacoesIndex from './pages/Localizacoes/Localizacoes'
 
 import { usuarioAutenticado, parseJwt } from './services/auth';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
@@ -69,6 +70,7 @@ const rotas = (
                 <Route path="/medicos" component={ListarCadastrarMedico} />
                 <Route path="/prontuarios" component={ListarCadastrarProntuario} />
                 <Route path="/consultas" component={ListarCadastrarConsulta} />
+                <Route path="/localizacoes" component={LocalizacoesIndex} />
                 <Route component={NaoEncontrada} /> {/* Esse é o default do Switch, nenhuma outra Route será lida dps disso */}
             </Switch>
         </div>

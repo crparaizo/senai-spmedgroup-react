@@ -21,7 +21,8 @@ export default {
                     Authorization: auth
                 }
             }),
-            delete: ({ id }) => axios.delete(`${urlApi}/${id}`)
+            delete: ({ id }) => axios.delete(`${urlApi}/${id}`),
+            deleteAll: () => axios.delete(`${urlApi}`)
         }
     }
 }

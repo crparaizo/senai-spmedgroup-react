@@ -16,8 +16,12 @@ export default class ListarCadastrarConsulta extends Component {
             idSituacao: "",
             descricao: "",
             listaConsultas: [],
-            tabLista: true
+            listaConsultasFiltrada: [],
+            tabLista: true,
+            //visivel: true //Quando uma consultar for "excluida", seu estado inativado para medicos e pacientes
         }
+
+        this.AlterarEstado = this.AlterarEstado.bind(this);
     }
 
     logout() {
@@ -29,10 +33,10 @@ export default class ListarCadastrarConsulta extends Component {
         apiService
             .call("consultas")
             .getAll()
-            .then(data => {
-                console.log(data.data);
-                this.setState({ listaConsultas: data.data });
-            });
+            .then(res => {
+                const consultas = res.data;
+                this.setState({ listaConsultas: consultas, listaConsultasFiltrada: consultas })
+            })
     }
 
     componentDidMount() {
@@ -70,30 +74,79 @@ export default class ListarCadastrarConsulta extends Component {
         this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
     }
 
+    buscarConsultaItem() {
+
+        let listaFiltrada = this.state.listaConsultas;
+
+        if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
+            listaFiltrada = listaFiltrada.filter(x =>
+                x.descricao.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+            );
+        }
+
+        this.setState({ listaConsultasFiltrada: listaFiltrada });
+    }
+
+    atualizaEstadoBusca(event) {
+        this.setState({ inputBusca: event.target.value });
+        this.buscarConsultaItem() //Serve para filtrar no mesmo momento que vai
+    }
+
     cadastrarConsulta(event) {
         event.preventDefault();
 
-        let consulta = {
-            idProntuario: this.state.idProntuario,
-            idMedico: this.state.idMedico,
-            dataHoraConsulta: this.state.dataHoraConsulta,
-            idSituacao: this.state.idSituacao,
-            descricao: this.state.descricao
-        };
+        // let consulta = {
+        //     idProntuario: this.state.idProntuario,
+        //     idMedico: this.state.idMedico,
+        //     dataHoraConsulta: this.state.dataHoraConsulta,
+        //     idSituacao: this.state.idSituacao,
+        //     descricao: this.state.descricao
+        // };
 
-        Axios.post('http://192.168.3.151:5000/api/consultas', consulta, {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => {
-                alert("Consulta cadastrada");
-                this.listarConsultas();
-            })
+        // Axios.post('http://192.168.3.151:5000/api/consultas', consulta, {
+        //     headers: {
+        //         Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
+        //         "Content-Type": "application/json"
+        //     }
+        // })
+        //     .then(res => {
+        //         alert("Consulta cadastrada");
+        //         this.listarConsultas();
+        //     })
         //window.location.reload();
 
-        console.log(consulta);
+        // console.log(consulta);
+
+        apiService
+            .call("consultas")
+            .create({
+                idProntuario: this.state.idProntuario,
+                idMedico: this.state.idMedico,
+                dataHoraConsulta: this.state.dataHoraConsulta,
+                idSituacao: this.state.idSituacao,
+                descricao: this.state.descricao
+            })
+            .then(res => {
+                alert("Consulta cadastrada");
+                this.listarConsultas()
+            })
+    }
+
+    AlterarEstado(event) { ///CONSERTAR MÉTODOS
+        event.preventDefault();
+
+        // if (window.confirm("Quer excluir mesmo?")) {
+        //     apiService
+        //         .call("consultas")
+        //         //.row(event.target.id)
+        //         .delete()
+        //         .then(function () {
+        //             alert("Consultas removida!")
+        //         }).catch(function (error) {
+        //             console.error("Erro ao remover: ", error);
+        //         });
+        // }
+
     }
 
     render() {
@@ -105,23 +158,19 @@ export default class ListarCadastrarConsulta extends Component {
                     <div className="topo-consultas__quebra"></div>
                     <h1 className="topo-consultas__h1">Consultas</h1>
                     <div className="topo-consultas__quebra topo-consultas__quebra--modificado"></div>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por ..." />
-                    </label>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por Médico..." />
-                    </label>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por Paciente/Prontuário..." />
-                    </label>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por Data..." />
-                    </label>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por ID..." />
-                        {/* <!-- Colocar icon de lupa? --> */}
-                    </label>
-                    <button className="topo-consultas__button">Limpar</button>
+                    <form onSubmit={this.buscarConsultaItem.bind(this)}>
+                        <label>
+                            <input
+                                placeholder="Busque!"
+                                type="text"
+                                value={this.state.inputBusca}
+                                onChange={this.atualizaEstadoBusca.bind(this)}
+                            />
+                        </label>
+                        <label for="">
+                            <input class="btn-new" value="Filtrar" type="submit" id="submitBtn" name="submit" />
+                        </label>
+                    </form>
                 </div>
                 <div>
                     <aside>
@@ -177,7 +226,7 @@ export default class ListarCadastrarConsulta extends Component {
                                         </tr>
                                     </thead>
                                     <tbody className="tabela-consulta-body">
-                                        {this.state.listaConsultas.map(function (element) {
+                                        {this.state.listaConsultas.map((element) => {
                                             return (
                                                 <tr key={element.id}>
                                                     <td className="tabela-consulta-body_dado">{element.id}</td>
@@ -190,8 +239,11 @@ export default class ListarCadastrarConsulta extends Component {
                                                     <div className="botoes-consulta">
                                                         <button className="botoes-consulta__item botoes-consulta__item--alterar">Alterar</button>
                                                         {/* Deletar: tipo da situação será Cancelada -> Rescrever linha?*/}
-                                                        <button className="botoes-consulta__item botoes-consulta__item--deletar">Deletar</button>
+
                                                     </div>
+                                                    <button id={element.id}
+                                                        onClick={this.AlterarEstado}
+                                                        className="botoes-consulta__item botoes-consulta__item--deletar">Deletar</button>
                                                 </tr>
                                             );
                                         })}
