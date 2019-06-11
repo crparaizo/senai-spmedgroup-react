@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from 'axios';
 import apiService from "../../services/apiService";
+import './Medicos.css';
 
 import ListaMedicos from '../../components/Lista/ListaMedicos';
 
@@ -17,8 +18,16 @@ export default class ListarCadastrarMedico extends Component {
             listaEspecialidade: [],
             idClinica: "",
             listaClinicas: [],
-            listaConsultas: [] //Listar todas as consultas de determinada pessoa
+            listaConsultas: [], //Listar todas as consultas de determinada pessoa
+            listaMedicosFiltrada: [],
+            tabLista: true,
+            inputBusca: "",
         }
+    }
+
+    logout() {
+        localStorage.removeItem('usuario-spmedgroup');
+        window.location.reload();
     }
 
     componentDidMount() {
@@ -47,13 +56,14 @@ export default class ListarCadastrarMedico extends Component {
             .call("medicos")
             .getAll()
             .then(data => {
-                this.setState({ listaMedicos: data.data });
+                this.setState({ listaMedicos: data.data, listaMedicosFiltrada: data.data });
             });
     }
 
     atualizaEstadoidUsuario(event) {
         this.setState({ idUsuario: event.target.value });
     }
+
     atualizaEstadoCrm(event) {
         this.setState({ crm: event.target.value });
 
@@ -68,6 +78,7 @@ export default class ListarCadastrarMedico extends Component {
         // });
 
     }
+
     atualizaEstadoidEspecialidade(event) { //??
         this.setState({ idEspecialidade: event.target.value });
     }
@@ -76,34 +87,73 @@ export default class ListarCadastrarMedico extends Component {
         this.setState({ idClinica: event.target.value });
     }
 
+    alteraTabs(event) {
+        event.preventDefault();
+        this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
+    }
+
+    buscarMedicoItem() {
+
+        let listaFiltrada = this.state.listaMedicos;
+
+        if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
+            listaFiltrada = listaFiltrada.filter(x =>
+                x.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+            );
+        }
+
+        this.setState({ listaMedicosFiltrada: listaFiltrada });
+    }
+
+    atualizaEstadoBusca(event) {
+        this.setState({ inputBusca: event.target.value });
+        this.buscarMedicoItem() //Serve para filtrar no mesmo momento que vai
+    }
 
     cadastrarMedico(event) {
         event.preventDefault();
 
-        let medico = {
-            idUsuario: this.state.idUsuario,
-            crm: this.state.crm,
-            idEspecialidade: this.state.idEspecialidade,
-            idClinica: this.state.idClinica
-        };
+        // let medico = {
+        //     idUsuario: this.state.idUsuario,
+        //     crm: this.state.crm,
+        //     idEspecialidade: this.state.idEspecialidade,
+        //     idClinica: this.state.idClinica
+        // };
 
-        Axios.post('http://localhost:5000/api/medicos', medico, {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
-                "Content-Type": "application/json"
-            }
+        // Axios.post('http://localhost:5000/api/medicos', medico, {
+        //     headers: {
+        //         Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
+        //         "Content-Type": "application/json"
+        //     }
 
+        // })
+        //     .then(res => {
+        //         this.call("medicos")
+        //     })
 
-        })
-            .then(res => {
-                this.call("medicos")
-            })
+        if (this.state.listaMedicos.map(x => x.crm).indexOf(this.state.crm) === -1) {
+
+            apiService
+                .call("medicos")
+                .create({
+                    idUsuario: this.state.idUsuario,
+                    crm: this.state.crm,
+                    idEspecialidade: this.state.idEspecialidade,
+                    idClinica: this.state.idClinica
+                })
+                .then(res => {
+                    this.call("medicos")
+                })
+        } else {
+            this.setState({ erroMensagem: alert('CRM já cadastrado, tente outro diferente!') })
+        }
+
     }
 
     render() {
         return (
             <div>
-                
+
                 <ListaMedicos lista={this.state.listaMedicos} />
 
                 {/* <table>

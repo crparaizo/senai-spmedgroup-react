@@ -1,10 +1,8 @@
-/* Menu-consulta será fixo
+/* Menu-medico será fixo
 Div maior do main será fix */
 
 /* Lembrete: não há body no React */
 /* Ainda não foi implementada a responsividade*/
-
-
 *{
     font-family: 'Rokkitt', serif;
     margin: 0;
@@ -12,15 +10,13 @@ Div maior do main será fix */
     box-sizing: border-box;
 }
 
-/* @media screen and (max-width: 1360px)  */
-
 /* Alterar FONTE das letras */
-.topo-consultas{
+.topo-medico{
     float: right;
      width: 80%;
 }
 
-.topo-consultas__quebra{
+.topo-medico__quebra{
     background-color: rgb(191, 228, 253);
     /* #81AFD7 */
     width: 100%;
@@ -28,32 +24,31 @@ Div maior do main será fix */
     margin: 0 0 1em 0;
 }
 
-.topo-consultas__quebra--modificado{
+.topo-medico__quebra--modificado{
     margin: 1em 0 0 0;
 }
 
-.topo-consultas__h1{
+.topo-medico__h1{
     font-size: 6vh;
     text-align: center;
     color: #a2daff;
     text-shadow: -1px 0 rgb(98, 98, 148), 0 1px rgb(98, 98, 148), 1px 0 rgb(98, 98, 148), 0 -1px rgb(98, 98, 148);
 }
 
-.topo-consultas__item{
+.topo-medico__item{
     float: right;
-    /* margin-right: 1em; */
-    margin-right: 3em;
+    margin-right: 1em;
     border: 5px solid rgb(191, 228, 253);
     width: 13em;
 }
 
-.topo-consultas__button{
+.topo-medico__button{
     height: 2em;
     width: 5em;
     margin-left: 3em;
 }
 
-.menu-consulta{
+.menu-medico{
     float: left;
     width: 20%;
     border: 1em solid rgb(191, 228, 253);
@@ -61,71 +56,70 @@ Div maior do main será fix */
     padding:  1em;
 }
 
-.menu-consulta__titulo{
+.menu-medico__titulo{
     font-size: 2em;
     margin-bottom: 1em;
 }
 
-.menu-consulta__imagem{
+.menu-medico__imagem{
     width: 6em;
     margin-bottom: 1.2em;
 }
 
-.menu-consulta__link{
+.menu-medico__link{
     font-size: 1.5em;
     color: green;
     text-transform: uppercase;
 }
 
-.menu-consulta__link:hover{
+.menu-medico__link:hover{
     color: red;
 }
 
-.links-consulta__item{
+.links-medico__item{
     list-style-type: none;
     font-size: 1.47em;
 }
 
-.links-consulta__titulo{
+.links-medico__titulo{
     color: darkorange;
     text-decoration: none;    
 }
 
-.links-consulta__titulo:hover{
+.links-medico__titulo:hover{
     color: #aaaeff;
 }
 
-.links-consulta__titulo--selecionado{
+.links-medico__titulo--selecionado{
     color: #ffb59c;
 }
 
-.links-consulta__titulo--selecionado:hover{
+.links-medico__titulo--selecionado:hover{
     color: #9cffcf;
 }
 
-.links-consulta__quebra{
+.links-medico__quebra{
     height: 2px;
     background-color: hsla(15, 100%, 81%, 0.301);
     margin: 1em 0;
 }
 
-.listas-consulta__button{
-    /* margin: 3em 0 0 4.2em; */
-    margin: 3em 0 0 7.2em;
+.listas-medico__button{
+    margin: 3em 0 0 4.2em;
     width: 6em;
     height: 3em;
     text-decoration: underline;
     font-size: 1em;
 }
 
-.listas-consulta__button--lista{
+.listas-medico__button--lista{
     text-decoration: none;
     background-color: #a2daff;
     border: none;
     color: white;
 }
 
-.listas-consulta__button--cadastrar{
+.listas-medico__button--cadastrar{
     margin: 3em 0 0 0;
     text-decoration-color: darkorange;
     color: darkorange;
@@ -137,10 +131,10 @@ Div maior do main será fix */
     display: flex;
     justify-content: center;
     text-align: center;
-    justify-items: center;    
+    justify-items: center;
 }
 
-.tabela-consulta{
+.tabela-medico{
     display: flex;
     justify-items: center;
     justify-content: center;
@@ -151,53 +145,51 @@ Div maior do main será fix */
     height: 27em;  
 }
 
-.tabela-consulta__real{    
+.tabela-medico__real{    
     display: inline-table;
     border-collapse: collapse;
 }
 
-.tabela-consulta-head__titulo{
+.tabela-medico-head__titulo{
     padding: 0 1em;
     border: 5px solid rgba(107, 161, 156, 0.568);
 }
 
-.tabela-consulta-body_dado{
+.tabela-medico-body_dado{
     padding: 0 1em;
     border: 5px solid rgba(107, 161, 156, 0.568);
 }
 
-.botoes-consulta{
+.botoes-medico{
     display: flex;
     flex-direction: column;
 }
 
-.botoes-consulta__item{
+.botoes-medico__item{
     width: 5em;
     height: 1.92em;
     text-decoration: underline;
 }
 
-.botoes-consulta__item--alterar{
+.botoes-medico__item--alterar{
     background-color: gray;
     color: white;
     text-decoration-color: white;
 }
 
-.botoes-consulta__item--deletar{
+.botoes-medico__item--deletar{
     background-color: darkred;
     color: white;
     text-decoration-color: white;
 }
 
-.formulario-consulta{
+.formulario-medico{
     background-color: #c2dff144;
-    /* display: flex;   */
     flex-direction: column; 
-    padding: 1.60em;
-    
+    padding: 1.60em;    
 }
 
-.formulario-consulta__item{
+.formulario-medico__item{
     width: 20em;
     height: 5em;
     padding: 0 0 0 2em;
@@ -211,7 +203,7 @@ Div maior do main será fix */
     border-right: none;
 }
 
-.formulario-consulta__button{
+.formulario-medico__button{
     height: 5vh;
     width: 5vw;
     color: white;

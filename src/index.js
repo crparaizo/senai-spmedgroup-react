@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './pages/Home/App'; //Mudar a rota
 
 import Login from './pages/Login/Login';
 import NaoEncontrada from './pages/NaoEncontrada/NaoEncontrada';
@@ -11,6 +10,7 @@ import ListarCadastrarUsuario from './pages/Usuarios/Usuarios';
 import ListarCadastrarMedico from './pages/Medicos/Medicos';
 import ListarCadastrarProntuario from './pages/Prontuarios/Prontuarios';
 import ListarCadastrarConsulta from './pages/Consultas/Consultas';
+import LocalizacoesIndex from './pages/Localizacoes/Localizacoes'
 
 import { usuarioAutenticado, parseJwt } from './services/auth';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
@@ -23,7 +23,7 @@ const Permissao = ({ component: Component }) => (
     <Route
         render={props => usuarioAutenticado() ? //Operador ternário
             (<Component {...props} />) :
-            (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+            (<Redirect to={{ pathname: '/', state: { from: props.location } }} />)
         }
     />
 );
@@ -33,7 +33,7 @@ const PermissaoAdm = ({ component: Component }) => (
     <Route
         render={props => usuarioAutenticado() && parseJwt().Role === "Administrador" ? //Operador ternário
             (<Component {...props} />) :
-            (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+            (<Redirect to={{ pathname: '/', state: { from: props.location } }} />)
         }
     />
 );
@@ -43,7 +43,7 @@ const PermissaoMed = ({ component: Component }) => (
     <Route
         render={props => usuarioAutenticado() ? //Operador ternário
             (<Component {...props} />) :
-            (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+            (<Redirect to={{ pathname: '/', state: { from: props.location } }} />)
         }
     />
 );
@@ -53,7 +53,7 @@ const PermissaoPac = ({ component: Component }) => (
     <Route
         render={props => usuarioAutenticado() ? //Operador ternário
             (<Component {...props} />) :
-            (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+            (<Redirect to={{ pathname: '/', state: { from: props.location } }} />)
         }
     />
 );
@@ -63,14 +63,14 @@ const rotas = (
         <div>
             <Switch>
                 {/*Permissao*/}
-                <Route exact path="/" component={App} />
-                <Route path="/login" component={Login} />
+                <Route exact path="/" component={Login} />
                 <Route path="/clinicas" component={ListarCadastrarClinica} />
                 <Route path="/especialidades" component={ListarCadastrarEspecialidade} />
                 <Route path="/usuarios" component={ListarCadastrarUsuario} />
                 <Route path="/medicos" component={ListarCadastrarMedico} />
                 <Route path="/prontuarios" component={ListarCadastrarProntuario} />
                 <Route path="/consultas" component={ListarCadastrarConsulta} />
+                <Route path="/localizacoes" component={LocalizacoesIndex} />
                 <Route component={NaoEncontrada} /> {/* Esse é o default do Switch, nenhuma outra Route será lida dps disso */}
             </Switch>
         </div>

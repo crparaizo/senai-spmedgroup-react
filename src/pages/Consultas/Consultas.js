@@ -3,7 +3,7 @@ import Axios from 'axios';
 import apiService from "../../services/apiService";
 import './Consultas.css';
 
-{/* <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> */}
+{/* <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet"> */ }
 
 export default class ListarCadastrarConsulta extends Component {
     constructor() {
@@ -16,8 +16,13 @@ export default class ListarCadastrarConsulta extends Component {
             idSituacao: "",
             descricao: "",
             listaConsultas: [],
-            tabLista: true
+            listaConsultasFiltrada: [],
+            tabLista: true,
+            inputBusca: ""
+            //visivel: true //Quando uma consultar for "excluida", seu estado inativado para medicos e pacientes
         }
+
+        this.AlterarEstado = this.AlterarEstado.bind(this);
     }
 
     logout() {
@@ -25,14 +30,18 @@ export default class ListarCadastrarConsulta extends Component {
         window.location.reload();
     }
 
-    componentDidMount() {
+    listarConsultas() {
         apiService
-            .call("topo-consultas")
+            .call("consultas")
             .getAll()
-            .then(data => {
-                console.log(data.data);
-                this.setState({ listaConsultas: data.data });
-            });
+            .then(res => {
+                const consultas = res.data;
+                this.setState({ listaConsultas: consultas, listaConsultasFiltrada: consultas })
+            })
+    }
+
+    componentDidMount() {
+        this.listarConsultas();
     }
 
     // openPage(namePage) {
@@ -66,30 +75,78 @@ export default class ListarCadastrarConsulta extends Component {
         this.setState({ tabLista: !this.state.tabLista }) // "!" -> inverso do estado que está (IF melhorado)
     }
 
+    buscarConsultaItem() {
+
+        let listaFiltrada = this.state.listaConsultas;
+
+        if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
+            listaFiltrada = listaFiltrada.filter(x =>
+                x.descricao.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+            );
+        }
+
+        this.setState({ listaConsultasFiltrada: listaFiltrada });
+    }
+
+    atualizaEstadoBusca(event) {
+        this.setState({ inputBusca: event.target.value });
+        this.buscarConsultaItem() //Serve para filtrar no mesmo momento que vai
+    }
+
     cadastrarConsulta(event) {
         event.preventDefault();
 
-        let consulta = {
-            idProntuario: this.state.idProntuario,
-            idMedico: this.state.idMedico,
-            dataHoraConsulta: this.state.dataHoraConsulta,
-            idSituacao: this.state.idSituacao,
-            descricao: this.state.descricao
-        };
+        // let consulta = {
+        //     idProntuario: this.state.idProntuario,
+        //     idMedico: this.state.idMedico,
+        //     dataHoraConsulta: this.state.dataHoraConsulta,
+        //     idSituacao: this.state.idSituacao,
+        //     descricao: this.state.descricao
+        // };
 
-        Axios.post('http://localhost:5000/api/topo-consultas', consulta, {
-            s: {
-                Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
-                "Content-Type": "application/json"
-            }
+        // Axios.post('http://192.168.3.151:5000/api/consultas', consulta, {
+        //     headers: {
+        //         Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
+        //         "Content-Type": "application/json"
+        //     }
+        // })
+        //     .then(res => {
+        //         alert("Consulta cadastrada");
+        //         this.listarConsultas();
+        //     })
+        //window.location.reload();
 
-        })
-            .then(res => {
-                this.call("topo-consultas")
+        // console.log(consulta);
+
+        apiService
+            .call("consultas")
+            .create({
+                idProntuario: this.state.idProntuario,
+                idMedico: this.state.idMedico,
+                dataHoraConsulta: this.state.dataHoraConsulta,
+                idSituacao: this.state.idSituacao,
+                descricao: this.state.descricao
             })
-        window.location.reload();
+            .then(res => {
+                alert("Consulta cadastrada");
+                this.listarConsultas()
+            })
+    }
 
-        console.log(consulta);
+    AlterarEstado(event) { ///CONSERTAR MÉTODOS
+        event.preventDefault();
+
+        // if (window.confirm("Quer excluir mesmo?")) {
+        //     apiService
+        //         .call("consultas")
+        //         //.row(event.target.id)
+        //         .delete()
+        //         .then(function () {
+        //             alert("Consultas removida!")
+        //         }).catch(function (error) {
+        //             console.error("Erro ao remover: ", error);
+        //         });
+        // }
 
     }
 
@@ -100,25 +157,21 @@ export default class ListarCadastrarConsulta extends Component {
             <div>
                 <div className="topo-consultas">
                     <div className="topo-consultas__quebra"></div>
-                    <h1 className="topo-consultas__h1">topo-Consultas</h1>
+                    <h1 className="topo-consultas__h1">Consultas</h1>
                     <div className="topo-consultas__quebra topo-consultas__quebra--modificado"></div>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por ..." />
-                    </label>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por Médico..." />
-                    </label>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por Paciente/Prontuário..." />
-                    </label>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por Data..." />
-                    </label>
-                    <label htmlFor="">
-                        <input className="topo-consultas__item" type="text" placeholder="Buscar por ID..." />
-                        {/* <!-- Colocar icon de lupa? --> */}
-                    </label>
-                    <button className="topo-consultas__button">Limpar</button>
+                    <form onSubmit={this.buscarConsultaItem.bind(this)}>
+                        <label>
+                            <input
+                                placeholder="Busque!"
+                                type="text"
+                                value={this.state.inputBusca}
+                                onChange={this.atualizaEstadoBusca.bind(this)}
+                            />
+                        </label>
+                        <label for="">
+                            <input class="btn-new" value="Filtrar" type="submit" id="submitBtn" name="submit" />
+                        </label>
+                    </form>
                 </div>
                 <div>
                     <aside>
@@ -134,7 +187,7 @@ export default class ListarCadastrarConsulta extends Component {
                                         <li className="links-consulta__item"><a className="links-consulta__titulo" href="/prontuarios">Prontuários</a></li>
                                         <div className="links-consulta__quebra"></div>
                                         <li className="links-consulta__item"><a className="links-consulta__titulo links-consulta__titulo--selecionado"
-                                            href="#">topo-Consultas</a></li>
+                                            href="#">Consultas</a></li>
                                         <div className="links-consulta__quebra"></div>
                                         <li className="links-consulta__item"><a className="links-consulta__titulo" href="/clinicas">Clínicas</a></li>
                                         <div className="links-consulta__quebra"></div>
@@ -148,7 +201,7 @@ export default class ListarCadastrarConsulta extends Component {
                                 </nav>
                             </div>
                             {/* <!-- Escolher um deles: --> */}
-                            <a className="menu-consulta__link" href="/login">Sair</a>
+                            <a className="menu-consulta__link" onClick={this.logout.bind(this)} href="/">Sair</a>
                             {/* <!-- <button>Sair</button> --> */}
                         </div>
                     </aside>
@@ -174,7 +227,7 @@ export default class ListarCadastrarConsulta extends Component {
                                         </tr>
                                     </thead>
                                     <tbody className="tabela-consulta-body">
-                                        {this.state.listaConsultas.map(function (element) {
+                                        {this.state.listaConsultas.map((element) => {
                                             return (
                                                 <tr key={element.id}>
                                                     <td className="tabela-consulta-body_dado">{element.id}</td>
@@ -187,8 +240,11 @@ export default class ListarCadastrarConsulta extends Component {
                                                     <div className="botoes-consulta">
                                                         <button className="botoes-consulta__item botoes-consulta__item--alterar">Alterar</button>
                                                         {/* Deletar: tipo da situação será Cancelada -> Rescrever linha?*/}
-                                                        <button className="botoes-consulta__item botoes-consulta__item--deletar">Deletar</button>
+
                                                     </div>
+                                                    <button id={element.id}
+                                                        onClick={this.AlterarEstado}
+                                                        className="botoes-consulta__item botoes-consulta__item--deletar">Deletar</button>
                                                 </tr>
                                             );
                                         })}

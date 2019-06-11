@@ -3,6 +3,7 @@ import Axios from 'axios';
 // import { parseJwt } from '../../services/auth';
 // import { Link } from 'react-router-dom'; //Pra que usar isso?
 import './Login.css';
+import apiService from "../../services/apiService";
 
 export default class Login extends Component {
     constructor() {
@@ -70,12 +71,12 @@ export default class Login extends Component {
 
         // alert(this.state.email + " - " + this.state.senha);
 
-
-
-        Axios.post("http://localhost:5000/api/login", {
-            email: this.state.email,
-            senha: this.state.senha
-        })
+        apiService
+            .call("login")
+            .create({
+                email: this.state.email,
+                senha: this.state.senha
+            })
             .then(data => {
                 if (data.status === 200) {
                     console.log(data);
@@ -97,6 +98,34 @@ export default class Login extends Component {
                     }
                 }
             })
+
+
+
+            // Axios.post("http://192.168.3.151:5000/api/login", { THIS
+            //     email: this.state.email,
+            //     senha: this.state.senha
+            // })
+            //     .then(data => {
+            //         if (data.status === 200) {
+            //             console.log(data);
+            //             localStorage.setItem("usuario-spmedgroup", data.data.token); //Gravar o token
+
+            //             let jwtDecode = require('jwt-decode'); // Importando framework
+
+            //             let decodificado = jwtDecode(localStorage.getItem("usuario-spmedgroup")); // Decodificando token
+            //             console.log("decodificado");
+            //             console.log(decodificado);
+
+            //             //Verifica o tipo de usuário e redireciona para a página default
+            //             if (decodificado.tipoUsuario === "Administrador") {
+            //                 this.props.history.push("/consultas"); //Mudar rota  //Página que irá redirecionar -> consultas
+            //             } else if (decodificado.tipoUsuario === "Médico") {
+            //                 this.props.history.push("/consultas"); //Mudar rota
+            //             } else {
+            //                 this.props.history.push("/consultas"); //Mudar rota
+            //             }
+            //         }
+            //     })
 
             // .then(data => {
             //     if (data.status === 200) {
