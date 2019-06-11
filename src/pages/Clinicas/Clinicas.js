@@ -20,7 +20,7 @@ export default class ListarCadastrarClinica extends Component {
     }
 
     logout() {
-        localStorage.removeItem('usuario-spmedgroup');
+        localStorage.removeItem('clinica-spmedgroup');
         window.location.reload();
     }
 
@@ -116,7 +116,12 @@ export default class ListarCadastrarClinica extends Component {
         return (
             <div>
 
-                <form onSubmit={this.buscarClinicaItem.bind(this)}>
+                <header>
+                    <div className="topo-clinica">
+                        <div className="topo-clinica__quebra"></div>
+                        <h1 className="topo-clinica__h1">Clínicas</h1>
+                        <div className="topo-clinica__quebra topo-clinica__quebra--modificado"></div>
+                        <form onSubmit={this.buscarClinicaItem.bind(this)}>
                     <label>
                         <input
                             placeholder="Busque!"
@@ -126,6 +131,39 @@ export default class ListarCadastrarClinica extends Component {
                         />
                     </label>
                 </form>
+                    </div>
+                </header>
+                <aside>
+                    <div className="menu-clinica">
+                        <h3 className="menu-clinica__titulo">Administrador</h3>
+                        <img className="menu-clinica__imagem" src={require('../../assets/img/icon-login.png')} alt="" />
+                        {/* <!-- IMAGEM --> */}
+                        <div className="links-clinica">
+                            <nav>
+                                <ul>
+                                    {/* <!-- Colocar URL's -->
+                        <!-- Páginas de médico e paciente terão menos links-clinica --> */}
+                                    <li className="links-clinica__item"><a className="links-clinica__titulo" href="/prontuarios">Prontuários</a></li>
+                                    <div className="links-clinica__quebra"></div>
+                                    <li className="links-clinica__item"><a className="links-clinica__titulo" href="/consultas">Consultas</a></li>
+                                    <div className="links-clinica__quebra"></div>
+                                    <li className="links-clinica__item"><a className="links-clinica__titulo" href="clinicas">Clínicas</a></li>
+                                    <div className="links-clinica__quebra"></div>
+                                    <li className="links-clinica__item"><a className="links-clinica__titulo" href="medicos">Médicos</a></li>
+                                    <div className="links-clinica__quebra"></div>
+                                    <li className="links-clinica__item"><a className="links-clinica__titulo links-clinica__titulo--selecionado"
+                                        href="clinicas">Usuários</a></li>
+                                    <div className="links-clinica__quebra"></div>
+                                    <li className="links-clinica__item"><a className="links-clinica__titulo" href="/especialidades">Especialidades</a></li>
+                                    <div className="links-clinica__quebra"></div>
+                                </ul>
+                            </nav>
+                        </div>
+                        <a className="menu-clinica__link" onClick={this.logout.bind(this)} href="/">Sair</a>
+                    </div>
+                </aside>
+
+                
 
                 <section className="lista_completa">
                     <table>

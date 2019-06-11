@@ -17,7 +17,7 @@ export default class ListarCadastrarEspecialidade extends Component {
     }
 
     logout() {
-        localStorage.removeItem('usuario-spmedgroup');
+        localStorage.removeItem('especialidade-spmedgroup');
         window.location.reload();
     }
 
@@ -29,7 +29,7 @@ export default class ListarCadastrarEspecialidade extends Component {
 
             // Axios.get('http://192.168.3.151:5000/api/especialidades', {
             //     headers: {
-            //         Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
+            //         Authorization: "Bearer " + localStorage.getItem('especialidade-spmedgroup'),
             //         "Content-Type": "application/json"
             //     }
             // })
@@ -89,7 +89,7 @@ export default class ListarCadastrarEspecialidade extends Component {
 
                 // Axios.post('http://192.168.3.151:5000/api/especialidades', especialidade, {
                 //     headers: {
-                //         Authorization: "Bearer " + localStorage.getItem('usuario-spmedgroup'),
+                //         Authorization: "Bearer " + localStorage.getItem('especialidade-spmedgroup'),
                 //         "Content-Type": "application/json"
                 //     }
                 // })
@@ -113,6 +113,55 @@ export default class ListarCadastrarEspecialidade extends Component {
     render() {
         return (
             <div>
+
+                <header>
+                    <div className="topo-especialidade">
+                        <div className="topo-especialidade__quebra"></div>
+                        <h1 className="topo-especialidade__h1">Especialidades</h1>
+                        <div className="topo-especialidade__quebra topo-especialidade__quebra--modificado"></div>
+                        <form onSubmit={this.buscarEspecialidadeItem.bind(this)}>
+                            <label>
+                                <input
+                                    placeholder="Busque! - nome e email"
+                                    type="text"
+                                    value={this.state.inputBusca}
+                                    onChange={this.atualizaEstadoBusca.bind(this)}
+                                />
+                            </label>
+                        </form>
+                    </div>
+                </header>
+                <aside>
+                    <div className="menu-especialidade">
+                        <h3 className="menu-especialidade__titulo">Administrador</h3>
+                        <img className="menu-especialidade__imagem" src={require('../../assets/img/icon-login.png')} alt="" />
+                        {/* <!-- IMAGEM --> */}
+                        <div className="links-especialidade">
+                            <nav>
+                                <ul>
+                                    {/* <!-- Colocar URL's -->
+                        <!-- Páginas de médico e paciente terão menos links-especialidade --> */}
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="/prontuarios">Prontuários</a></li>
+                                    <div className="links-especialidade__quebra"></div>
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="/consultas">Consultas</a></li>
+                                    <div className="links-especialidade__quebra"></div>
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="clinicas">Clínicas</a></li>
+                                    <div className="links-especialidade__quebra"></div>
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="medicos">Médicos</a></li>
+                                    <div className="links-especialidade__quebra"></div>
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo links-especialidade__titulo--selecionado"
+                                        href="especialidades">Usuários</a></li>
+                                    <div className="links-especialidade__quebra"></div>
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="/especialidades">Especialidades</a></li>
+                                    <div className="links-especialidade__quebra"></div>
+                                </ul>
+                            </nav>
+                        </div>
+                        <a className="menu-especialidade__link" onClick={this.logout.bind(this)} href="/">Sair</a>
+                    </div>
+                </aside>
+
+
                 <form onSubmit={this.buscarEspecialidadeItem.bind(this)}>
                     <label>
                         <input

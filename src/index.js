@@ -64,7 +64,7 @@ const rotas = (
             <Switch>
                 {/*Permissao*/}
                 <Route exact path="/" component={Login} />
-                <Route path="/clinicas" component={ListarCadastrarClinica} />
+                <Route path="/clinicas" component={ListarCadastrarClinica} /> {/* COLOCAR PERMISSÃO QUANDO TERMINAR O DESENVOVLIMENTO */}
                 <Route path="/especialidades" component={ListarCadastrarEspecialidade} />
                 <Route path="/usuarios" component={ListarCadastrarUsuario} />
                 <Route path="/medicos" component={ListarCadastrarMedico} />
