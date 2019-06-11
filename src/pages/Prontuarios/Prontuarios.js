@@ -113,7 +113,7 @@ export default class ListarCadastrarProntuario extends Component {
 
         if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
             listaFiltrada = listaFiltrada.filter(x =>
-                x.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+                x.endereco.toLowerCase().includes(this.state.inputBusca.toLowerCase())
             );
         }
 
@@ -121,8 +121,9 @@ export default class ListarCadastrarProntuario extends Component {
     }
 
     atualizaEstadoBusca(event) {
-        this.setState({ inputBusca: event.target.value });
-        this.buscarProntuarioItem() //Serve para filtrar no mesmo momento que vai
+        this.setState({ inputBusca: event.target.value }, () => {
+            this.buscarProntuarioItem() //Serve para filtrar no mesmo momento que vai
+        });        
     }
 
     cadastrarProntuario(event) {
@@ -147,8 +148,6 @@ export default class ListarCadastrarProntuario extends Component {
         //         this.call("prontuarios")
         //     })
 
-
-
         if (this.state.listaProntuarios.map(x => x.cpf).indexOf(this.state.cpf) === -1) {
 
             apiService
@@ -165,68 +164,14 @@ export default class ListarCadastrarProntuario extends Component {
                     this.call("prontuarios")
                 })
         } else {
-            this.setState({ erroMensagem: alert('CRM já cadastrado, tente outro diferente!') })
+            this.setState({ erroMensagem: alert('CPF já cadastrado, tente outro diferente!') })
         }
     }
 
     render() {
         return (
             <div>
-
-                <form onSubmit={this.buscarProntuarioItem.bind(this)}>
-                    <label>
-                        <input
-                            placeholder="Busque!"
-                            type="text"
-                            value={this.state.inputBusca}
-                            onChange={this.atualizaEstadoBusca.bind(this)}
-                        />
-                    </label>
-                    <label for="">
-                        <input class="btn-new" value="Filtrar" type="submit" id="submitBtn" name="submit" />
-                    </label>
-                </form>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID - Prontuário</th>
-                            <th>ID - Usuário</th>
-                            <th>RG</th>
-                            <th>CPF</th>
-                            <th>Data Nascimento</th>
-                            <th>Telefone</th>
-                            <th>Endereço</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.listaProntuarios.map(element => {
-                            return (
-                                <tr key={element.id}>
-                                    <td>{element.id}</td>
-                                    <td>{element.idUsuario}</td>
-                                    <td>{element.rg}</td>
-                                    <td>{element.cpf}</td>
-                                    <td>{element.dataNascimento}</td>
-                                    <td>{element.telefone}</td>
-                                    <td>{element.endereco}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-
-                <form onSubmit={this.cadastrarProntuario.bind(this)} noValidate>
-                    <input type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoIdUsuario.bind(this)} placeholder="ID - usuário" required />
-                    <input type="text" value={this.state.rg} onChange={this.atualizaEstadoRg.bind(this)} placeholder="rg" required />
-                    <input type="text" value={this.state.cpf} onChange={this.atualizaEstadoCpf.bind(this)} placeholder="cpf" required />
-                    <input type="date" value={this.state.dataNascimento} onChange={this.atualizaEstadoDataNascimento.bind(this)} placeholder="Data de nascimento" required />
-                    <input type="text" value={this.state.telefone} onChange={this.atualizaEstadoTelefone.bind(this)} placeholder="telefone" required />
-                    <input type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="endereço" required />
-                    <button type="submit"> Cadastrar </button>
-                </form>
-
-
+                
                 <body>
                     <header>
                         <div class="topo-prontuario">
@@ -235,23 +180,20 @@ export default class ListarCadastrarProntuario extends Component {
                             <div class="topo-prontuario__quebra topo-prontuario__quebra--modificado"></div>
                             {/* <!-- Filtros específicos --> */}
                             <label for="">
-                                <input class="topo-prontuario__item" type="text" placeholder="Buscar por..." />
+                                <form onSubmit={this.buscarProntuarioItem.bind(this)}>
+                                    <label>
+                                        <input
+                                            placeholder="Busque! - endereço"
+                                            type="text"
+                                            value={this.state.inputBusca}
+                                            onChange={this.atualizaEstadoBusca.bind(this)}
+                                        />
+                                    </label>
+                                </form>
                             </label>
-                            <select name="" id="">
-                                <option value="">RG</option>
-                                <option value="">Rg</option>
-                                <option value="">Telefone</option>
-                                <option value="">ID</option>
-                            </select>
                             {/* <!-- FILTRO DO FILTRO --> */}
                             <a href="/localizacoes">LOCALIZAÇÕES DOS PACIENTES</a>
-                            <label for="">
-                                <input class="topo-prontuario__item" type="text" placeholder="Buscar por Nome..." />
-                            </label>
-                            <label for="">
-                                <input class="topo-prontuario__item" type="text" placeholder="Buscar por Data de Nascimento..." />
-                            </label>
-                            <button class="topo-prontuario__button">Limpar</button>
+
                         </div>
                     </header>
                     <aside>
@@ -281,20 +223,19 @@ export default class ListarCadastrarProntuario extends Component {
                                 </nav>
                             </div>
                             {/* <!-- Escolher um deles: --> */}
-                            <a class="menu-prontuario__link" href="/login">Sair</a>
+                            <a class="menu-prontuario__link" href="/">Sair</a>
                             {/* <!-- <button>Sair</button> --> */}
                         </div>
                     </aside>
                     <main class="listas-prontuario">
                         {/* <!-- Configurar modal! --> */}
-                        <button class="listas-prontuario__button listas-prontuario__button--lista tablink" onclick="openPage('Lista')"
-                            id="defaultOpen">Lista</button>
+                        <button class="listas-prontuario__button listas-prontuario__button--lista tablink" value='Lista' onClick={this.alteraTabs.bind(this)}>Lista</button>
 
                         <button class="listas-prontuario__button listas-prontuario__button--cadastrar tablink"
-                            onclick="openPage('Cadastrar')">Cadastrar+</button>
+                            value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
 
                         <div class="contorno">
-                            <div id="Lista" class="tabela-prontuario tabcontent">
+                            <div id="Lista" class="tabela-prontuario tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
                                 <table class="tabela-prontuario__real">
                                     <thead class="tabela-prontuario-head">
                                         <tr>
@@ -309,7 +250,7 @@ export default class ListarCadastrarProntuario extends Component {
                                         </tr>
                                     </thead>
                                     <tbody class="tabela-prontuario-body">
-                                        {this.state.listaProntuarios.map(element => {
+                                        {this.state.listaProntuariosFiltrada.map(element => {
                                             return (
                                                 <tr key={element.id}>
                                                     <td class="tabela-prontuario-body_dado">{element.id}</td>
@@ -331,14 +272,25 @@ export default class ListarCadastrarProntuario extends Component {
                             </div>
                             <div id="Cadastrar" class="formulario-prontuario tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
                                 <form onSubmit={this.cadastrarProntuario.bind(this)} noValidate>
-                                    <label htmlFor=""><input class="formulario-prontuario__item" value={this.state.nome} onChange={this.atualizaEstadoIdUsuario.bind(this)} type="text" placeholder="Nome/ID do Usuário" /></label>
-                                    <label htmlFor=""><input class="formulario-prontuario__item" value={this.state.nome} onChange={this.atualizaEstadoRg.bind(this)} type="text" placeholder="RG" /></label>
-                                    <label htmlFor=""><input class="formulario-prontuario__item" value={this.state.nome} onChange={this.atualizaEstadoCpf.bind(this)} type="text" placeholder="CPF" /></label>
-                                    <label htmlFor=""><input class="formulario-prontuario__item" value={this.state.nome} onChange={this.atualizaEstadoDataNascimento.bind(this)} type="date" placeholder="Data de Nascimento" /></label>
-                                    <label htmlFor=""><input class="formulario-prontuario__item" value={this.state.nome} onChange={this.atualizaEstadoTelefone.bind(this)} type="text" placeholder="Telefone" /></label>
-                                    <label htmlFor=""><input class="formulario-prontuario__item" value={this.state.nome} onChange={this.atualizaEstadoEndereco.bind(this)} type="text" placeholder="Endereço" /></label>
-                                    <button class="formulario-prontuario__button">Enviar</button>
+                                    <label htmlFor=""><input class="formulario-prontuario__item" type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoIdUsuario.bind(this)} type="text" placeholder="Nome/ID do Usuário" required/></label>
+                                    <label htmlFor=""><input class="formulario-prontuario__item" type="text" value={this.state.rg} onChange={this.atualizaEstadoRg.bind(this)} type="text" placeholder="RG"required /></label>
+                                    <label htmlFor=""><input class="formulario-prontuario__item" type="text" value={this.state.cpf} onChange={this.atualizaEstadoCpf.bind(this)} type="text" placeholder="CPF" required /></label>
+                                    <label htmlFor=""><input class="formulario-prontuario__item" type="date" value={this.state.dataNascimento} onChange={this.atualizaEstadoDataNascimento.bind(this)} type="date" placeholder="Data de Nascimento" required/></label>
+                                    <label htmlFor=""><input class="formulario-prontuario__item" type="text" value={this.state.telefone} onChange={this.atualizaEstadoTelefone.bind(this)} type="text" placeholder="Telefone" required /></label>
+                                    <label htmlFor=""><input class="formulario-prontuario__item" type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} type="text" placeholder="Endereço" required /></label>
+                                    <button type="submit" class="formulario-prontuario__button">Cadastrar</button>
                                 </form>
+
+
+                                {/* <form onSubmit={this.cadastrarProntuario.bind(this)} noValidate>
+                                    <input type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoIdUsuario.bind(this)} placeholder="ID - usuário" required />
+                                    <input type="text" value={this.state.rg} onChange={this.atualizaEstadoRg.bind(this)} placeholder="rg" required />
+                                    <input type="text" value={this.state.cpf} onChange={this.atualizaEstadoCpf.bind(this)} placeholder="cpf" required />
+                                    <input type="date" value={this.state.dataNascimento} onChange={this.atualizaEstadoDataNascimento.bind(this)} placeholder="Data de nascimento" required />
+                                    <input type="text" value={this.state.telefone} onChange={this.atualizaEstadoTelefone.bind(this)} placeholder="telefone" required />
+                                    <input type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="endereço" required />
+                                    <button type="submit"> Cadastrar </button>
+                                </form> */}
                             </div>
                         </div>
                     </main>

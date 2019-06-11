@@ -13,7 +13,7 @@ export default class ListarCadastrarConsulta extends Component {
             idProntuario: "",
             idMedico: "",
             dataHoraConsulta: "",
-            idSituacao: "",
+            idSituacao: 1,
             descricao: "",
             listaConsultas: [],
             listaConsultasFiltrada: [],
@@ -93,6 +93,12 @@ export default class ListarCadastrarConsulta extends Component {
         this.buscarConsultaItem() //Serve para filtrar no mesmo momento que vai
     }
 
+    atualizaEstadoBusca(event) {
+        this.setState({ inputBusca: event.target.value }, () => {
+            this.buscarConsultaItem() //Serve para filtrar no mesmo momento que vai
+        });
+    }
+
     cadastrarConsulta(event) {
         event.preventDefault();
 
@@ -124,7 +130,7 @@ export default class ListarCadastrarConsulta extends Component {
                 idProntuario: this.state.idProntuario,
                 idMedico: this.state.idMedico,
                 dataHoraConsulta: this.state.dataHoraConsulta,
-                idSituacao: this.state.idSituacao,
+                idSituacao: 1,
                 descricao: this.state.descricao
             })
             .then(res => {
@@ -167,9 +173,6 @@ export default class ListarCadastrarConsulta extends Component {
                                 value={this.state.inputBusca}
                                 onChange={this.atualizaEstadoBusca.bind(this)}
                             />
-                        </label>
-                        <label for="">
-                            <input class="btn-new" value="Filtrar" type="submit" id="submitBtn" name="submit" />
                         </label>
                     </form>
                 </div>
@@ -227,7 +230,7 @@ export default class ListarCadastrarConsulta extends Component {
                                         </tr>
                                     </thead>
                                     <tbody className="tabela-consulta-body">
-                                        {this.state.listaConsultas.map((element) => {
+                                        {this.state.listaConsultasFiltrada.map((element) => {
                                             return (
                                                 <tr key={element.id}>
                                                     <td className="tabela-consulta-body_dado">{element.id}</td>
@@ -236,7 +239,7 @@ export default class ListarCadastrarConsulta extends Component {
                                                     <td className="tabela-consulta-body_dado">{element.dataHoraConsulta}</td>
                                                     <td className="tabela-consulta-body_dado">{element.idSituacaoNavigation.nome}</td>
                                                     {/* <td className="tabela-consulta-body_dado">{element.idSituacao ? element.idSituacao : 1}</td> */}
-                                                    <td className="tabela-consulta-body_dado">{element.descricao ? element.descricao : 'Vazia'}</td>
+                                                    <td className="tabela-consulta-body_dado">{element.descricao}</td>
                                                     <div className="botoes-consulta">
                                                         <button className="botoes-consulta__item botoes-consulta__item--alterar">Alterar</button>
                                                         {/* Deletar: tipo da situação será Cancelada -> Rescrever linha?*/}
@@ -253,14 +256,14 @@ export default class ListarCadastrarConsulta extends Component {
                             </div>
                             <form onSubmit={this.cadastrarConsulta.bind(this)} noValidate>
                                 <div id="Cadastrar" className="formulario-consulta tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idProntuario} onChange={this.atualizaEstadoidProntuario.bind(this)} placeholder="Nome do Paciente(ID)" /></label>
+                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idProntuario} onChange={this.atualizaEstadoidProntuario.bind(this)} placeholder="Nome do Paciente" /></label>
                                     {/* <!-- <label htmlFor=""><input className="formulario-consulta__item" type="text" placeholder="ID do Paciente" /></label> --> */}
                                     {/* <!-- FAZER UMA COIXA DE SELEÇÃO? --> */}
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idMedico} onChange={this.atualizaEstadoidMedico.bind(this)} placeholder="Nome do Médico(ID)" /></label>
+                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idMedico} onChange={this.atualizaEstadoidMedico.bind(this)} placeholder="Nome do Médico" /></label>
                                     {/* <!-- <label htmlFor=""><input className="formulario-consulta__item" type="text" placeholder="ID do Médico" /></label> --> */}
                                     <label htmlFor=""><input className="formulario-consulta__item" type="date" value={this.state.dataHoraConsulta} onChange={this.atualizaEstadoData.bind(this)} placeholder="Data da Consulta" /></label>
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idSituacao} onChange={this.atualizaEstadoidSituacao.bind(this)} placeholder="Situação(ID)" /></label>
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.descricao} onChange={this.atualizaEstadoDescricao.bind(this)} placeholder="Descrição" /></label>
+                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" disabled placeholder="Situação = AGENDADA  " /></label>
+                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.descricao} onChange={this.atualizaEstadoDescricao.bind(this)} required placeholder="Descrição" /></label>
                                     <button className="formulario-consulta__button" type="submit">Enviar</button>
                                 </div>
                             </form>

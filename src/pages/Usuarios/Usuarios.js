@@ -86,8 +86,9 @@ export default class ListarCadastrarUsuario extends Component {
     }
 
     atualizaEstadoBusca(event) {
-        this.setState({ inputBusca: event.target.value });
-        this.buscarUsuarioItem() //Serve para filtrar no mesmo momento que vai
+        this.setState({ inputBusca: event.target.value }, () => {
+            this.buscarUsuarioItem() //Serve para filtrar no mesmo momento que vai
+        });        
     }
 
     cadastrarUsuario(event) {
@@ -139,14 +140,11 @@ export default class ListarCadastrarUsuario extends Component {
                         <form onSubmit={this.buscarUsuarioItem.bind(this)}>
                             <label>
                                 <input
-                                    placeholder="Busque!"
+                                    placeholder="Busque! - nome e email"
                                     type="text"
                                     value={this.state.inputBusca}
                                     onChange={this.atualizaEstadoBusca.bind(this)}
                                 />
-                            </label>
-                            <label for="">
-                                <input class="btn-new" value="Filtrar" type="submit" id="submitBtn" name="submit" />
                             </label>
                         </form>
                     </div>
@@ -200,7 +198,7 @@ export default class ListarCadastrarUsuario extends Component {
                                     </tr>
                                 </thead>
                                 <tbody className="tabela-usuario-body">
-                                    {this.state.listaUsuarios.map(element => {
+                                    {this.state.listaUsuariosFiltrada.map(element => {
                                         return (
                                             <tr key={element.id}>
                                                 <td className="tabela-usuario-body_dado">{element.id}</td>

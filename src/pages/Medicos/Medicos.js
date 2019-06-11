@@ -106,8 +106,9 @@ export default class ListarCadastrarMedico extends Component {
     }
 
     atualizaEstadoBusca(event) {
-        this.setState({ inputBusca: event.target.value });
-        this.buscarMedicoItem() //Serve para filtrar no mesmo momento que vai
+        this.setState({ inputBusca: event.target.value }, () => {
+            this.buscarMedicoItem() //Serve para filtrar no mesmo momento que vai
+        });        
     }
 
     cadastrarMedico(event) {

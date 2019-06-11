@@ -82,9 +82,11 @@ export default class ListarCadastrarClinica extends Component {
     }
 
     atualizaEstadoBusca(event) {
-        this.setState({ inputBusca: event.target.value });
-        this.buscarClinicaItem() //Serve para filtrar no mesmo momento que vai
+        this.setState({ inputBusca: event.target.value }, () => {
+            this.buscarClinicaItem() //Serve para filtrar no mesmo momento que vai
+        });        
     }
+    
 
     //Sessão cadastro
 
@@ -122,9 +124,6 @@ export default class ListarCadastrarClinica extends Component {
                             value={this.state.inputBusca}
                             onChange={this.atualizaEstadoBusca.bind(this)}
                         />
-                    </label>
-                    <label for="">
-                        <input class="btn-new" value="Filtrar" type="submit" id="submitBtn" name="submit" />
                     </label>
                 </form>
 

@@ -41,7 +41,7 @@ const PermissaoAdm = ({ component: Component }) => (
 const PermissaoMed = ({ component: Component }) => (
     //convertendo que se está acessando (component do Switch)           
     <Route
-        render={props => usuarioAutenticado() ? //Operador ternário
+        render={props => usuarioAutenticado() && parseJwt().Role === "Medico" ? //Operador ternário
             (<Component {...props} />) :
             (<Redirect to={{ pathname: '/', state: { from: props.location } }} />)
         }
@@ -51,7 +51,7 @@ const PermissaoMed = ({ component: Component }) => (
 const PermissaoPac = ({ component: Component }) => (
     //convertendo que se está acessando (component do Switch)           
     <Route
-        render={props => usuarioAutenticado() ? //Operador ternário
+        render={props => usuarioAutenticado() && parseJwt().Role === "Paciente" ? //Operador ternário
             (<Component {...props} />) :
             (<Redirect to={{ pathname: '/', state: { from: props.location } }} />)
         }
