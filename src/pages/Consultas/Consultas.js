@@ -53,7 +53,6 @@ export default class ListarCadastrarConsulta extends Component {
     //     document.getElementById(namePage).style.display = "flex";
     // }
 
-
     atualizaEstadoidProntuario(event) {
         this.setState({ idProntuario: event.target.value });
     }
@@ -86,11 +85,6 @@ export default class ListarCadastrarConsulta extends Component {
         }
 
         this.setState({ listaConsultasFiltrada: listaFiltrada });
-    }
-
-    atualizaEstadoBusca(event) {
-        this.setState({ inputBusca: event.target.value });
-        this.buscarConsultaItem() //Serve para filtrar no mesmo momento que vai
     }
 
     atualizaEstadoBusca(event) {
@@ -134,7 +128,7 @@ export default class ListarCadastrarConsulta extends Component {
                 descricao: this.state.descricao
             })
             .then(res => {
-                alert("Consulta cadastrada");
+                alert("Consulta cadastrada!");
                 this.listarConsultas()
             })
     }
@@ -157,23 +151,20 @@ export default class ListarCadastrarConsulta extends Component {
     }
 
     render() {
-
         return (
-
             <div>
                 <div className="topo-consultas">
                     <div className="topo-consultas__quebra"></div>
                     <h1 className="topo-consultas__h1">Consultas</h1>
                     <div className="topo-consultas__quebra topo-consultas__quebra--modificado"></div>
                     <form onSubmit={this.buscarConsultaItem.bind(this)}>
-                        <label>
                             <input
-                                placeholder="Busque!"
+                                className="topo-consultas__label"
+                                placeholder="Busque! - descrição..."
                                 type="text"
                                 value={this.state.inputBusca}
                                 onChange={this.atualizaEstadoBusca.bind(this)}
                             />
-                        </label>
                     </form>
                 </div>
                 <div>
@@ -181,16 +172,13 @@ export default class ListarCadastrarConsulta extends Component {
                         <div className="menu-consulta">
                             <h3 className="menu-consulta__titulo">Administrador</h3>
                             <img className="menu-consulta__imagem" src={require('../../assets/img/icon-login.png')} alt="" />
-                            {/* <!-- IMAGEM --> */}
                             <div className="links-consulta">
                                 <nav>
                                     <ul>
-                                        {/* <!-- Colocar URL's -->
-                        <!-- Páginas de médico e paciente terão menos links-consulta --> */}
+                                        {/* <!-- Páginas de médico e paciente terão menos links-consulta --> */}
                                         <li className="links-consulta__item"><a className="links-consulta__titulo" href="/prontuarios">Prontuários</a></li>
                                         <div className="links-consulta__quebra"></div>
-                                        <li className="links-consulta__item"><a className="links-consulta__titulo links-consulta__titulo--selecionado"
-                                            href="#">Consultas</a></li>
+                                        <li className="links-consulta__item links-consulta__titulo links-consulta__titulo--selecionado">Consultas</li>
                                         <div className="links-consulta__quebra"></div>
                                         <li className="links-consulta__item"><a className="links-consulta__titulo" href="/clinicas">Clínicas</a></li>
                                         <div className="links-consulta__quebra"></div>
@@ -203,9 +191,7 @@ export default class ListarCadastrarConsulta extends Component {
                                     </ul>
                                 </nav>
                             </div>
-                            {/* <!-- Escolher um deles: --> */}
                             <a className="menu-consulta__link" onClick={this.logout.bind(this)} href="/">Sair</a>
-                            {/* <!-- <button>Sair</button> --> */}
                         </div>
                     </aside>
                     <main className="listas-consulta">
@@ -221,10 +207,10 @@ export default class ListarCadastrarConsulta extends Component {
                                     <thead className="tabela-consulta-head">
                                         <tr>
                                             <th className="tabela-consulta-head__titulo">Consulta(ID)</th>
-                                            <th className="tabela-consulta-head__titulo">Paciente(ID)</th>
-                                            <th className="tabela-consulta-head__titulo">Médico(ID)</th>
+                                            <th className="tabela-consulta-head__titulo">Paciente</th>
+                                            <th className="tabela-consulta-head__titulo">Médico</th>
                                             <th className="tabela-consulta-head__titulo">Data da Consulta</th>
-                                            <th className="tabela-consulta-head__titulo">Situação(ID)</th>
+                                            <th className="tabela-consulta-head__titulo">Situação</th>
                                             <th className="tabela-consulta-head__titulo">Descrição</th>
                                             {/* <!-- <a href="#">Alterar</a> --> */}
                                         </tr>
@@ -262,7 +248,7 @@ export default class ListarCadastrarConsulta extends Component {
                                     <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idMedico} onChange={this.atualizaEstadoidMedico.bind(this)} placeholder="Nome do Médico" /></label>
                                     {/* <!-- <label htmlFor=""><input className="formulario-consulta__item" type="text" placeholder="ID do Médico" /></label> --> */}
                                     <label htmlFor=""><input className="formulario-consulta__item" type="date" value={this.state.dataHoraConsulta} onChange={this.atualizaEstadoData.bind(this)} placeholder="Data da Consulta" /></label>
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" disabled placeholder="Situação = AGENDADA  " /></label>
+                                    <label htmlFor=""><input className="formulario-consulta__item" disabled placeholder="Situação = AGENDADA  " /></label>
                                     <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.descricao} onChange={this.atualizaEstadoDescricao.bind(this)} required placeholder="Descrição" /></label>
                                     <button className="formulario-consulta__button" type="submit">Enviar</button>
                                 </div>

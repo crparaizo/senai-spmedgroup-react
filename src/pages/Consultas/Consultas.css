@@ -39,18 +39,14 @@ Div maior do main será fix */
     text-shadow: -1px 0 rgb(98, 98, 148), 0 1px rgb(98, 98, 148), 1px 0 rgb(98, 98, 148), 0 -1px rgb(98, 98, 148);
 }
 
-.topo-consultas__item{
+.topo-consultas__label{
     float: right;
+    display: flex;
+    flex-direction: row;
     /* margin-right: 1em; */
     margin-right: 3em;
     border: 5px solid rgb(191, 228, 253);
     width: 13em;
-}
-
-.topo-consultas__button{
-    height: 2em;
-    width: 5em;
-    margin-left: 3em;
 }
 
 .menu-consulta{
@@ -83,7 +79,7 @@ Div maior do main será fix */
 
 .links-consulta__item{
     list-style-type: none;
-    font-size: 1.47em;
+    font-size: 1.2em;
 }
 
 .links-consulta__titulo{
@@ -111,7 +107,7 @@ Div maior do main será fix */
 
 .listas-consulta__button{
     /* margin: 3em 0 0 4.2em; */
-    margin: 3em 0 0 7.2em;
+    margin: 1.5em 0 0 7.2em;
     width: 6em;
     height: 3em;
     text-decoration: underline;
@@ -126,7 +122,7 @@ Div maior do main será fix */
 }
 
 .listas-consulta__button--cadastrar{
-    margin: 3em 0 0 0;
+    margin: 1em 0 0 0;
     text-decoration-color: darkorange;
     color: darkorange;
     background-color: rgba(211, 211, 211, 0.61);
