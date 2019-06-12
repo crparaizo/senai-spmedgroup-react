@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import Axios from 'axios';
 import apiService from "../../services/apiService";
 import './Medicos.css';
 
-import ListaMedicos from '../../components/Lista/ListaMedicos';
+// import ListaMedicos from '../../components/Lista/ListaMedicos';
 
 export default class ListarCadastrarMedico extends Component {
     constructor() {
         super();
 
         this.state = {
-            idmedico: "",
+            idUsuario: "",
             crm: "",
             listaCrm: [], //Caixa de seleção -> Fazer um filter?
             listaMedicos: [], //Puxar informações da tabela Médicos para mostrar (com "inner join") 
@@ -60,8 +59,8 @@ export default class ListarCadastrarMedico extends Component {
             });
     }
 
-    atualizaEstadoidmedico(event) {
-        this.setState({ idmedico: event.target.value });
+    atualizaEstadoidUsuario(event) {
+        this.setState({ idUsuario: event.target.value });
     }
 
     atualizaEstadoCrm(event) {
@@ -98,7 +97,10 @@ export default class ListarCadastrarMedico extends Component {
 
         if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
             listaFiltrada = listaFiltrada.filter(x =>
-                x.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+                x.idUsuarioNavigation.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.crm.includes(this.state.inputBusca) ||
+                x.idEspecialidadeNavigation.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.idClinicaNavigation.nomeFantasia.toLowerCase().includes(this.state.inputBusca.toLowerCase())
             );
         }
 
@@ -108,14 +110,14 @@ export default class ListarCadastrarMedico extends Component {
     atualizaEstadoBusca(event) {
         this.setState({ inputBusca: event.target.value }, () => {
             this.buscarMedicoItem() //Serve para filtrar no mesmo momento que vai
-        });        
+        });
     }
 
     cadastrarMedico(event) {
         event.preventDefault();
 
         // let medico = {
-        //     idmedico: this.state.idmedico,
+        //     idUsuario: this.state.idUsuario,
         //     crm: this.state.crm,
         //     idEspecialidade: this.state.idEspecialidade,
         //     idClinica: this.state.idClinica
@@ -137,13 +139,14 @@ export default class ListarCadastrarMedico extends Component {
             apiService
                 .call("medicos")
                 .create({
-                    idmedico: this.state.idmedico,
+                    idUsuario: this.state.idUsuario,
                     crm: this.state.crm,
                     idEspecialidade: this.state.idEspecialidade,
                     idClinica: this.state.idClinica
                 })
                 .then(res => {
-                    this.call("medicos")
+                    alert("Médico cadastrado!");
+                    this.componentDidMount()
                 })
         } else {
             this.setState({ erroMensagem: alert('CRM já cadastrado, tente outro diferente!') })
@@ -163,7 +166,7 @@ export default class ListarCadastrarMedico extends Component {
                         <form onSubmit={this.buscarMedicoItem.bind(this)}>
                             <label>
                                 <input
-                                    placeholder="Busque! - nome e email"
+                                    placeholder="Busque!"
                                     type="text"
                                     value={this.state.inputBusca}
                                     onChange={this.atualizaEstadoBusca.bind(this)}
@@ -186,12 +189,12 @@ export default class ListarCadastrarMedico extends Component {
                                     <div className="links-medico__quebra"></div>
                                     <li className="links-medico__item"><a className="links-medico__titulo" href="/consultas">Consultas</a></li>
                                     <div className="links-medico__quebra"></div>
-                                    <li className="links-medico__item"><a className="links-medico__titulo" href="clinicas">Clínicas</a></li>
+                                    <li className="links-medico__item"><a className="links-medico__titulo" href="/clinicas">Clínicas</a></li>
                                     <div className="links-medico__quebra"></div>
-                                    <li className="links-medico__item"><a className="links-medico__titulo" href="medicos">Médicos</a></li>
+                                    <li className="links-medico__item links-medico__titulo links-medico__titulo--selecionado">Médicos</li>
                                     <div className="links-medico__quebra"></div>
-                                    <li className="links-medico__item"><a className="links-medico__titulo links-medico__titulo--selecionado"
-                                        href="medicos">Usuários</a></li>
+                                    <li className="links-medico__item"><a className="links-medico__titulo "
+                                        href="/usuarios">Usuários</a></li>
                                     <div className="links-medico__quebra"></div>
                                     <li className="links-medico__item"><a className="links-medico__titulo" href="/especialidades">Especialidades</a></li>
                                     <div className="links-medico__quebra"></div>
@@ -203,35 +206,35 @@ export default class ListarCadastrarMedico extends Component {
                 </aside>
 
 
-                <ListaMedicos lista={this.state.listaMedicos} />
+                {/* <ListaMedicos lista={this.state.listaMedicos} /> */}
 
-                {/* <table>
+                <table>
                     <thead>
                         <tr>
                             <th>ID - Médico</th>
-                            <th>ID - Usuário</th>
+                            <th> Nome médico</th>
                             <th>CRM</th>
-                            <th>ID - Especialidade</th>
+                            <th>Especialidade</th>
                             <th>ID- Clínica</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.listaMedicos.map(element => {
+                        {this.state.listaMedicosFiltrada.map(element => {
                             return (
                                 <tr key={element.id}>
                                     <td>{element.id}</td>
-                                    <td>{element.idmedico}</td>
+                                    <td>{element.idUsuarioNavigation.nome}</td>
                                     <td>{element.crm}</td>
-                                    <td>{element.idEspecialidade}</td>
-                                    <td>{element.idClinica}</td>
+                                    <td>{element.idEspecialidadeNavigation.nome}</td>
+                                    <td>{element.idClinicaNavigation.nomeFantasia}</td>
                                 </tr>
                             );
                         })}
                     </tbody>
-                </table> */}
+                </table>
 
                 <form onSubmit={this.cadastrarMedico.bind(this)} noValidate>
-                    <input type="text" value={this.state.idmedico} onChange={this.atualizaEstadoidmedico.bind(this)} placeholder="ID -usuário" required />
+                    <input type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoidUsuario.bind(this)} placeholder="ID -usuário" required />
                     <input type="text" value={this.state.crm} onChange={this.atualizaEstadoCrm.bind(this)} placeholder="crm" required />
                     <input type="text" value={this.state.idEspecialidade} onChange={this.atualizaEstadoidEspecialidade.bind(this)} placeholder="ID - especialidade" required />
                     <input type="text" value={this.state.idClinica} onChange={this.atualizaEstadoidClinica.bind(this)} placeholder="Id - clinica" required />

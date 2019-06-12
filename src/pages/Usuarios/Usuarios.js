@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Axios from 'axios';
 import apiService from "../../services/apiService";
 import './Usuarios.css';
 
@@ -77,8 +76,8 @@ export default class ListarCadastrarUsuario extends Component {
         if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
             listaFiltrada = listaFiltrada.filter(x =>
                 x.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
-                x.email.toLowerCase().includes(this.state.inputBusca.toLowerCase())
-                // x.idTipoUsuario.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+                x.email.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.idTipoUsuarioNavigation.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase())
             );
         }
 
@@ -88,7 +87,7 @@ export default class ListarCadastrarUsuario extends Component {
     atualizaEstadoBusca(event) {
         this.setState({ inputBusca: event.target.value }, () => {
             this.buscarUsuarioItem() //Serve para filtrar no mesmo momento que vai
-        });        
+        });
     }
 
     cadastrarUsuario(event) {
@@ -122,8 +121,19 @@ export default class ListarCadastrarUsuario extends Component {
                     idTipoUsuario: this.state.idTipoUsuario
                 })
                 .then(res => {
-                    this.call("usuarios")
+                    this.componentDidMount()
                 })
+                .then(res => {
+                    alert("Usuário cadastrado!");
+                    this.setState({
+                        nome: '',
+                        email: '',
+                        senha: '',
+                        razaoSocial: '',
+                        idTipoUsuario: ''
+                    })
+                })
+                
         } else {
             this.setState({ erroMensagem: alert('Email já cadastrado, tente outro diferente!') })
         }
@@ -163,12 +173,11 @@ export default class ListarCadastrarUsuario extends Component {
                                     <div className="links-usuario__quebra"></div>
                                     <li className="links-usuario__item"><a className="links-usuario__titulo" href="/consultas">Consultas</a></li>
                                     <div className="links-usuario__quebra"></div>
-                                    <li className="links-usuario__item"><a className="links-usuario__titulo" href="clinicas">Clínicas</a></li>
+                                    <li className="links-usuario__item"><a className="links-usuario__titulo" href="/clinicas">Clínicas</a></li>
                                     <div className="links-usuario__quebra"></div>
-                                    <li className="links-usuario__item"><a className="links-usuario__titulo" href="medicos">Médicos</a></li>
+                                    <li className="links-usuario__item"><a className="links-usuario__titulo" href="/medicos">Médicos</a></li>
                                     <div className="links-usuario__quebra"></div>
-                                    <li className="links-usuario__item"><a className="links-usuario__titulo links-usuario__titulo--selecionado"
-                                        href="usuarios">Usuários</a></li>
+                                    <li className="links-usuario__item links-usuario__titulo links-usuario__titulo--selecionado">Usuários</li>
                                     <div className="links-usuario__quebra"></div>
                                     <li className="links-usuario__item"><a className="links-usuario__titulo" href="/especialidades">Especialidades</a></li>
                                     <div className="links-usuario__quebra"></div>
@@ -205,7 +214,7 @@ export default class ListarCadastrarUsuario extends Component {
                                                 <td className="tabela-usuario-body_dado">{element.nome}</td>
                                                 <td className="tabela-usuario-body_dado">{element.email}</td>
                                                 <td className="tabela-usuario-body_dado">{element.senha}</td>
-                                                <td className="tabela-usuario-body_dado">{element.idTipoUsuario}</td>
+                                                <td className="tabela-usuario-body_dado">{element.idTipoUsuarioNavigation.nome}</td>
                                                 <div className="botoes-usuario">
                                                     <button className="botoes-usuario__item botoes-usuario__item--alterar">Alterar</button>
                                                     <button className="botoes-usuario__item botoes-usuario__item--deletar">Deletar</button>

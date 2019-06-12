@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Axios from 'axios';
 import apiService from "../../services/apiService";
 import './Consultas.css';
 
@@ -80,7 +79,10 @@ export default class ListarCadastrarConsulta extends Component {
 
         if (this.state.inputBusca !== null && this.state.inputBusca !== "") {
             listaFiltrada = listaFiltrada.filter(x =>
-                x.descricao.toLowerCase().includes(this.state.inputBusca.toLowerCase())
+                x.descricao.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.idSituacaoNavigation.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.idProntuarioNavigation.idUsuarioNavigation.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase()) ||
+                x.idMedicoNavigation.idUsuarioNavigation.nome.toLowerCase().includes(this.state.inputBusca.toLowerCase())
             );
         }
 
@@ -158,13 +160,13 @@ export default class ListarCadastrarConsulta extends Component {
                     <h1 className="topo-consultas__h1">Consultas</h1>
                     <div className="topo-consultas__quebra topo-consultas__quebra--modificado"></div>
                     <form onSubmit={this.buscarConsultaItem.bind(this)}>
-                            <input
-                                className="topo-consultas__label"
-                                placeholder="Busque! - descrição..."
-                                type="text"
-                                value={this.state.inputBusca}
-                                onChange={this.atualizaEstadoBusca.bind(this)}
-                            />
+                        <input
+                            className="topo-consultas__label"
+                            placeholder="Busque! - descrição..."
+                            type="text"
+                            value={this.state.inputBusca}
+                            onChange={this.atualizaEstadoBusca.bind(this)}
+                        />
                     </form>
                 </div>
                 <div>
@@ -242,12 +244,12 @@ export default class ListarCadastrarConsulta extends Component {
                             </div>
                             <form onSubmit={this.cadastrarConsulta.bind(this)} noValidate>
                                 <div id="Cadastrar" className="formulario-consulta tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idProntuario} onChange={this.atualizaEstadoidProntuario.bind(this)} placeholder="Nome do Paciente" /></label>
+                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idProntuario} onChange={this.atualizaEstadoidProntuario.bind(this)} required placeholder="Nome do Paciente" /></label>
                                     {/* <!-- <label htmlFor=""><input className="formulario-consulta__item" type="text" placeholder="ID do Paciente" /></label> --> */}
                                     {/* <!-- FAZER UMA COIXA DE SELEÇÃO? --> */}
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idMedico} onChange={this.atualizaEstadoidMedico.bind(this)} placeholder="Nome do Médico" /></label>
+                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idMedico} onChange={this.atualizaEstadoidMedico.bind(this)} required placeholder="Nome do Médico" /></label>
                                     {/* <!-- <label htmlFor=""><input className="formulario-consulta__item" type="text" placeholder="ID do Médico" /></label> --> */}
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="date" value={this.state.dataHoraConsulta} onChange={this.atualizaEstadoData.bind(this)} placeholder="Data da Consulta" /></label>
+                                    <label htmlFor=""><input className="formulario-consulta__item" type="date" value={this.state.dataHoraConsulta} onChange={this.atualizaEstadoData.bind(this)} required placeholder="Data da Consulta" /></label>
                                     <label htmlFor=""><input className="formulario-consulta__item" disabled placeholder="Situação = AGENDADA  " /></label>
                                     <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.descricao} onChange={this.atualizaEstadoDescricao.bind(this)} required placeholder="Descrição" /></label>
                                     <button className="formulario-consulta__button" type="submit">Enviar</button>

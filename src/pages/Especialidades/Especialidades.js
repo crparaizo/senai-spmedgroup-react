@@ -69,7 +69,7 @@ export default class ListarCadastrarEspecialidade extends Component {
     atualizaEstadoBusca(event) {
         this.setState({ inputBusca: event.target.value }, () => {
             this.buscarEspecialidadeItem() //Serve para filtrar no mesmo momento que vai
-        });        
+        });
     }
 
     //Sessão cadastro
@@ -113,7 +113,6 @@ export default class ListarCadastrarEspecialidade extends Component {
     render() {
         return (
             <div>
-
                 <header>
                     <div className="topo-especialidade">
                         <div className="topo-especialidade__quebra"></div>
@@ -122,7 +121,7 @@ export default class ListarCadastrarEspecialidade extends Component {
                         <form onSubmit={this.buscarEspecialidadeItem.bind(this)}>
                             <label>
                                 <input
-                                    placeholder="Busque! - nome e email"
+                                    placeholder="Busque! - nome"
                                     type="text"
                                     value={this.state.inputBusca}
                                     onChange={this.atualizaEstadoBusca.bind(this)}
@@ -145,14 +144,14 @@ export default class ListarCadastrarEspecialidade extends Component {
                                     <div className="links-especialidade__quebra"></div>
                                     <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="/consultas">Consultas</a></li>
                                     <div className="links-especialidade__quebra"></div>
-                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="clinicas">Clínicas</a></li>
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="/clinicas">Clínicas</a></li>
                                     <div className="links-especialidade__quebra"></div>
-                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="medicos">Médicos</a></li>
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="/medicos">Médicos</a></li>
                                     <div className="links-especialidade__quebra"></div>
-                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo links-especialidade__titulo--selecionado"
-                                        href="especialidades">Usuários</a></li>
+                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo"
+                                        href="/usuarios">Usuários</a></li>
                                     <div className="links-especialidade__quebra"></div>
-                                    <li className="links-especialidade__item"><a className="links-especialidade__titulo" href="/especialidades">Especialidades</a></li>
+                                    <li className="links-especialidade__item links-especialidade__titulo links-especialidade__titulo--selecionado">Especialidades</li>
                                     <div className="links-especialidade__quebra"></div>
                                 </ul>
                             </nav>
@@ -160,18 +159,6 @@ export default class ListarCadastrarEspecialidade extends Component {
                         <a className="menu-especialidade__link" onClick={this.logout.bind(this)} href="/">Sair</a>
                     </div>
                 </aside>
-
-
-                <form onSubmit={this.buscarEspecialidadeItem.bind(this)}>
-                    <label>
-                        <input
-                            placeholder="Busque!"
-                            type="text"
-                            value={this.state.inputBusca}
-                            onChange={this.atualizaEstadoBusca.bind(this)}
-                        />
-                    </label>
-                </form>
 
                 <section className="lista_completa">
                     <table>

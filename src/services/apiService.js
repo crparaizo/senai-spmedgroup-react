@@ -4,11 +4,7 @@ import axios from 'axios';
 export default {
 
     call(endpoint) {
-        let urlApi = `http://192.168.4.252:5000/api/${endpoint}`;
-
-        //192.168.3.151 - NoteSenai
-
-        //192.168.4.252 - PCSenai
+        let urlApi = `http://192.168.3.151:5000/api/${endpoint}`;
 
         const auth = "bearer " + localStorage.getItem('usuario-spmedgroup'); //Armazenando o token em uma constante
 

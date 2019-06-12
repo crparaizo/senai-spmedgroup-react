@@ -131,8 +131,11 @@ class LocalizacoesIndex extends Component {
 
         if (this.state.busca !== null && this.state.busca !== "") {
             listaFiltrada = listaFiltrada.filter(x =>
-                x.especialidade.includes(this.state.busca) || //busca por especialidade e nome do paciente no mesmo input
-                x.nomePac.includes(this.state.busca)
+                x.nomePac.toLowerCase().includes(this.state.busca.toLowerCase()) ||
+                x.doenca.toLowerCase().includes(this.state.busca.toLowerCase()) ||
+                x.nomeMed.toLowerCase().includes(this.state.busca.toLowerCase()) ||
+                x.especialidade.toLowerCase().includes(this.state.busca.toLowerCase()) ||
+                x.regiao.toLowerCase().includes(this.state.busca.toLowerCase())
             );
         }
 
@@ -216,35 +219,35 @@ class LocalizacoesIndex extends Component {
                     <div id="Cadastrar" className="formulario-localizacoes tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }} className="teste">
                         <form className="teste" onSubmit={this.salvarLocalizacao.bind(this)}>
                             <label className="teste"> Nome do Paciente
-                        <input className="teste" type="text" name="nomePac" value={this.state.nomePac} onChange={this.atualizaEstado.bind(this)} />
+                        <input className="teste" type="text" name="nomePac" value={this.state.nomePac} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
                             <br />
                             <label className="teste"> Doença
-                        <input className="teste" type="text" name="doenca" value={this.state.doenca} onChange={this.atualizaEstado.bind(this)} />
+                        <input className="teste" type="text" name="doenca" value={this.state.doenca} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
                             <br />
                             <label className="teste">Data de Nascimento
-                        <input className="teste" type="date" name="data" value={this.state.data} onChange={this.atualizaEstado.bind(this)} />
+                        <input className="teste" type="date" name="data" value={this.state.data} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
                             <br />
                             <label className="teste">Idade
-                        <input className="teste" type="int" name="idade" value={this.state.idade} onChange={this.atualizaEstado.bind(this)} />
+                        <input className="teste" type="int" name="idade" value={this.state.idade} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
                             <br />
                             <label className="teste"> Nome do Médico
-                        <input className="teste" type="text" name="nomeMed" value={this.state.nomeMed} onChange={this.atualizaEstado.bind(this)} />
+                        <input className="teste" type="text" name="nomeMed" value={this.state.nomeMed} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
                             <br />
                             <label className="teste"> Especialidade
-                        <input className="teste" type="text" name="especialidade" value={this.state.especialidade} onChange={this.atualizaEstado.bind(this)} />
+                        <input className="teste" type="text" name="especialidade" value={this.state.especialidade} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
                             <br />
                             <label className="teste"> Latitude
-                        <input className="teste" type="text" name="latitude" value={this.state.latitude} onChange={this.atualizaEstado.bind(this)} />
+                        <input className="teste" type="text" name="latitude" value={this.state.latitude} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
                             <br />
                             <label className="teste"> Longitude
-                        <input className="teste" type="text" name="longitude" value={this.state.longitude} onChange={this.atualizaEstado.bind(this)} />
+                        <input className="teste" type="text" name="longitude" value={this.state.longitude} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
                             <br />
                             <label className="teste"> Região
@@ -290,17 +293,17 @@ class LocalizacoesIndex extends Component {
                             }
                         </ul>
                         <button className="teste" onClick={this.excluirTodos.bind(this)} type="submit">EXCLUIR TODOS</button>
-                    <div className="map" >
-                        <Map 
-                        style={{ width: '20vw' }}
-                            google={this.props.google}
-                            zoom={12}
-                            
-                            initialCenter={{ lat: -23.5504533, lng: -46.6514207 }}
-                        >
-                            {this.displayMarkers()}
-                        </Map>
-                    </div>
+                        <div className="map" >
+                            <Map
+                                style={{ width: '20vw' }}
+                                google={this.props.google}
+                                zoom={12}
+
+                                initialCenter={{ lat: -23.5504533, lng: -46.6514207 }}
+                            >
+                                {this.displayMarkers()}
+                            </Map>
+                        </div>
                     </div>
                 </main>
             </div>

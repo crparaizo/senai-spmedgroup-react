@@ -84,9 +84,9 @@ export default class ListarCadastrarClinica extends Component {
     atualizaEstadoBusca(event) {
         this.setState({ inputBusca: event.target.value }, () => {
             this.buscarClinicaItem() //Serve para filtrar no mesmo momento que vai
-        });        
+        });
     }
-    
+
 
     //Sessão cadastro
 
@@ -107,6 +107,16 @@ export default class ListarCadastrarClinica extends Component {
                 .then(res => {
                     this.buscarClinicas()
                 })
+                .then(res => {
+                    alert("Clínica cadastrada!")
+                    this.setState({
+                        nomeFantasia: '',
+                        horarioFuncionamento: '',
+                        cnpj: '',
+                        razaoSocial: '',
+                        endereco: ''
+                    })
+                })
         } else {
             this.setState({ erroMensagem: alert('CNPJ já cadastrado, tente outro diferente!') })
         }
@@ -122,15 +132,15 @@ export default class ListarCadastrarClinica extends Component {
                         <h1 className="topo-clinica__h1">Clínicas</h1>
                         <div className="topo-clinica__quebra topo-clinica__quebra--modificado"></div>
                         <form onSubmit={this.buscarClinicaItem.bind(this)}>
-                    <label>
-                        <input
-                            placeholder="Busque!"
-                            type="text"
-                            value={this.state.inputBusca}
-                            onChange={this.atualizaEstadoBusca.bind(this)}
-                        />
-                    </label>
-                </form>
+                            <label>
+                                <input
+                                    placeholder="Busque!"
+                                    type="text"
+                                    value={this.state.inputBusca}
+                                    onChange={this.atualizaEstadoBusca.bind(this)}
+                                />
+                            </label>
+                        </form>
                     </div>
                 </header>
                 <aside>
@@ -147,12 +157,12 @@ export default class ListarCadastrarClinica extends Component {
                                     <div className="links-clinica__quebra"></div>
                                     <li className="links-clinica__item"><a className="links-clinica__titulo" href="/consultas">Consultas</a></li>
                                     <div className="links-clinica__quebra"></div>
-                                    <li className="links-clinica__item"><a className="links-clinica__titulo" href="clinicas">Clínicas</a></li>
+                                    <li className="links-clinica__item links-clinica__titulo links-clinica__titulo--selecionado">Clínicas</li>
                                     <div className="links-clinica__quebra"></div>
-                                    <li className="links-clinica__item"><a className="links-clinica__titulo" href="medicos">Médicos</a></li>
+                                    <li className="links-clinica__item"><a className="links-clinica__titulo" href="/medicos">Médicos</a></li>
                                     <div className="links-clinica__quebra"></div>
-                                    <li className="links-clinica__item"><a className="links-clinica__titulo links-clinica__titulo--selecionado"
-                                        href="clinicas">Usuários</a></li>
+                                    <li className="links-clinica__item"><a className="links-clinica__titulo"
+                                        href="/usuarios">Usuários</a></li>
                                     <div className="links-clinica__quebra"></div>
                                     <li className="links-clinica__item"><a className="links-clinica__titulo" href="/especialidades">Especialidades</a></li>
                                     <div className="links-clinica__quebra"></div>
@@ -163,7 +173,7 @@ export default class ListarCadastrarClinica extends Component {
                     </div>
                 </aside>
 
-                
+
 
                 <section className="lista_completa">
                     <table>
