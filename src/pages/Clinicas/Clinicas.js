@@ -174,8 +174,7 @@ export default class ListarCadastrarClinica extends Component {
                 </aside>
 
 
-
-                <section className="lista_completa">
+                {/* <section className="lista_completa">
                     <table>
                         <thead>
                             <tr>
@@ -211,9 +210,62 @@ export default class ListarCadastrarClinica extends Component {
                     <input type="text" value={this.state.razaoSocial} onChange={this.atualizaEstadoRazao.bind(this)} placeholder="razão social" required />
                     <input type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="endereço" required />
                     <button type="submit"> Cadastrar </button>
-                </form>
+                </form> */}
 
                 <p style={{ color: 'red', textAlign: 'center' }}>{this.state.erroMensagem}</p>
+
+
+
+                <main className="listas-clinica">
+                    {/* <!-- Configurar modal! --> */}
+                    <button className="listas-clinica__button listas-clinica__button--lista tablink" value='Lista' onClick={this.alteraTabs.bind(this)}>Lista</button>
+                    <button className="listas-clinica__button listas-clinica__button--cadastrar tablink"
+                        value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
+                    <div className="contorno">
+                        <div id="Lista" className="tabela-clinica tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
+                            <table className="tabela-clinica__real">
+                                <thead className="tabela-clinica-head">
+                                    <tr>
+                                        <th className="tabela-clinica-head__titulo">Clínica(ID)</th>
+                                        <th className="tabela-clinica-head__titulo">Nome</th>
+                                        <th className="tabela-clinica-head__titulo">Horário</th>
+                                        <th className="tabela-clinica-head__titulo">CNPJ</th>
+                                        <th className="tabela-clinica-head__titulo">Razão Social</th>
+                                        <th className="tabela-clinica-head__titulo">Endereço</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="tabela-clinica-body">
+                                    {this.state.listaClinicasFiltrada.map(element => {
+                                        return (
+                                            <tr key={element.id}>
+                                                <td className="tabela-clinica-body_dado">{element.id}</td>
+                                                <td className="tabela-clinica-body_dado">{element.nomeFantasia}</td>
+                                                <td className="tabela-clinica-body_dado">{element.horarioFuncionamento}</td>
+                                                <td className="tabela-clinica-body_dado">{element.cnpj}</td>
+                                                <td className="tabela-clinica-body_dado">{element.razaoSocial}</td>
+                                                <td className="tabela-clinica-body_dado">{element.endereco}</td>
+                                                <div className="botoes-clinica">
+                                                    <button className="botoes-clinica__item botoes-clinica__item--alterar">Alterar</button>
+                                                    <button className="botoes-clinica__item botoes-clinica__item--deletar">Deletar</button>
+                                                </div>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="Cadastrar" className="formulario-clinica tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
+                            <form onSubmit={this.cadastrarClinica.bind(this)} noValidate>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.nomeFantasia} onChange={this.atualizaEstadoNome.bind(this)} placeholder="Nome/ID do Usuário" required /></label>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.horarioFuncionamento} onChange={this.atualizaEstadoHorario.bind(this)} placeholder="RG" required /></label>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.cnpj} onChange={this.atualizaEstadoCnpj.bind(this)} placeholder="CPF" required /></label>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.razaoSocial} onChange={this.atualizaEstadoRazao.bind(this)} placeholder="Data de Nascimento" required /></label>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="Endereço" required /></label>
+                                <button type="submit" className="formulario-clinica__button">Cadastrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </main>
 
             </div>
         )

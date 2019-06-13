@@ -133,7 +133,7 @@ export default class ListarCadastrarUsuario extends Component {
                         idTipoUsuario: ''
                     })
                 })
-                
+
         } else {
             this.setState({ erroMensagem: alert('Email já cadastrado, tente outro diferente!') })
         }

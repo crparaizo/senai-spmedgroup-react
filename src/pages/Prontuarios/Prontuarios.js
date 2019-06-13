@@ -271,12 +271,12 @@ export default class ListarCadastrarProntuario extends Component {
                             </div>
                             <div id="Cadastrar" className="formulario-prontuario tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
                                 <form onSubmit={this.cadastrarProntuario.bind(this)} noValidate>
-                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoIdUsuario.bind(this)} type="text" placeholder="Nome/ID do Usuário" required /></label>
-                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.rg} onChange={this.atualizaEstadoRg.bind(this)} type="text" placeholder="RG" required /></label>
-                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.cpf} onChange={this.atualizaEstadoCpf.bind(this)} type="text" placeholder="CPF" required /></label>
-                                    <label htmlFor=""><input className="formulario-prontuario__item" type="date" value={this.state.dataNascimento} onChange={this.atualizaEstadoDataNascimento.bind(this)} type="date" placeholder="Data de Nascimento" required /></label>
-                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.telefone} onChange={this.atualizaEstadoTelefone.bind(this)} type="text" placeholder="Telefone" required /></label>
-                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} type="text" placeholder="Endereço" required /></label>
+                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoIdUsuario.bind(this)} placeholder="Nome/ID do Usuário" required /></label>
+                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.rg} onChange={this.atualizaEstadoRg.bind(this)} placeholder="RG" required /></label>
+                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.cpf} onChange={this.atualizaEstadoCpf.bind(this)} placeholder="CPF" required /></label>
+                                    <label htmlFor=""><input className="formulario-prontuario__item" type="date" value={this.state.dataNascimento} onChange={this.atualizaEstadoDataNascimento.bind(this)} placeholder="Data de Nascimento" required /></label>
+                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.telefone} onChange={this.atualizaEstadoTelefone.bind(this)} placeholder="Telefone" required /></label>
+                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="Endereço" required /></label>
                                     <button type="submit" className="formulario-prontuario__button">Cadastrar</button>
                                 </form>
 

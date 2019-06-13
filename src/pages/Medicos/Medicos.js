@@ -208,7 +208,9 @@ export default class ListarCadastrarMedico extends Component {
 
                 {/* <ListaMedicos lista={this.state.listaMedicos} /> */}
 
-                <table>
+
+
+                {/* <table>
                     <thead>
                         <tr>
                             <th>ID - Médico</th>
@@ -239,7 +241,59 @@ export default class ListarCadastrarMedico extends Component {
                     <input type="text" value={this.state.idEspecialidade} onChange={this.atualizaEstadoidEspecialidade.bind(this)} placeholder="ID - especialidade" required />
                     <input type="text" value={this.state.idClinica} onChange={this.atualizaEstadoidClinica.bind(this)} placeholder="Id - clinica" required />
                     <button type="submit"> Cadastrar </button>
-                </form>
+                </form> */}
+
+
+
+
+
+                <main className="listas-medico">
+                    {/* <!-- Configurar modal! --> */}
+                    <button className="listas-medico__button listas-medico__button--lista tablink" value='Lista' onClick={this.alteraTabs.bind(this)}>Lista</button>
+                    <button className="listas-medico__button listas-medico__button--cadastrar tablink"
+                        value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
+                    <div className="contorno">
+                        <div id="Lista" className="tabela-medico tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
+                            <table className="tabela-medico__real">
+                                <thead className="tabela-medico-head">
+                                    <tr>
+                                        <th className="tabela-medico-head__titulo">Médico(ID)</th>
+                                        <th className="tabela-medico-head__titulo">Nome</th>
+                                        <th className="tabela-medico-head__titulo">CRM</th>
+                                        <th className="tabela-medico-head__titulo">Especialidade</th>
+                                        <th className="tabela-medico-head__titulo">Clínica(ID)</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="tabela-medico-body">
+                                    {this.state.listaMedicosFiltrada.map(element => {
+                                        return (
+                                            <tr key={element.id}>
+                                                <td className="tabela-medico-body_dado">{element.id}</td>
+                                                <td className="tabela-medico-body_dado">{element.idUsuarioNavigation.nome}</td>
+                                                <td className="tabela-medico-body_dado">{element.crm}</td>
+                                                <td className="tabela-medico-body_dado">{element.idEspecialidadeNavigation}</td>
+                                                <td className="tabela-medico-body_dado">{element.idClinicaNavigation}</td>
+                                                <div className="botoes-medico">
+                                                    <button className="botoes-medico__item botoes-medico__item--alterar">Alterar</button>
+                                                    <button className="botoes-medico__item botoes-medico__item--deletar">Deletar</button>
+                                                </div>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="Cadastrar" className="formulario-medico tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
+                            <form onSubmit={this.cadastrarMedico.bind(this)} noValidate>
+                                <label htmlFor=""><input className="formulario-medico__item" type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoidUsuario.bind(this)} placeholder="Nome/ID do Usuário" required /></label>
+                                <label htmlFor=""><input className="formulario-medico__item" type="text" value={this.state.crm} onChange={this.atualizaEstadoCrm.bind(this)} placeholder="RG" required /></label>
+                                <label htmlFor=""><input className="formulario-medico__item" type="text" value={this.state.idEspecialidade} onChange={this.atualizaEstadoidEspecialidade.bind(this)} placeholder="CPF" required /></label>
+                                <label htmlFor=""><input className="formulario-medico__item" type="text" value={this.state.idClinica} onChange={this.atualizaEstadoidClinica.bind(this)} placeholder="Data de Nascimento" required /></label>
+                                <button type="submit" className="formulario-medico__button">Cadastrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </main>
             </div>
         )
     }

@@ -193,8 +193,7 @@ class LocalizacoesIndex extends Component {
                                     <ul>
                                         <li className="links-localizacoes__item"><a className="links-localizacoes__titulo" href="/prontuarios">Prontuários</a></li>
                                         <div className="links-localizacoes__quebra"></div>
-                                        <li className="links-localizacoes__item"><a className="links-localizacoes__titulo links-localizacoes__titulo--selecionado"
-                                            href="/consultas">Consultas</a></li>
+                                        <li className="links-localizacoes__item links-localizacoes__titulo links-localizacoes__titulo--selecionado">Consultas</li>
                                         <div className="links-localizacoes__quebra"></div>
                                         <li className="links-localizacoes__item"><a className="links-localizacoes__titulo" href="/clinicas">Clínicas</a></li>
                                         <div className="links-localizacoes__quebra"></div>
