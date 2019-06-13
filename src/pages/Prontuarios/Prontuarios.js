@@ -69,11 +69,18 @@ export default class ListarCadastrarProntuario extends Component {
                 this.setState({ listaProntuarios: data.data, listaProntuariosFiltrada: data.data });
             });
 
+        let listaPacientes = [];
+
         apiService
             .call("usuarios")
             .getAll()
             .then(data => {
-                this.setState({ listaUsuarios: data.data });
+                data.data.forEach(element => {
+                    if (element.idTipoUsuarioNavigation.nome == "Paciente") {
+                        listaPacientes.push(element);
+                    }
+                });
+                this.setState({ listaUsuarios: listaPacientes });
             });
     }
 
@@ -164,8 +171,18 @@ export default class ListarCadastrarProntuario extends Component {
                     endereco: this.state.endereco
                 })
                 .then(res => {
-                    alert("Prontuário cadastrado!");
                     this.componentDidMount()
+                })
+                .then(res => {
+                    alert("Prontuário cadastrado!");
+                    this.setState({
+                        idUsuario: '',
+                        rg: '',
+                        cpf: '',
+                        dataNascimento: '',
+                        telefone: '',
+                        endereco: ''
+                    })
                 })
         } else {
             this.setState({ erroMensagem: alert('CPF já cadastrado, tente outro diferente!') })
@@ -181,7 +198,6 @@ export default class ListarCadastrarProntuario extends Component {
                             <div className="topo-prontuario__quebra"></div>
                             <h1 className="topo-prontuario__h1">Prontuários</h1>
                             <div className="topo-prontuario__quebra topo-prontuario__quebra--modificado"></div>
-                            {/* <!-- Filtros específicos --> */}
                             <label for="">
                                 <form onSubmit={this.buscarProntuarioItem.bind(this)}>
                                     <label>
@@ -194,7 +210,6 @@ export default class ListarCadastrarProntuario extends Component {
                                     </label>
                                 </form>
                             </label>
-                            {/* <!-- FILTRO DO FILTRO --> */}
                             <a href="/localizacoes">LOCALIZAÇÕES DOS PACIENTES</a>
                         </div>
                     </header>
@@ -202,12 +217,9 @@ export default class ListarCadastrarProntuario extends Component {
                         <div className="menu-prontuario">
                             <h3 className="menu-prontuario__titulo">Administrador</h3>
                             <img className="menu-prontuario__imagem" src={require('../../assets/img/icon-login.png')} alt="" />
-                            {/* <!-- IMAGEM --> */}
                             <div className="links-prontuario">
                                 <nav>
                                     <ul>
-                                        {/* <!-- Colocar URL's -->
-                        <!-- Páginas de médico e paciente terão menos links-prontuario --> */}
                                         <li className="links-prontuario__item links-prontuario__titulo links-prontuario__titulo--selecionado">Prontuários</li>
                                         <div className="links-prontuario__quebra"></div>
                                         <li className="links-prontuario__item"><a className="links-prontuario__titulo" href="/consultas">Consultas</a></li>
@@ -223,9 +235,7 @@ export default class ListarCadastrarProntuario extends Component {
                                     </ul>
                                 </nav>
                             </div>
-                            {/* <!-- Escolher um deles: --> */}
                             <a className="menu-prontuario__link" href="/">Sair</a>
-                            {/* <!-- <button>Sair</button> --> */}
                         </div>
                     </aside>
                     <main className="listas-prontuario">
@@ -245,7 +255,6 @@ export default class ListarCadastrarProntuario extends Component {
                                             <th className="tabela-prontuario-head__titulo">Data Nascimento</th>
                                             <th className="tabela-prontuario-head__titulo">Telefone</th>
                                             <th className="tabela-prontuario-head__titulo">Endereço</th>
-                                            {/* <!-- <a href="#">Alterar</a> --> */}
                                         </tr>
                                     </thead>
                                     <tbody className="tabela-prontuario-body">
@@ -271,7 +280,21 @@ export default class ListarCadastrarProntuario extends Component {
                             </div>
                             <div id="Cadastrar" className="formulario-prontuario tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
                                 <form onSubmit={this.cadastrarProntuario.bind(this)} noValidate>
-                                    <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoIdUsuario.bind(this)} placeholder="Nome/ID do Usuário" required /></label>
+
+                                    <select
+                                        className="formulario-prontuario__item"
+                                        type="text"
+                                        value={this.state.idUsuario}
+                                        onChange={this.atualizaEstadoIdUsuario.bind(this)}
+                                        required
+                                    >
+                                        <option>Nome do Paciente</option>{
+                                            this.state.listaUsuarios.map((element) => {
+                                                return <option key={element.id} value={element.id}>{element.nome}</option>
+                                            })
+                                        }
+                                    </select>
+
                                     <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.rg} onChange={this.atualizaEstadoRg.bind(this)} placeholder="RG" required /></label>
                                     <label htmlFor=""><input className="formulario-prontuario__item" type="text" value={this.state.cpf} onChange={this.atualizaEstadoCpf.bind(this)} placeholder="CPF" required /></label>
                                     <label htmlFor=""><input className="formulario-prontuario__item" type="date" value={this.state.dataNascimento} onChange={this.atualizaEstadoDataNascimento.bind(this)} placeholder="Data de Nascimento" required /></label>

@@ -163,12 +163,9 @@ export default class ListarCadastrarUsuario extends Component {
                     <div className="menu-usuario">
                         <h3 className="menu-usuario__titulo">Administrador</h3>
                         <img className="menu-usuario__imagem" src={require('../../assets/img/icon-login.png')} alt="" />
-                        {/* <!-- IMAGEM --> */}
                         <div className="links-usuario">
                             <nav>
                                 <ul>
-                                    {/* <!-- Colocar URL's -->
-                        <!-- Páginas de médico e paciente terão menos links-usuario --> */}
                                     <li className="links-usuario__item"><a className="links-usuario__titulo" href="/prontuarios">Prontuários</a></li>
                                     <div className="links-usuario__quebra"></div>
                                     <li className="links-usuario__item"><a className="links-usuario__titulo" href="/consultas">Consultas</a></li>
@@ -189,10 +186,7 @@ export default class ListarCadastrarUsuario extends Component {
                 </aside>
                 <main className="listas-usuario">
                     <button className="listas-usuario__button listas-usuario__button--lista tablink" value='Lista' onClick={this.alteraTabs.bind(this)}>Lista</button>
-
-                    <button className="listas-usuario__button listas-usuario__button--cadastrar tablink"
-                        value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
-
+                    <button className="listas-usuario__button listas-usuario__button--cadastrar tablink" value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
                     <div className="contorno">
                         <div id="Lista" className="tabela-usuario tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
                             <table className="tabela-usuario__real">
@@ -203,7 +197,6 @@ export default class ListarCadastrarUsuario extends Component {
                                         <th className="tabela-usuario-head__titulo">Email</th>
                                         <th className="tabela-usuario-head__titulo">Senha</th>
                                         <th className="tabela-usuario-head__titulo">Tipo Usuário</th>
-                                        {/* <!-- <a href="#">Alterar</a> --> */}
                                     </tr>
                                 </thead>
                                 <tbody className="tabela-usuario-body">
@@ -230,21 +223,20 @@ export default class ListarCadastrarUsuario extends Component {
                                 <label htmlFor=""><input className="formulario-usuario__item" value={this.state.nome} onChange={this.atualizaEstadoNome.bind(this)} type="text" placeholder="Nome" required /></label>
                                 <label htmlFor=""><input className="formulario-usuario__item" value={this.state.email} onChange={this.atualizaEstadoEmail.bind(this)} type="email" placeholder="Email" required /></label>
                                 <label htmlFor=""><input className="formulario-usuario__item" value={this.state.senha} onChange={this.atualizaEstadoSenha.bind(this)} type="text" placeholder="Senha" required /></label>
-                                {/* <!-- FAZER UMA COIXA DE SELEÇÃO? --> */}
-                                <label htmlFor=""><input className="formulario-usuario__item" value={this.state.idTipoUsuario} onChange={this.atualizaEstadoidTipoUsuario.bind(this)} type="text" placeholder="Tipo de Usuário" required /></label>
-                                {/* <!-- <select name="" id="">
-                    <option value="">Administrador</option>
-                    <option value="">Médico</option>
-                    <option value="">Paciente</option>
-                </select> --> */}
+
+                                <select name="select" className="formulario-usuario__item" value={this.state.idTipoUsuario} onChange={this.atualizaEstadoidTipoUsuario.bind(this)} placeholder="Tipo de Usuário">
+                                    <option selected value="">Selecione</option>
+                                    <option value="1">Administrador</option>
+                                    <option value="2" selected>Paciente</option>
+                                    <option value="3">Médico</option>
+                                </select>
+
                                 <button className="formulario-usuario__button" type="submit">Enviar</button>
                             </form>
                         </div>
                     </div>
                 </main>
-
             </div>
-
         )
     }
 }

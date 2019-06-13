@@ -160,43 +160,9 @@ export default class ListarCadastrarEspecialidade extends Component {
                     </div>
                 </aside>
 
-
-                {/* <section className="lista_completa">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID - Especialidade</th>
-                                <th>Nome</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.listaEspecialidadesFiltrada.map(element => {
-                                return (
-                                    <tr key={element.id}>
-                                        <td>{element.id}</td>
-                                        <td>{element.nome}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </section>
-
-                <form onSubmit={this.cadastrarEspecialidade.bind(this)} noValidate>
-                    <input type="text" value={this.state.nome} onChange={this.atualizaEstadoNome.bind(this)} placeholder="nome da especialidade" required />
-                    <button type="submit"> Cadastrar </button>
-                </form> */}
-
-                {/* <p className="text__login" style={{ color: 'red', textAlign: 'center' }}>{this.state.erroMensagem}</p> */}
-
-
-
                 <main className="listas-especialidade">
                     <button className="listas-especialidade__button listas-especialidade__button--lista tablink" value='Lista' onClick={this.alteraTabs.bind(this)}>Lista</button>
-
-                    <button className="listas-especialidade__button listas-especialidade__button--cadastrar tablink"
-                        value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
-
+                    <button className="listas-especialidade__button listas-especialidade__button--cadastrar tablink" value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
                     <div className="contorno">
                         <div id="Lista" className="tabela-especialidade tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
                             <table className="tabela-especialidade__real">
@@ -229,7 +195,6 @@ export default class ListarCadastrarEspecialidade extends Component {
                         </div>
                     </div>
                 </main>
-
             </div>
         )
     }

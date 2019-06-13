@@ -21,6 +21,7 @@ export default class ListarCadastrarMedico extends Component {
             listaMedicosFiltrada: [],
             tabLista: true,
             inputBusca: "",
+            listaUsuarios: []
         }
     }
 
@@ -49,6 +50,20 @@ export default class ListarCadastrarMedico extends Component {
             .getAll()
             .then(data => {
                 this.setState({ listaClinicas: data.data });
+            });
+
+        let listaMedicos = [];
+
+        apiService
+            .call("usuarios")
+            .getAll()
+            .then(data => {
+                data.data.forEach(element => {
+                    if (element.idTipoUsuarioNavigation.nome == "Medico") {
+                        listaMedicos.push(element);
+                    }
+                });
+                this.setState({ listaUsuarios: listaMedicos });
             });
 
         apiService
@@ -103,7 +118,6 @@ export default class ListarCadastrarMedico extends Component {
                 x.idClinicaNavigation.nomeFantasia.toLowerCase().includes(this.state.inputBusca.toLowerCase())
             );
         }
-
         this.setState({ listaMedicosFiltrada: listaFiltrada });
     }
 
@@ -135,7 +149,6 @@ export default class ListarCadastrarMedico extends Component {
         //     })
 
         if (this.state.listaMedicos.map(x => x.crm).indexOf(this.state.crm) === -1) {
-
             apiService
                 .call("medicos")
                 .create({
@@ -145,19 +158,25 @@ export default class ListarCadastrarMedico extends Component {
                     idClinica: this.state.idClinica
                 })
                 .then(res => {
-                    alert("Médico cadastrado!");
                     this.componentDidMount()
+                })
+                .then(res => {
+                    alert("Médico cadastrado!");
+                    this.setState({
+                        idUsuario: '',
+                        crm: '',
+                        idEspecialidade: '',
+                        idClinica: ''
+                    })
                 })
         } else {
             this.setState({ erroMensagem: alert('CRM já cadastrado, tente outro diferente!') })
         }
-
     }
 
     render() {
         return (
             <div>
-
                 <header>
                     <div className="topo-medico">
                         <div className="topo-medico__quebra"></div>
@@ -179,12 +198,9 @@ export default class ListarCadastrarMedico extends Component {
                     <div className="menu-medico">
                         <h3 className="menu-medico__titulo">Administrador</h3>
                         <img className="menu-medico__imagem" src={require('../../assets/img/icon-login.png')} alt="" />
-                        {/* <!-- IMAGEM --> */}
                         <div className="links-medico">
                             <nav>
                                 <ul>
-                                    {/* <!-- Colocar URL's -->
-                        <!-- Páginas de médico e paciente terão menos links-medico --> */}
                                     <li className="links-medico__item"><a className="links-medico__titulo" href="/prontuarios">Prontuários</a></li>
                                     <div className="links-medico__quebra"></div>
                                     <li className="links-medico__item"><a className="links-medico__titulo" href="/consultas">Consultas</a></li>
@@ -205,63 +221,20 @@ export default class ListarCadastrarMedico extends Component {
                     </div>
                 </aside>
 
-
                 {/* <ListaMedicos lista={this.state.listaMedicos} /> */}
 
-
-
-                {/* <table>
-                    <thead>
-                        <tr>
-                            <th>ID - Médico</th>
-                            <th> Nome médico</th>
-                            <th>CRM</th>
-                            <th>Especialidade</th>
-                            <th>ID- Clínica</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.listaMedicosFiltrada.map(element => {
-                            return (
-                                <tr key={element.id}>
-                                    <td>{element.id}</td>
-                                    <td>{element.idUsuarioNavigation.nome}</td>
-                                    <td>{element.crm}</td>
-                                    <td>{element.idEspecialidadeNavigation.nome}</td>
-                                    <td>{element.idClinicaNavigation.nomeFantasia}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-
-                <form onSubmit={this.cadastrarMedico.bind(this)} noValidate>
-                    <input type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoidUsuario.bind(this)} placeholder="ID -usuário" required />
-                    <input type="text" value={this.state.crm} onChange={this.atualizaEstadoCrm.bind(this)} placeholder="crm" required />
-                    <input type="text" value={this.state.idEspecialidade} onChange={this.atualizaEstadoidEspecialidade.bind(this)} placeholder="ID - especialidade" required />
-                    <input type="text" value={this.state.idClinica} onChange={this.atualizaEstadoidClinica.bind(this)} placeholder="Id - clinica" required />
-                    <button type="submit"> Cadastrar </button>
-                </form> */}
-
-
-
-
-
                 <main className="listas-medico">
-                    {/* <!-- Configurar modal! --> */}
                     <button className="listas-medico__button listas-medico__button--lista tablink" value='Lista' onClick={this.alteraTabs.bind(this)}>Lista</button>
-                    <button className="listas-medico__button listas-medico__button--cadastrar tablink"
-                        value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
+                    <button className="listas-medico__button listas-medico__button--cadastrar tablink" value='Cadastrar+' onClick={this.alteraTabs.bind(this)}>Cadastrar+</button>
                     <div className="contorno">
                         <div id="Lista" className="tabela-medico tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
                             <table className="tabela-medico__real">
                                 <thead className="tabela-medico-head">
                                     <tr>
                                         <th className="tabela-medico-head__titulo">Médico(ID)</th>
-                                        <th className="tabela-medico-head__titulo">Nome</th>
                                         <th className="tabela-medico-head__titulo">CRM</th>
                                         <th className="tabela-medico-head__titulo">Especialidade</th>
-                                        <th className="tabela-medico-head__titulo">Clínica(ID)</th>
+                                        <th className="tabela-medico-head__titulo">Clínica</th>
                                     </tr>
                                 </thead>
                                 <tbody className="tabela-medico-body">
@@ -271,8 +244,8 @@ export default class ListarCadastrarMedico extends Component {
                                                 <td className="tabela-medico-body_dado">{element.id}</td>
                                                 <td className="tabela-medico-body_dado">{element.idUsuarioNavigation.nome}</td>
                                                 <td className="tabela-medico-body_dado">{element.crm}</td>
-                                                <td className="tabela-medico-body_dado">{element.idEspecialidadeNavigation}</td>
-                                                <td className="tabela-medico-body_dado">{element.idClinicaNavigation}</td>
+                                                <td className="tabela-medico-body_dado">{element.idEspecialidadeNavigation.nome}</td>
+                                                <td className="tabela-medico-body_dado">{element.idClinicaNavigation.nomeFantasia}</td>
                                                 <div className="botoes-medico">
                                                     <button className="botoes-medico__item botoes-medico__item--alterar">Alterar</button>
                                                     <button className="botoes-medico__item botoes-medico__item--deletar">Deletar</button>
@@ -285,11 +258,53 @@ export default class ListarCadastrarMedico extends Component {
                         </div>
                         <div id="Cadastrar" className="formulario-medico tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
                             <form onSubmit={this.cadastrarMedico.bind(this)} noValidate>
-                                <label htmlFor=""><input className="formulario-medico__item" type="text" value={this.state.idUsuario} onChange={this.atualizaEstadoidUsuario.bind(this)} placeholder="Nome/ID do Usuário" required /></label>
-                                <label htmlFor=""><input className="formulario-medico__item" type="text" value={this.state.crm} onChange={this.atualizaEstadoCrm.bind(this)} placeholder="RG" required /></label>
-                                <label htmlFor=""><input className="formulario-medico__item" type="text" value={this.state.idEspecialidade} onChange={this.atualizaEstadoidEspecialidade.bind(this)} placeholder="CPF" required /></label>
-                                <label htmlFor=""><input className="formulario-medico__item" type="text" value={this.state.idClinica} onChange={this.atualizaEstadoidClinica.bind(this)} placeholder="Data de Nascimento" required /></label>
-                                <button type="submit" className="formulario-medico__button">Cadastrar</button>
+
+                                <select
+                                    className="formulario-prontuario__item"
+                                    type="text"
+                                    value={this.state.idUsuario}
+                                    onChange={this.atualizaEstadoidUsuario.bind(this)}
+                                    required
+                                >
+                                    <option>Nome do Médico</option>{
+                                        this.state.listaUsuarios.map((element) => {
+                                            return <option key={element.id} value={element.id}>{element.nome}</option>
+                                        })
+                                    }
+                                </select>
+
+                                <label htmlFor=""><input className="formulario-medico__item" value={this.state.crm} onChange={this.atualizaEstadoCrm.bind(this)} type="email" placeholder="CRM" required /></label>
+                                <label htmlFor=""><input className="formulario-medico__item" value={this.state.idEspecialidade} onChange={this.atualizaEstadoidEspecialidade.bind(this)} type="text" placeholder="Especialidade" required /></label>
+
+                                <select
+                                    className="formulario-medico__item"
+                                    type="text"
+                                    value={this.state.idEspecialidade}
+                                    onChange={this.atualizaEstadoidEspecialidade.bind(this)}
+                                >
+                                    <option>Especialidade</option>{
+                                        this.state.listaEspecialidade.map((element) => {
+                                            return <option key={element.id} value={element.id}>{element.nome}</option>
+                                        })
+                                    }
+                                </select>
+
+                                <label htmlFor=""><input className="formulario-medico__item" value={this.state.idClinica} onChange={this.atualizaEstadoidClinica.bind(this)} type="text" placeholder="Clínica" required /></label>
+
+                                {/* <select
+                                className="formulario-medico__item"
+                                    type="text"
+                                    value={this.state.idClinica}
+                                    onChange={this.atualizaEstadoidClinica.bind(this)}
+                                >
+                                    <option>Paciente</option>{
+                                        this.state.listaClinicas.map((element) => {
+                                            return <option key={element.id} value={element.id}>{element.nome}</option>
+                                        })
+                                    }
+                                </select> */}
+
+                                <button className="formulario-medico__button" type="submit">Enviar</button>
                             </form>
                         </div>
                     </div>

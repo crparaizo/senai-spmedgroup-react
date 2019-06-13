@@ -17,7 +17,10 @@ export default class ListarCadastrarConsulta extends Component {
             listaConsultas: [],
             listaConsultasFiltrada: [],
             tabLista: true,
-            inputBusca: ""
+            inputBusca: "",
+            listaUsuariosPac: [],
+            listaUsuariosMed: []
+
             //visivel: true //Quando uma consultar for "excluida", seu estado inativado para medicos e pacientes
         }
 
@@ -41,6 +44,34 @@ export default class ListarCadastrarConsulta extends Component {
 
     componentDidMount() {
         this.listarConsultas();
+
+        let listaMedicos = [];
+
+        apiService
+            .call("usuarios")
+            .getAll()
+            .then(data => {
+                data.data.forEach(element => {
+                    if (element.idTipoUsuarioNavigation.nome == "Medico") {
+                        listaMedicos.push(element);
+                    }
+                });
+                this.setState({ listaUsuariosPac: listaMedicos });
+            });
+
+        let listaPacientes = [];
+
+        apiService
+            .call("usuarios")
+            .getAll()
+            .then(data => {
+                data.data.forEach(element => {
+                    if (element.idTipoUsuarioNavigation.nome == "Paciente") {
+                        listaPacientes.push(element);
+                    }
+                });
+                this.setState({ listaUsuariosMed: listaPacientes });
+            });
     }
 
     // openPage(namePage) {
@@ -130,8 +161,16 @@ export default class ListarCadastrarConsulta extends Component {
                 descricao: this.state.descricao
             })
             .then(res => {
-                alert("Consulta cadastrada!");
                 this.listarConsultas()
+            })
+            .then(res => {
+                alert("Consulta cadastrada!");
+                this.setState({
+                    idProntuario: '',
+                    idMedico: '',
+                    dataHoraConsulta: '',
+                    descricao: ''
+                })
             })
     }
 
@@ -244,11 +283,35 @@ export default class ListarCadastrarConsulta extends Component {
                             </div>
                             <form onSubmit={this.cadastrarConsulta.bind(this)} noValidate>
                                 <div id="Cadastrar" className="formulario-consulta tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idProntuario} onChange={this.atualizaEstadoidProntuario.bind(this)} required placeholder="Nome do Paciente" /></label>
-                                    {/* <!-- <label htmlFor=""><input className="formulario-consulta__item" type="text" placeholder="ID do Paciente" /></label> --> */}
-                                    {/* <!-- FAZER UMA COIXA DE SELEÇÃO? --> */}
-                                    <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.idMedico} onChange={this.atualizaEstadoidMedico.bind(this)} required placeholder="Nome do Médico" /></label>
-                                    {/* <!-- <label htmlFor=""><input className="formulario-consulta__item" type="text" placeholder="ID do Médico" /></label> --> */}
+
+                                    <select
+                                        className="formulario-consulta__item"
+                                        type="text"
+                                        value={this.state.idUsuario}
+                                        onChange={this.atualizaEstadoidProntuario.bind(this)}
+                                        required
+                                    >
+                                        <option>Nome do Paciente</option>{
+                                            this.state.listaUsuariosPac.map((element) => {
+                                                return <option key={element.id} value={element.id}>{element.nome}</option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <select
+                                        className="formulario-consulta__item"
+                                        type="text"
+                                        value={this.state.idUsuario}
+                                        onChange={this.atualizaEstadoidMedico.bind(this)}
+                                        required
+                                    >
+                                        <option>Nome do Paciente</option>{
+                                            this.state.listaUsuariosMed.map((element) => {
+                                                return <option key={element.id} value={element.id}>{element.nome}</option>
+                                            })
+                                        }
+                                    </select>
+
                                     <label htmlFor=""><input className="formulario-consulta__item" type="date" value={this.state.dataHoraConsulta} onChange={this.atualizaEstadoData.bind(this)} required placeholder="Data da Consulta" /></label>
                                     <label htmlFor=""><input className="formulario-consulta__item" disabled placeholder="Situação = AGENDADA  " /></label>
                                     <label htmlFor=""><input className="formulario-consulta__item" type="text" value={this.state.descricao} onChange={this.atualizaEstadoDescricao.bind(this)} required placeholder="Descrição" /></label>

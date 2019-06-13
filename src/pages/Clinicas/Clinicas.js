@@ -173,48 +173,7 @@ export default class ListarCadastrarClinica extends Component {
                     </div>
                 </aside>
 
-
-                {/* <section className="lista_completa">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID - Clínica</th>
-                                <th>Nome</th>
-                                <th>Horário</th>
-                                <th>CNPJ</th>
-                                <th>Razão Social</th>
-                                <th>Endereço</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.listaClinicasFiltrada.map(element => {
-                                return (
-                                    <tr key={element.id}>
-                                        <td>{element.id}</td>
-                                        <td>{element.nomeFantasia}</td>
-                                        <td>{element.horarioFuncionamento}</td>
-                                        <td>{element.cnpj}</td>
-                                        <td>{element.razaoSocial}</td>
-                                        <td>{element.endereco}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </section>
-
-                <form onSubmit={this.cadastrarClinica.bind(this)} noValidate>
-                    <input type="text" value={this.state.nomeFantasia} onChange={this.atualizaEstadoNome.bind(this)} placeholder="nome da clínica" required />
-                    <input type="text" value={this.state.horarioFuncionamento} onChange={this.atualizaEstadoHorario.bind(this)} placeholder="horário de funcionamento" required />
-                    <input type="text" value={this.state.cnpj} onChange={this.atualizaEstadoCnpj.bind(this)} placeholder="cnpj" required />
-                    <input type="text" value={this.state.razaoSocial} onChange={this.atualizaEstadoRazao.bind(this)} placeholder="razão social" required />
-                    <input type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="endereço" required />
-                    <button type="submit"> Cadastrar </button>
-                </form> */}
-
                 <p style={{ color: 'red', textAlign: 'center' }}>{this.state.erroMensagem}</p>
-
-
 
                 <main className="listas-clinica">
                     {/* <!-- Configurar modal! --> */}
@@ -256,17 +215,16 @@ export default class ListarCadastrarClinica extends Component {
                         </div>
                         <div id="Cadastrar" className="formulario-clinica tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }}>
                             <form onSubmit={this.cadastrarClinica.bind(this)} noValidate>
-                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.nomeFantasia} onChange={this.atualizaEstadoNome.bind(this)} placeholder="Nome/ID do Usuário" required /></label>
-                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.horarioFuncionamento} onChange={this.atualizaEstadoHorario.bind(this)} placeholder="RG" required /></label>
-                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.cnpj} onChange={this.atualizaEstadoCnpj.bind(this)} placeholder="CPF" required /></label>
-                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.razaoSocial} onChange={this.atualizaEstadoRazao.bind(this)} placeholder="Data de Nascimento" required /></label>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.nomeFantasia} onChange={this.atualizaEstadoNome.bind(this)} placeholder="Nome da Clínica" required /></label>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.horarioFuncionamento} onChange={this.atualizaEstadoHorario.bind(this)} placeholder="Horário" required /></label>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.cnpj} onChange={this.atualizaEstadoCnpj.bind(this)} placeholder="CNPJ" required /></label>
+                                <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.razaoSocial} onChange={this.atualizaEstadoRazao.bind(this)} placeholder="Razão Social" required /></label>
                                 <label htmlFor=""><input className="formulario-clinica__item" type="text" value={this.state.endereco} onChange={this.atualizaEstadoEndereco.bind(this)} placeholder="Endereço" required /></label>
                                 <button type="submit" className="formulario-clinica__button">Cadastrar</button>
                             </form>
                         </div>
                     </div>
                 </main>
-
             </div>
         )
     }
