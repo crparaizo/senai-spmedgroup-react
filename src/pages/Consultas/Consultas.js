@@ -201,7 +201,7 @@ export default class ListarCadastrarConsulta extends Component {
                     <form onSubmit={this.buscarConsultaItem.bind(this)}>
                         <input
                             className="topo-consultas__label"
-                            placeholder="Busque! - descrição..."
+                            placeholder="Busque!"
                             type="text"
                             value={this.state.inputBusca}
                             onChange={this.atualizaEstadoBusca.bind(this)}

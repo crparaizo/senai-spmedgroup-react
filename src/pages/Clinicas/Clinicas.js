@@ -134,6 +134,7 @@ export default class ListarCadastrarClinica extends Component {
                         <form onSubmit={this.buscarClinicaItem.bind(this)}>
                             <label>
                                 <input
+                                className="topo-clinica__label"
                                     placeholder="Busque!"
                                     type="text"
                                     value={this.state.inputBusca}

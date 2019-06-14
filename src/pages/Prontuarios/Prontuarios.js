@@ -202,7 +202,8 @@ export default class ListarCadastrarProntuario extends Component {
                                 <form onSubmit={this.buscarProntuarioItem.bind(this)}>
                                     <label>
                                         <input
-                                            placeholder="Busque! - rg, cpf, telefone, endereço"
+                                        className="topo-prontuario__label"
+                                            placeholder="Busque!"
                                             type="text"
                                             value={this.state.inputBusca}
                                             onChange={this.atualizaEstadoBusca.bind(this)}
@@ -210,7 +211,7 @@ export default class ListarCadastrarProntuario extends Component {
                                     </label>
                                 </form>
                             </label>
-                            <a href="/localizacoes">LOCALIZAÇÕES DOS PACIENTES</a>
+                            <a href="/localizacoes" className="topo-prontuario-link">Localizações dos Pacientes</a>
                         </div>
                     </header>
                     <aside>

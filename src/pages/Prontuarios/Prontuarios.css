@@ -48,6 +48,27 @@ Div maior do main será fix */
     margin-left: 3em;
 }
 
+.topo-prontuario__label{
+    float: right;
+    display: flex;
+    flex-direction: row;
+    /* margin-right: 1em; */
+    margin-right: 3em;
+    border: 5px solid rgb(191, 228, 253);
+    width: 13em;
+}
+
+.topo-prontuario-link{
+    margin-left: 1em;
+    font-size: 1.15em;
+    color: darkkhaki;
+    text-decoration: none;
+}
+
+.topo-prontuario-link:hover{
+    color: #ffaaf8;
+}
+
 .menu-prontuario{
     float: left;
     width: 20%;

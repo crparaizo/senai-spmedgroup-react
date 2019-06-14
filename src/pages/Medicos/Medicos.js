@@ -185,6 +185,7 @@ export default class ListarCadastrarMedico extends Component {
                         <form onSubmit={this.buscarMedicoItem.bind(this)}>
                             <label>
                                 <input
+                                className="topo-medico__label"
                                     placeholder="Busque!"
                                     type="text"
                                     value={this.state.inputBusca}
@@ -299,7 +300,7 @@ export default class ListarCadastrarMedico extends Component {
                                 >
                                     <option>Paciente</option>{
                                         this.state.listaClinicas.map((element) => {
-                                            return <option key={element.id} value={element.id}>{element.nome}</option>
+                                            return <option key={element.id} value={element.id}>{element.nomeFantasia}</option>
                                         })
                                     }
                                 </select> */}

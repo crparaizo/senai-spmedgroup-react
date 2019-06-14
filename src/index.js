@@ -64,14 +64,14 @@ const rotas = (
             <Switch>
                 {/*Permissao*/}
                 <Route exact path="/" component={Login} />
-                <Permissao path="/clinicas" component={ListarCadastrarClinica} /> {/* COLOCAR PERMISSÃO QUANDO TERMINAR O DESENVOVLIMENTO */}
-                <Permissao path="/especialidades" component={ListarCadastrarEspecialidade} />
-                <Permissao path="/usuarios" component={ListarCadastrarUsuario} />
-                <Permissao path="/medicos" component={ListarCadastrarMedico} />
-                <Permissao path="/prontuarios" component={ListarCadastrarProntuario} />
-                <Permissao path="/consultas" component={ListarCadastrarConsulta} />
-                <Permissao path="/localizacoes" component={LocalizacoesIndex} />
-                <Permissao component={NaoEncontrada} /> {/* Esse é o default do Switch, nenhuma outra Route será lida dps disso */}
+                <Route path="/clinicas" component={ListarCadastrarClinica} /> {/* COLOCAR PERMISSÃO QUANDO TERMINAR O DESENVOVLIMENTO */}
+                <Route path="/especialidades" component={ListarCadastrarEspecialidade} />
+                <Route path="/usuarios" component={ListarCadastrarUsuario} />
+                <Route path="/medicos" component={ListarCadastrarMedico} />
+                <Route path="/prontuarios" component={ListarCadastrarProntuario} />
+                <Route path="/consultas" component={ListarCadastrarConsulta} />
+                <Route path="/localizacoes" component={LocalizacoesIndex} />
+                <Route component={NaoEncontrada} /> {/* Esse é o default do Switch, nenhuma outra Route será lida dps disso */}
             </Switch>
         </div>
     </Router>

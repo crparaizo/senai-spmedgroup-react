@@ -25,7 +25,7 @@ class LocalizacoesIndex extends Component {
             tabLista: true
 
             //buscaData: ''
-            //idLocalizacao: 0
+            //idlocalizacoes: 0
         }
     }
 
@@ -34,20 +34,20 @@ class LocalizacoesIndex extends Component {
             //.where("ativo", "==", true)
             .onSnapshot((localizacoes) => {
                 let localizacoesArray = [];
-                localizacoes.forEach((localizacao) => {
+                localizacoes.forEach((localizacoes) => {
                     localizacoesArray.push({
-                        id: localizacao.id,
-                        nomePac: localizacao.data().nomePac,
-                        doenca: localizacao.data().doenca,
+                        id: localizacoes.id,
+                        nomePac: localizacoes.data().nomePac,
+                        doenca: localizacoes.data().doenca,
                         //data: firebase.firestore.Timestamp.fromDate(new Date(this.state.data)),
-                        data: localizacao.data().data.toDate().toLocaleString("pt-br"),
-                        //data: localizacao.data().data,
-                        idade: localizacao.data().idade,
-                        nomeMed: localizacao.data().nomeMed,
-                        especialidade: localizacao.data().especialidade,
-                        latitude: localizacao.data().latitude,
-                        longitude: localizacao.data().longitude,
-                        regiao: localizacao.data().regiao
+                        data: localizacoes.data().data.toDate().toLocaleString("pt-br"),
+                        //data: localizacoes.data().data,
+                        idade: localizacoes.data().idade,
+                        nomeMed: localizacoes.data().nomeMed,
+                        especialidade: localizacoes.data().especialidade,
+                        latitude: localizacoes.data().latitude,
+                        longitude: localizacoes.data().longitude,
+                        regiao: localizacoes.data().regiao
                     })
                 })
 
@@ -69,10 +69,10 @@ class LocalizacoesIndex extends Component {
         });
     }
 
-    salvarLocalizacao(event) {
+    salvarlocalizacoes(event) {
         event.preventDefault();
 
-        //if (this.state.idLocalizacao === 0) {
+        //if (this.state.idlocalizacoes === 0) {
         firebase.firestore().collection("localizacoes")
             .add({
                 //data: firebase.firestore.Timestamp.fromDate(new Date(this.state.data)),
@@ -106,7 +106,7 @@ class LocalizacoesIndex extends Component {
             latitude: '',
             longitude: '',
             regiao: '',
-            //idLocalizacao: 0
+            //idlocalizacoes: 0
         })
     }
 
@@ -166,9 +166,9 @@ class LocalizacoesIndex extends Component {
         event.preventDefault();
 
         if (window.confirm("Tem certeza disso?")) {
-            this.state.listaLocalizacoes.map((localizacao) => {
+            this.state.listaLocalizacoes.map((localizacoes) => {
                 firebase.firestore().collection("localizacoes")
-                    .doc(localizacao.id)
+                    .doc(localizacoes.id)
                     .delete()
             })
             alert("Todos foram removido!")
@@ -182,12 +182,28 @@ class LocalizacoesIndex extends Component {
                     <div className="topo-localizacoes__quebra"></div>
                     <h1 className="topo-localizacoes__h1">Localização(Pacientes)</h1>
                     <div className="topo-localizacoes__quebra topo-localizacoes__quebra--modificado"></div>
+                    <form onSubmit={this.buscarItem.bind(this)}>
+                        <label>
+                            <input
+                                className="topo-localizacoes__label"
+                                placeholder="Busque!"
+                                type="text"
+                                value={this.state.busca}
+                                onChange={this.atualizaEstado.bind(this)}
+                            />
+                        </label>
+
+                        {/* <label> Buscar Data
+                        <input type="date" name="buscaData" value={this.state.buscaData} onChange={this.atualizaEstado.bind(this)} />
+                    </label> */}
+                    </form>
                 </div>
+
                 <div>
                     <aside>
                         <div className="menu-localizacoes">
                             <h3 className="menu-localizacoes__titulo">Administrador</h3>
-                            {/* <img className="menu-localizacoes__imagem" src={require('../../assets/img/icon-login.png')} alt="" /> */}
+                            <img className="menu-prontuario__imagem" src={require('../../assets/img/icon-login.png')} alt="" />
                             <div className="links-localizacoes">
                                 <nav>
                                     <ul>
@@ -216,7 +232,7 @@ class LocalizacoesIndex extends Component {
                     <input type="button" className="listas-localizacoes__button listas-localizacoes__button--cadastrar tablink" value='Cadastrar+' onClick={this.alteraTabs.bind(this)} />
 
                     <div id="Cadastrar" className="formulario-localizacoes tabcontent" style={{ display: (this.state.tabLista ? "none" : "flex") }} className="teste">
-                        <form className="teste" onSubmit={this.salvarLocalizacao.bind(this)}>
+                        <form className="teste" onSubmit={this.salvarlocalizacoes.bind(this)}>
                             <label className="teste"> Nome do Paciente
                         <input className="teste" type="text" name="nomePac" value={this.state.nomePac} required onChange={this.atualizaEstado.bind(this)} />
                             </label>
@@ -263,23 +279,22 @@ class LocalizacoesIndex extends Component {
                         </form>
                     </div>
 
-                    <div id="Lista" className="tabela-localizacoes tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
+                    {/* <div id="Lista" className="tabela-localizacoes tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
                         <form className="teste" onSubmit={this.buscarItem.bind(this)}>
                             <label className="teste"> Buscar
                         <input className="teste" type="text" name="busca" value={this.state.busca} onChange={this.atualizaEstado.bind(this)} />
-                            </label>
-                            {/* <label> Buscar Data
+                            </label> */}
+                    {/* <label> Buscar Data
                         <input type="date" name="buscaData" value={this.state.buscaData} onChange={this.atualizaEstado.bind(this)} />
                     </label> */}
-                        </form>
+                    {/* </form>
 
                         <ul className="teste">
                             {
                                 this.state.listaLocalizacoesFiltrada.map((localizacoes) => {
                                     return (
                                         <div className="teste">
-
-                                            <li className="teste" key={localizacoes.id}>{localizacoes.id} - {localizacoes.nomePac} -
+                                            <li className="teste" key={localizacoes.id}>{localizacoes.nomePac} -
                                         {localizacoes.doenca} - {localizacoes.data} -
                                         {localizacoes.idade} - {localizacoes.nomeMed} -
                                         {localizacoes.especialidade} - {localizacoes.latitude} -
@@ -302,6 +317,59 @@ class LocalizacoesIndex extends Component {
                             >
                                 {this.displayMarkers()}
                             </Map>
+                        </div>
+                    </div> */}
+
+                    <div className="contorno">
+                        <div id="Lista" className="tabela-localizacoes tabcontent" style={{ display: (this.state.tabLista ? "flex" : "none") }}>
+                            <table className="tabela-localizacoes__real">
+                                <thead className="tabela-localizacoes-head">
+                                    <tr>
+                                        <th className="tabela-localizacoes-head__titulo">Paciente</th>
+                                        <th className="tabela-localizacoes-head__titulo">Doença</th>
+                                        <th className="tabela-localizacoes-head__titulo">Data</th>
+                                        <th className="tabela-localizacoes-head__titulo">Idade</th>
+                                        <th className="tabela-localizacoes-head__titulo">Médico</th>
+                                        <th className="tabela-localizacoes-head__titulo">Especialidade</th>
+                                        <th className="tabela-localizacoes-head__titulo">Latitude</th>
+                                        <th className="tabela-localizacoes-head__titulo">Longitude</th>
+                                        <th className="tabela-localizacoes-head__titulo">Região</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="tabela-localizacoes-body">
+                                    {this.state.listaLocalizacoesFiltrada.map(localizacoes => {
+                                        return (
+                                            <tr key={localizacoes.id}>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.nomePac}</td>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.doenca}</td>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.data}</td>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.idade}</td>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.nomeMed}</td>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.especialidade}</td>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.latitude}</td>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.longitude}</td>
+                                                <td className="tabela-localizacoes-body_dado">{localizacoes.regiao}</td>
+                                                <div className="botoes-localizacoes">
+                                                    <button className="botoes-localizacoes__item botoes-localizacoes__item--alterar">Alterar</button>
+                                                    <button className="botoes-localizacoes__item botoes-localizacoes__item--deletar">Deletar</button>
+                                                </div>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                            <button className="teste" onClick={this.excluirTodos.bind(this)} type="submit">EXCLUIR TODOS</button>
+                            <div className="map" >
+                                <Map
+                                    style={{ width: '20vw' }}
+                                    google={this.props.google}
+                                    zoom={12}
+
+                                    initialCenter={{ lat: -23.5504533, lng: -46.6514207 }}
+                                >
+                                    {this.displayMarkers()}
+                                </Map>
+                            </div>
                         </div>
                     </div>
                 </main>

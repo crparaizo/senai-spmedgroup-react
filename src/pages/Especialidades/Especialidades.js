@@ -113,6 +113,7 @@ export default class ListarCadastrarEspecialidade extends Component {
     render() {
         return (
             <div>
+
                 <header>
                     <div className="topo-especialidade">
                         <div className="topo-especialidade__quebra"></div>
@@ -121,6 +122,7 @@ export default class ListarCadastrarEspecialidade extends Component {
                         <form onSubmit={this.buscarEspecialidadeItem.bind(this)}>
                             <label>
                                 <input
+                                className="topo-especialidade__label"
                                     placeholder="Busque! - nome"
                                     type="text"
                                     value={this.state.inputBusca}
@@ -130,6 +132,7 @@ export default class ListarCadastrarEspecialidade extends Component {
                         </form>
                     </div>
                 </header>
+
                 <aside>
                     <div className="menu-especialidade">
                         <h3 className="menu-especialidade__titulo">Administrador</h3>
@@ -195,6 +198,7 @@ export default class ListarCadastrarEspecialidade extends Component {
                         </div>
                     </div>
                 </main>
+
             </div>
         )
     }

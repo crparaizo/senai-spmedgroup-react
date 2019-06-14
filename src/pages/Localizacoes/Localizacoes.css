@@ -57,6 +57,16 @@ Div maior do main será fix */
     width: 13em;
 }
 
+.topo-localizacoes__label{
+    float: right;
+    display: flex;
+    flex-direction: row;
+    /* margin-right: 1em; */
+    margin-right: 3em;
+    border: 5px solid rgb(191, 228, 253);
+    width: 13em;
+}
+
 .topo-localizacoes__button{
     height: 2em;
     width: 5em;

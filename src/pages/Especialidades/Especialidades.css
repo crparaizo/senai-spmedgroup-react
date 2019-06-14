@@ -48,6 +48,16 @@ Div maior do main será fix */
     margin-left: 3em;
 }
 
+.topo-especialidade__label{
+    float: right;
+    display: flex;
+    flex-direction: row;
+    /* margin-right: 1em; */
+    margin-right: 3em;
+    border: 5px solid rgb(191, 228, 253);
+    width: 13em;
+}
+
 .menu-especialidade{
     float: left;
     width: 20%;
@@ -142,7 +152,8 @@ Div maior do main será fix */
     text-align: center;
     margin: 0 3em; 
     overflow: scroll;
-    height: 27em;  
+    height: 27em; 
+
 }
 
 .tabela-especialidade__real{    

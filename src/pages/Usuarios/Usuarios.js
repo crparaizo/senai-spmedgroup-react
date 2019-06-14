@@ -150,7 +150,8 @@ export default class ListarCadastrarUsuario extends Component {
                         <form onSubmit={this.buscarUsuarioItem.bind(this)}>
                             <label>
                                 <input
-                                    placeholder="Busque! - nome e email"
+                                className="topo-usuario__label"
+                                    placeholder="Busque!"
                                     type="text"
                                     value={this.state.inputBusca}
                                     onChange={this.atualizaEstadoBusca.bind(this)}
