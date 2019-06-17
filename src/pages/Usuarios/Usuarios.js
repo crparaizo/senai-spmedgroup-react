@@ -209,10 +209,10 @@ export default class ListarCadastrarUsuario extends Component {
                                                 <td className="tabela-usuario-body_dado">{element.email}</td>
                                                 <td className="tabela-usuario-body_dado">{element.senha}</td>
                                                 <td className="tabela-usuario-body_dado">{element.idTipoUsuarioNavigation.nome}</td>
-                                                <div className="botoes-usuario">
+                                                {/* <div className="botoes-usuario">
                                                     <button className="botoes-usuario__item botoes-usuario__item--alterar">Alterar</button>
                                                     <button className="botoes-usuario__item botoes-usuario__item--deletar">Deletar</button>
-                                                </div>
+                                                </div> */}
                                             </tr>
                                         );
                                     })}

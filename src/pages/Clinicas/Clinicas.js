@@ -204,10 +204,10 @@ export default class ListarCadastrarClinica extends Component {
                                                 <td className="tabela-clinica-body_dado">{element.cnpj}</td>
                                                 <td className="tabela-clinica-body_dado">{element.razaoSocial}</td>
                                                 <td className="tabela-clinica-body_dado">{element.endereco}</td>
-                                                <div className="botoes-clinica">
+                                                {/* <div className="botoes-clinica">
                                                     <button className="botoes-clinica__item botoes-clinica__item--alterar">Alterar</button>
                                                     <button className="botoes-clinica__item botoes-clinica__item--deletar">Deletar</button>
-                                                </div>
+                                                </div> */}
                                             </tr>
                                         );
                                     })}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import Axios from 'axios';
+import Axios from 'axios';
 import './Especialidades.css';
 import apiService from "../../services/apiService";
 
@@ -110,6 +110,30 @@ export default class ListarCadastrarEspecialidade extends Component {
         }
     }
 
+    excluirPorId(event) {
+        event.preventDefault();
+
+        const idEspecialidade = (event.target.getAttribute('idEspecialidade'))
+
+        let jwt = localStorage.getItem('usuario-spmedgroup');
+
+        if (window.confirm("Quer excluir mesmo?")) {
+
+            Axios.delete(`http://192.168.3.151:5000/api/especialidades/` + idEspecialidade, {
+                headers: {
+                    "authorization": 'Bearer ' + jwt
+                }
+            })
+                .then(() => {
+                    this.buscarEspecialidades();
+                    alert("Especialidade removida!")
+                })
+                .catch((erro) => {
+                    console.log('erro' + erro)
+                })
+        }
+    }
+
     render() {
         return (
             <div>
@@ -122,7 +146,7 @@ export default class ListarCadastrarEspecialidade extends Component {
                         <form onSubmit={this.buscarEspecialidadeItem.bind(this)}>
                             <label>
                                 <input
-                                className="topo-especialidade__label"
+                                    className="topo-especialidade__label"
                                     placeholder="Busque! - nome"
                                     type="text"
                                     value={this.state.inputBusca}
@@ -181,8 +205,8 @@ export default class ListarCadastrarEspecialidade extends Component {
                                                 <td className="tabela-especialidade-body_dado">{element.id}</td>
                                                 <td className="tabela-especialidade-body_dado">{element.nome}</td>
                                                 <div className="botoes-especialidade">
-                                                    <button className="botoes-especialidade__item botoes-especialidade__item--alterar">Alterar</button>
-                                                    <button className="botoes-especialidade__item botoes-especialidade__item--deletar">Deletar</button>
+                                                    {/* <button className="botoes-especialidade__item botoes-especialidade__item--alterar">Alterar</button> */}
+                                                    <button className="botoes-especialidade__item botoes-especialidade__item--deletar" idEspecialidade={element.id} onClick={this.excluirPorId.bind(this)}>Deletar</button>
                                                 </div>
                                             </tr>
                                         );

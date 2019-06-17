@@ -269,10 +269,10 @@ export default class ListarCadastrarProntuario extends Component {
                                                     <td className="tabela-prontuario-body_dado">{element.dataNascimento}</td>
                                                     <td className="tabela-prontuario-body_dado">{element.telefone}</td>
                                                     <td className="tabela-prontuario-body_dado">{element.endereco}</td>
-                                                    <div className="botoes-prontuario">
+                                                    {/* <div className="botoes-prontuario">
                                                         <button className="botoes-prontuario__item botoes-prontuario__item--alterar">Alterar</button>
                                                         <button className="botoes-prontuario__item botoes-prontuario__item--deletar">Deletar</button>
-                                                    </div>
+                                                    </div> */}
                                                 </tr>
                                             );
                                         })}

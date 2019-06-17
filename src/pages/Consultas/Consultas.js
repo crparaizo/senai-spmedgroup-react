@@ -267,14 +267,14 @@ export default class ListarCadastrarConsulta extends Component {
                                                     <td className="tabela-consulta-body_dado">{element.idSituacaoNavigation.nome}</td>
                                                     {/* <td className="tabela-consulta-body_dado">{element.idSituacao ? element.idSituacao : 1}</td> */}
                                                     <td className="tabela-consulta-body_dado">{element.descricao}</td>
-                                                    <div className="botoes-consulta">
+                                                    {/* <div className="botoes-consulta">
                                                         <button className="botoes-consulta__item botoes-consulta__item--alterar">Alterar</button>
-                                                        {/* Deletar: tipo da situação será Cancelada -> Rescrever linha?*/}
-
+                                                        Deletar: tipo da situação será Cancelada -> Rescrever linha?
                                                     </div>
                                                     <button id={element.id}
                                                         onClick={this.AlterarEstado}
-                                                        className="botoes-consulta__item botoes-consulta__item--deletar">Deletar</button>
+                                                        className="botoes-consulta__item botoes-consulta__item--deletar">Deletar
+                                                    </button> */}
                                                 </tr>
                                             );
                                         })}

@@ -233,6 +233,7 @@ export default class ListarCadastrarMedico extends Component {
                                 <thead className="tabela-medico-head">
                                     <tr>
                                         <th className="tabela-medico-head__titulo">Médico(ID)</th>
+                                        <th className="tabela-medico-head__titulo">Nome</th>
                                         <th className="tabela-medico-head__titulo">CRM</th>
                                         <th className="tabela-medico-head__titulo">Especialidade</th>
                                         <th className="tabela-medico-head__titulo">Clínica</th>
@@ -247,10 +248,10 @@ export default class ListarCadastrarMedico extends Component {
                                                 <td className="tabela-medico-body_dado">{element.crm}</td>
                                                 <td className="tabela-medico-body_dado">{element.idEspecialidadeNavigation.nome}</td>
                                                 <td className="tabela-medico-body_dado">{element.idClinicaNavigation.nomeFantasia}</td>
-                                                <div className="botoes-medico">
+                                                {/* <div className="botoes-medico">
                                                     <button className="botoes-medico__item botoes-medico__item--alterar">Alterar</button>
                                                     <button className="botoes-medico__item botoes-medico__item--deletar">Deletar</button>
-                                                </div>
+                                                </div> */}
                                             </tr>
                                         );
                                     })}
